@@ -15,7 +15,6 @@ public class TeacherDaoImpl implements TeacherDao {
     @Override
     public List<Teacher> findTeachers(String phone) {
         List<Teacher> teachers = repository.findTeacherByPhone(phone);
-        System.out.println(teachers.get(0).toString());
         return teachers;
     }
 

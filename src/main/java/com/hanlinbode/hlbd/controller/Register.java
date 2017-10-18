@@ -25,7 +25,7 @@ public class Register {
     public BaseBean<Teacher> response(@RequestBody Teacher input) {
         System.out.println(input.toString());
         BaseBean baseBean = new BaseBean();
-        if (teacherDao.findTeachers(input.getPhone()).size() < 1) {
+        if (teacherDao.findTeachers(input.getPhone()) == null || teacherDao.findTeachers(input.getPhone()).size() < 1) {
             teacherDao.saveTeacher(input);
             baseBean.setCode(ConstData.POST_SUCCESS);
             baseBean.setMessage("创建成功");

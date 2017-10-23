@@ -137,11 +137,11 @@ public class AuthController {
         return result;
     }
 
-    @RequestMapping(value = "/auth/teacher/refreashtoken", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/refreashtoken", method = RequestMethod.POST)
     public BaseBean<Token> refreashToken(@RequestBody Token token) {
         BaseBean<Token> result = new BaseBean<>();
         try {
-            Token newToken = new Token(JWTUtil.parseJWT(token.getRefreshToken()).getSubject().toString());
+            Token newToken = new Token(JWTUtil.parseJWT(token.getRefreshToken()).getSubject());
             result.setMessage("刷新成功");
             result.setCode(ConstData.POST_SUCCESS);
             result.setBody(newToken);

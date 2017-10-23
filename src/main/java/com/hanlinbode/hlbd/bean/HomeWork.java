@@ -27,6 +27,17 @@ public class HomeWork implements Serializable {
     @Column(insertable = false, updatable = false)
     public String fk_teacher_id;
 
+    @OneToMany(mappedBy = "answerHomeWork", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Answer> answers;
+    @JsonBackReference(value = "12")
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+    @JsonBackReference(value = "12")
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
     @JsonBackReference(value = "homework teacher id")
     public String getFkTeacherId() {
         return fk_teacher_id;
@@ -38,7 +49,6 @@ public class HomeWork implements Serializable {
     }
 
 
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "team_homework",
             joinColumns = {@JoinColumn(name = "homework_id", referencedColumnName = "homeworkId")},
@@ -48,10 +58,12 @@ public class HomeWork implements Serializable {
     @ManyToOne
     @JoinColumn(name = "fk_teacher_id", referencedColumnName = "teacherId")
     private Teacher teacherHomeWork;
+
     @JsonBackReference(value = "homework id")
     public int getId() {
         return id;
     }
+
     @JsonBackReference(value = "homework id")
     public void setId(int id) {
         this.id = id;
@@ -99,11 +111,11 @@ public class HomeWork implements Serializable {
     public void setCrteatedTime(Date crteatedTime) {
         this.crteatedTime = crteatedTime;
     }
-
+    @JsonBackReference(value = "homework teamlist")
     public List<Team> getTeamList() {
         return teamList;
     }
-
+    @JsonBackReference(value = "homework teamlist")
     public void setTeamList(List<Team> teamList) {
         this.teamList = teamList;
     }
@@ -117,6 +129,4 @@ public class HomeWork implements Serializable {
                 ", crteatedTime='" + crteatedTime + '\'' +
                 '}';
     }
-
-
 }

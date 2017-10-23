@@ -36,6 +36,19 @@ public class Student implements Serializable {
     @Transient
     private Token token;
 
+    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Answer> answers;
+
+    @JsonBackReference(value = "student ans")
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    @JsonBackReference(value = "student ans")
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "team_student",
             joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "studentId")},

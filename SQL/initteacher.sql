@@ -1,6 +1,16 @@
-CREATE TABLE teacher(
-uid INTEGER PRIMARY KEY auto_increment,
-name VARCHAR (20),
-password VARCHAR (20),
-phone VARCHAR (20)
-)engine=innodb charset=utf8;
+DROP TABLE IF EXISTS teacher;
+CREATE TABLE teacher
+(
+  id            INT AUTO_INCREMENT
+    PRIMARY KEY,
+  teacher_id    VARCHAR(255) NOT NULL,
+
+  name          VARCHAR(255) NOT NULL,
+  password      VARCHAR(255) NOT NULL,
+  phone         VARCHAR(255) NOT NULL,
+  role          VARCHAR(255) NOT NULL,
+  crteated_time DATETIME     NULL
+
+)
+  ENGINE = InnoDB
+  DEFAULT CHARSET = utf8;

@@ -1,6 +1,7 @@
 server:
   port: 8004
   context-path: /api
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/saka?serverTimezone=GMT%2B8
@@ -19,3 +20,23 @@ spring:
     jpa:
       repositories:
         enabled: true
+  logging:
+    level:
+      org.springframework:
+        data: DEBUG
+        security: DEBUG
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  tokenHead: "Bearer "
+
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
+      register: "auth/register"
+
+
+springfox.documentation.swagger.v2.path: /auth/api-docs
+#springfox.documentation.swagger.v2.host=test

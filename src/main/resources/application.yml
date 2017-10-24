@@ -40,3 +40,7 @@ jwt:
 
 springfox.documentation.swagger.v2.path: /auth/api-docs
 #springfox.documentation.swagger.v2.host=test
+custom:
+  resourceLocationProtocol: file://
+  resourceLocation: /usr/local/upload/
+  tmpLocation: /usr/local/upload/tmp/

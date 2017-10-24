@@ -7,6 +7,7 @@ import com.hanlinbode.hlbd.dao.StudentDao;
 import com.hanlinbode.hlbd.dao.TeacherDao;
 import com.hanlinbode.hlbd.dao.TeacherSubjectDao;
 import com.hanlinbode.hlbd.responsebean.BaseBean;
+import com.hanlinbode.hlbd.responsebean.StudentAndToken;
 import com.hanlinbode.hlbd.responsebean.TeacherAndToken;
 import com.hanlinbode.hlbd.responsebean.Token;
 import com.hanlinbode.hlbd.util.JWTUtil;
@@ -15,8 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 public class AuthController {
@@ -29,48 +28,38 @@ public class AuthController {
     private TeacherSubjectDao teacherSubjectDao;
 
     @RequestMapping(value = "/auth/student/register", method = RequestMethod.POST)
-    public BaseBean<Student> response(@RequestBody Student input) {
-        BaseBean baseBean = new BaseBean();
+    public BaseBean<StudentAndToken> response(@RequestBody Student input) {
+        BaseBean<StudentAndToken> baseBean = new BaseBean<>();
         if (null == studentDao.findStudentByPhone(input.getPhone())) {
-            studentDao.saveStudent(input);
-            input.setToken(studentDao.generateStudentToken(input));
+            Student student = studentDao.saveStudent(input);
+            Token token = studentDao.generateStudentToken(input);
+            StudentAndToken studentAndToken = new StudentAndToken(student, token);
             baseBean.setCode(ConstData.POST_SUCCESS);
             baseBean.setMessage("创建成功");
-            baseBean.setBody(input);
-            try {
-                System.out.println(JWTUtil.parseJWT(input.getToken().getAccessToken()));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            baseBean.setBody(studentAndToken);
             return baseBean;
         } else {
             baseBean.setCode(ConstData.NO_RESULT);
             baseBean.setMessage("该手机号已经注册");
-            baseBean.setBody(input);
+            baseBean.setBody(null);
             return baseBean;
         }
     }
 
     @RequestMapping(value = "/auth/student/login", method = RequestMethod.POST)
-    public BaseBean<Student> logResponse(@RequestBody Student student) {
-        System.out.println(student.toString());
-        BaseBean<Student> result = new BaseBean<>();
+    public BaseBean<StudentAndToken> logResponse(@RequestBody Student student) {
+        BaseBean<StudentAndToken> result = new BaseBean<>();
         Student s = studentDao.findStudentByPhone(student.getPhone());
         if (null == s) {
             result.setCode(ConstData.NO_RESULT);
             result.setMessage("用户未注册");
-            result.setBody(student);
+            result.setBody(null);
         } else {
-            result.setCode(ConstData.NO_RESULT);
-            result.setMessage("密码错误");
-            result.setBody(student);
-
             if (s.getPassword().equals(student.getPassword())) {
-                System.out.println(s.toString());
-                s.setToken(studentDao.generateStudentToken(s));
+                StudentAndToken studentAndToken = new StudentAndToken(s, studentDao.generateStudentToken(student));
                 result.setCode(ConstData.POST_SUCCESS);
                 result.setMessage("success");
-                result.setBody(s);
+                result.setBody(studentAndToken);
             }
 
         }
@@ -106,7 +95,7 @@ public class AuthController {
             if (tmp.getPassword().equals(teacher.getPassword())) {
                 teacher.setPhone(tmp.getPhone());
                 Token token = new Token(teacher.getPhone());
-                TeacherAndToken teacherAndToken = new TeacherAndToken(teacher, token);
+                TeacherAndToken teacherAndToken = new TeacherAndToken(tmp, token);
                 result.setCode(ConstData.POST_SUCCESS);
                 result.setMessage("success");
                 result.setBody(teacherAndToken);
@@ -121,7 +110,7 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/auth/refreashtoken", method = RequestMethod.POST)
-    public BaseBean<Token> refreashToken(@RequestBody Token token) {
+    public BaseBean<Token> refreshToken(@RequestBody Token token) {
         BaseBean<Token> result = new BaseBean<>();
         try {
             Token newToken = new Token(JWTUtil.parseJWT(token.getRefreshToken()).getSubject());

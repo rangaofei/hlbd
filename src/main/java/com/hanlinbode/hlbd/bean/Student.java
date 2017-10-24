@@ -1,6 +1,8 @@
 package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hanlinbode.hlbd.responsebean.Token;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -8,7 +10,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-
+@JsonIgnoreProperties({"id","role","answers","teamList"})
 @Entity
 public class Student implements Serializable {
     @Id
@@ -29,26 +31,14 @@ public class Student implements Serializable {
     @Column
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    private Date crteatedTime;
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createdTime;
 
     @Column(nullable = false)
     private String role;
 
-    @Transient
-    private Token token;
-
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Answer> answers;
-
-    @JsonBackReference(value = "student ans")
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    @JsonBackReference(value = "student ans")
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "team_student",
@@ -61,6 +51,22 @@ public class Student implements Serializable {
         this.role = "S";
     }
 
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
 
     public String getName() {
         return name;
@@ -86,12 +92,12 @@ public class Student implements Serializable {
         this.phone = phone;
     }
 
-    public Date getCrteatedTime() {
-        return crteatedTime;
+    public Date getCreatedTime() {
+        return createdTime;
     }
 
-    public void setCrteatedTime(Date crteatedTime) {
-        this.crteatedTime = crteatedTime;
+    public void setCreatedTime(Date crteatedTime) {
+        this.createdTime = crteatedTime;
     }
 
     public String getRole() {
@@ -100,32 +106,6 @@ public class Student implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
-    }
-
-    public Token getToken() {
-        return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
-    }
-
-    @JsonBackReference(value = "student id")
-    public int getId() {
-        return id;
-    }
-
-    @JsonBackReference(value = "student id")
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
     }
 
     public List<Team> getTeamList() {
@@ -144,9 +124,10 @@ public class Student implements Serializable {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
-                ", crteatedTime=" + crteatedTime +
+                ", crteatedTime=" + createdTime +
                 ", role='" + role + '\'' +
-                ", token=" + token +
+                ", answers=" + answers +
+                ", teamList=" + teamList +
                 '}';
     }
 }

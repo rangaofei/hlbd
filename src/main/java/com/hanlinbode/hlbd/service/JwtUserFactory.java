@@ -34,7 +34,7 @@ public final class JwtUserFactory {
                 student.getName(),
                 student.getPassword(),
                 mapToGrantedAuthorities(list),
-                student.getCrteatedTime()
+                student.getCreatedTime()
         );
     }
 

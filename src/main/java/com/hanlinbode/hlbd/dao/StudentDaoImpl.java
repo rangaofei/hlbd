@@ -20,7 +20,7 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     public Student saveStudent(Student student) {
-        student.setCrteatedTime(new Date());
+        student.setCreatedTime(new Date());
         student.setStudentId(UUIDUtil.generateId());
         return studentRepository.save(student);
 

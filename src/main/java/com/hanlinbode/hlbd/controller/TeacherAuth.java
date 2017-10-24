@@ -2,18 +2,13 @@ package com.hanlinbode.hlbd.controller;
 
 import com.hanlinbode.hlbd.ConstData;
 import com.hanlinbode.hlbd.bean.BaseBean;
-import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.bean.TeacherAndSubject;
 import com.hanlinbode.hlbd.bean.TeacherSubject;
 import com.hanlinbode.hlbd.dao.TeacherDao;
 import com.hanlinbode.hlbd.dao.TeacherSubjectDao;
-import com.hanlinbode.hlbd.util.UUIDUtil;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 

@@ -10,8 +10,6 @@ import com.hanlinbode.hlbd.dao.TeacherDao;
 import com.hanlinbode.hlbd.dao.TeacherSubjectDao;
 import com.hanlinbode.hlbd.util.JWTUtil;
 import com.hanlinbode.hlbd.util.UUIDUtil;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,8 +81,6 @@ public class AuthController {
         return result;
     }
 
-    @ApiOperation(value = "用户注册", notes = "根据User对象创建用户")
-//    @ApiImplicitParam(name = "Teacher", value = "用户详细实体user", required = true, dataType = "Teacher")
     @RequestMapping(value = "/auth/teacher/register", method = RequestMethod.POST)
     public BaseBean<Teacher> response(@RequestBody Teacher input) {
         System.out.println(input.toString());

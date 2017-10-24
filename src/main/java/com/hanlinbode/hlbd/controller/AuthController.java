@@ -1,22 +1,21 @@
 package com.hanlinbode.hlbd.controller;
 
 import com.hanlinbode.hlbd.ConstData;
-import com.hanlinbode.hlbd.bean.BaseBean;
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Teacher;
-import com.hanlinbode.hlbd.bean.Token;
 import com.hanlinbode.hlbd.dao.StudentDao;
 import com.hanlinbode.hlbd.dao.TeacherDao;
 import com.hanlinbode.hlbd.dao.TeacherSubjectDao;
+import com.hanlinbode.hlbd.responsebean.BaseBean;
+import com.hanlinbode.hlbd.responsebean.TeacherAndToken;
+import com.hanlinbode.hlbd.responsebean.Token;
 import com.hanlinbode.hlbd.util.JWTUtil;
-import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -31,11 +30,8 @@ public class AuthController {
 
     @RequestMapping(value = "/auth/student/register", method = RequestMethod.POST)
     public BaseBean<Student> response(@RequestBody Student input) {
-        System.out.println(input.toString());
-        System.out.println(input.getPhone());
         BaseBean baseBean = new BaseBean();
         if (null == studentDao.findStudentByPhone(input.getPhone())) {
-
             studentDao.saveStudent(input);
             input.setToken(studentDao.generateStudentToken(input));
             baseBean.setCode(ConstData.POST_SUCCESS);
@@ -82,49 +78,42 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/auth/teacher/register", method = RequestMethod.POST)
-    public BaseBean<Teacher> response(@RequestBody Teacher input) {
-        System.out.println(input.toString());
-        BaseBean baseBean = new BaseBean();
-        if (teacherDao.finTeacherByPhone(input.getPhone()) == null) {
-            input.setCreatedTime(new Date());
-            input.setTeacherId(UUIDUtil.generateId());
-            teacherDao.saveTeacher(input);
-            input.setToken(teacherDao.generateTeacherToken(input));
+    public BaseBean<TeacherAndToken> response(@RequestBody Teacher input) {
+        BaseBean<TeacherAndToken> baseBean = new BaseBean<>();
+        if (teacherDao.findTeacherByPhone(input.getPhone()) == null) {
+            TeacherAndToken teacherAndToken = teacherDao.registerTeacher(input);
             baseBean.setCode(ConstData.POST_SUCCESS);
             baseBean.setMessage("创建成功");
-            baseBean.setBody(input);
+            baseBean.setBody(teacherAndToken);
             return baseBean;
         } else {
             baseBean.setCode(ConstData.NO_RESULT);
             baseBean.setMessage("该手机号已经注册");
-            baseBean.setBody(input);
+            baseBean.setBody(null);
             return baseBean;
         }
     }
 
     @RequestMapping(value = "/auth/teacher/login", method = RequestMethod.POST)
-    public BaseBean<Teacher> logResponse(@RequestBody Teacher teacher) {
-        System.out.println(teacher.toString());
-        BaseBean<Teacher> result = new BaseBean<>();
-        List<Teacher> teacherList = teacherDao.findTeachersByName(teacher.getName());
-        if (teacherList.size() < 1) {
+    public BaseBean<TeacherAndToken> logResponse(@RequestBody Teacher teacher) {
+        BaseBean<TeacherAndToken> result = new BaseBean<>();
+        Teacher tmp = teacherDao.findTeacherByPhone(teacher.getPhone());
+        if (null == tmp) {
             result.setCode(ConstData.NO_RESULT);
             result.setMessage("用户未注册");
-            result.setBody(teacher);
+            result.setBody(null);
         } else {
-            result.setCode(ConstData.NO_RESULT);
-            result.setMessage("密码错误");
-            result.setBody(teacher);
-            for (Teacher t : teacherList) {
-                if (t.getPassword().equals(teacher.getPassword())) {
-                    System.out.println(t.toString());
-                    teacher.setPhone(t.getPhone());
-                    t.setToken(teacherDao.generateTeacherToken(teacher));
-                    result.setCode(ConstData.POST_SUCCESS);
-                    result.setMessage("success");
-                    result.setBody(t);
-                    break;
-                }
+            if (tmp.getPassword().equals(teacher.getPassword())) {
+                teacher.setPhone(tmp.getPhone());
+                Token token = new Token(teacher.getPhone());
+                TeacherAndToken teacherAndToken = new TeacherAndToken(teacher, token);
+                result.setCode(ConstData.POST_SUCCESS);
+                result.setMessage("success");
+                result.setBody(teacherAndToken);
+            } else {
+                result.setCode(ConstData.WRONG_PARAM);
+                result.setMessage("密码错误");
+                result.setBody(null);
             }
 
         }

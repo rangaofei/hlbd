@@ -1,7 +1,7 @@
 package com.hanlinbode.hlbd.dao;
 
 import com.hanlinbode.hlbd.bean.Student;
-import com.hanlinbode.hlbd.bean.Token;
+import com.hanlinbode.hlbd.responsebean.Token;
 
 import java.util.List;
 

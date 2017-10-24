@@ -1,6 +1,6 @@
 package com.hanlinbode.hlbd.controller;
 
-import com.hanlinbode.hlbd.bean.BaseBean;
+import com.hanlinbode.hlbd.responsebean.BaseBean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 

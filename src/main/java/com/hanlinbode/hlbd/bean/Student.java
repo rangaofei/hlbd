@@ -1,6 +1,7 @@
 package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.hanlinbode.hlbd.responsebean.Token;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;

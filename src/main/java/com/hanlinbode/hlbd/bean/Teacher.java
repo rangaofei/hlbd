@@ -1,7 +1,9 @@
 package com.hanlinbode.hlbd.bean;
 
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hanlinbode.hlbd.responsebean.Token;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -9,7 +11,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-
+@JsonIgnoreProperties({"id", "role", "homeWork", "teams", "teacherSubjects", "homeWork", "token"})
 @Entity
 public class Teacher implements Serializable {
 
@@ -32,13 +34,11 @@ public class Teacher implements Serializable {
     @Column
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
 
     @Column(nullable = false)
     private String role;
-
-    @Transient
-    private Token token;
 
     @OneToMany(mappedBy = "teacherTeam", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Team> teams;
@@ -46,7 +46,7 @@ public class Teacher implements Serializable {
     @OneToMany(mappedBy = "teacherSubject", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TeacherSubject> teacherSubjects;
 
-    @OneToMany(mappedBy = "teacherHomeWork",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "teacherHomeWork", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<HomeWork> homeWork;
 
 
@@ -83,12 +83,12 @@ public class Teacher implements Serializable {
         this.createdTime = createdTime;
     }
 
-    @JsonBackReference(value = "teacher id")
+
     public int getId() {
         return id;
     }
 
-    @JsonBackReference(value = "teacher id")
+
     public void setId(int id) {
         this.id = id;
     }
@@ -126,13 +126,6 @@ public class Teacher implements Serializable {
         this.role = role;
     }
 
-    public Token getToken() {
-        return token;
-    }
-
-    public void setToken(Token token) {
-        this.token = token;
-    }
 
     public List<Team> getTeams() {
         return teams;
@@ -152,7 +145,6 @@ public class Teacher implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", createdTime=" + createdTime +
                 ", role='" + role + '\'' +
-                ", token=" + token +
                 ", teams=" + teams +
                 ", teacherSubjects=" + teacherSubjects +
                 '}';

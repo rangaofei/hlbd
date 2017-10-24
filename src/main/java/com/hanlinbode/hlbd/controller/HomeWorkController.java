@@ -42,9 +42,15 @@ public class HomeWorkController {
     public BaseBean<List<HomeWork>> getAllHomeWorks(@PathVariable("teacher_id") String id) {
         BaseBean<List<HomeWork>> result = new BaseBean<>();
         List<HomeWork> homeWorks = homeWorkDao.findHomeWorkByTeacherId(id);
+        if (homeWorks.size() < 1) {
+            result.setMessage("没有作业");
+            result.setCode(ConstData.NO_RESULT);
+        } else {
+            result.setMessage("success");
+            result.setCode(ConstData.GET_SUCCESS);
+        }
         result.setBody(homeWorks);
-        result.setMessage("success");
-        result.setCode(ConstData.GET_SUCCESS);
+
         return result;
     }
 
@@ -52,6 +58,7 @@ public class HomeWorkController {
     public BaseBean<List<HomeWork>> getStudentAllHomeworks(@PathVariable("student_id") String studentid,
                                                            @PathVariable("class_id") String classid) {
         BaseBean<List<HomeWork>> result = new BaseBean<>();
+        Student student = studentDao.findStudentByStudentId(studentid);
         Team team = teamDao.findTeamByTeamId(classid);
         List<HomeWork> homeWork = new ArrayList<>();
         homeWork.addAll(team.getHomeWorkList());

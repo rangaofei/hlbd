@@ -61,8 +61,8 @@ public class AuthController {
     public BaseBean<Student> logResponse(@RequestBody Student student) {
         System.out.println(student.toString());
         BaseBean<Student> result = new BaseBean<>();
-        List<Student> studentList = studentDao.findStudentsByName(student.getName());
-        if (studentList.size() < 1) {
+        Student s = studentDao.findStudentByPhone(student.getPhone());
+        if (null == s) {
             result.setCode(ConstData.NO_RESULT);
             result.setMessage("用户未注册");
             result.setBody(student);
@@ -70,15 +70,13 @@ public class AuthController {
             result.setCode(ConstData.NO_RESULT);
             result.setMessage("密码错误");
             result.setBody(student);
-            for (Student s : studentList) {
-                if (s.getPassword().equals(student.getPassword())) {
-                    System.out.println(s.toString());
-                    s.setToken(studentDao.generateStudentToken(s));
-                    result.setCode(ConstData.POST_SUCCESS);
-                    result.setMessage("success");
-                    result.setBody(s);
-                    break;
-                }
+
+            if (s.getPassword().equals(student.getPassword())) {
+                System.out.println(s.toString());
+                s.setToken(studentDao.generateStudentToken(s));
+                result.setCode(ConstData.POST_SUCCESS);
+                result.setMessage("success");
+                result.setBody(s);
             }
 
         }

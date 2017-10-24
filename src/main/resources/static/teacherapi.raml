@@ -1,0 +1,165 @@
+#%RAML 1.0
+title: tacherass # required title
+version: 1
+
+baseUri: http://192.168.1.161:8004/api
+documentation:
+  - title: TeacherAssistant2.0api
+    content: |
+      a simple introduction
+ 
+/auth/student/register: # optional resource
+  description: for student register
+
+  post: # HTTP method declaration
+    body: 
+          application/json:
+            type: |
+              {
+                "name": String,
+                "phone": String,
+                "password": String
+              }
+            example: |
+              {
+                "name": "mary",
+                "phone": "123456",
+                "password": "jkli"
+              }
+    responses: # declare a response
+      201: # HTTP status code
+        body: # declare content of response
+          application/json: # media type
+            type: | # structural definition of a response (schema or type)
+              {
+                "code": int,
+                "message": String,
+                "body": 
+                {
+                    "studentId": String,
+                    "name": String,
+                    "password": String,
+                    "phone": String,
+                    "crteatedTime": Date,
+                    "role": String,
+                    "token": {
+                        "accessToken": String,
+                        "refreshToken": String
+                    },
+                    "teamList": list
+                }                    
+            example: | # example how a response looks like
+              {
+                "code": 201,
+                "message": "success",
+                "body": {
+                "studentId": "15087254904257",
+                "name": "mary",
+                "password": "qwer",
+                "phone": "123456",
+                "crteatedTime": 1508725490425,
+                "role": "S",
+                "token": {
+                    "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDg3MjU0OTAsInN1YiI6IlNTUzEyMzQ1NiIsImV4cCI6MTUwOTMzMDI5MH0.Bpb5MM_n37JYH9v0xm9lzlF3-Pod1e_vFqyAkLtnrzc",
+                    "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDg3MjU0OTAsInN1YiI6IlNTUzEyMzQ1NiIsImV4cCI6MTUyNjg2OTQ5MH0.QAQDe8Gpj8J5d_T2LwZrWiiqXHtQI7K_ewTF3seVc2A"
+                },
+                "teamList": null
+              }
+/auth/student/login: 
+  description: for student login
+  post:
+    body: 
+      application/json:
+        type: 
+          {
+            "name": String,
+            "password": String
+          }
+        example: |
+          {
+            "name": "mary",
+            "password": "jkli"
+          }
+    responses: 
+      201:
+        body: 
+          application/json:
+          {
+            "code": 201,
+            "message": "success",
+            "body": {
+              "studentId": "15087254904257",
+              "name": "mary",
+              "password": "qwer",
+              "phone": "123456",
+              "crteatedTime": 1508725490000,
+              "role": "S",
+              "token": {
+                "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDg3NDY1NTAsInN1YiI6IlNTUzEyMzQ1NiIsImV4cCI6MTUwOTM1MTM1MH0.85_Na-uDpsC20G9O-S12fUdzZaxNTuqVCLKrxiFKd0M",
+                "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDg3NDY1NTAsInN1YiI6IlNTUzEyMzQ1NiIsImV4cCI6MTUyNjg5MDU1MH0.Y3zRD95cgyQgmyWue_tatdcosNXnCfBvaaFvVTNIIaE"
+              },
+              "teamList": [
+                {
+                  "teamId": "7251341076",
+                  "teamName": "two",
+                  "teamIntroduction": "shuxue",
+                  "homeWorkList": [
+                    {
+                      "homeworkId": "15087288461198",
+                      "type": 1,
+                      "name": "shuxue",
+                      "crteatedTime": 1508728846000,
+                      "fk_teacher_id": "15087248801979"
+                    },
+                    {
+                      "homeworkId": "15087300503645",
+                      "type": 2,
+                      "name": "shuxue",
+                      "crteatedTime": 1508730050000,
+                      "fk_teacher_id": "15087248801979"
+                    }
+                ]
+            },
+            {
+                "teamId": "7251190189",
+                "teamName": "one",
+                "teamIntroduction": "shuxue",
+                "homeWorkList": [
+                    {
+                        "homeworkId": "15087288461198",
+                        "type": 1,
+                        "name": "shuxue",
+                        "crteatedTime": 1508728846000,
+                        "fk_teacher_id": "15087248801979"
+                    },
+                    {
+                        "homeworkId": "15087300503645",
+                        "type": 2,
+                        "name": "shuxue",
+                        "crteatedTime": 1508730050000,
+                        "fk_teacher_id": "15087248801979"
+                    }
+                ]
+            }
+        ]
+    }
+          }
+    # get:
+    #   headers:
+    #     Authorization:
+    #       type: string
+    #       description: Basic authentication header
+    #       example: |
+    #         Authorization: Basic QWxhZGRpbjpvcGVuIHNlc2FtZQ==
+    # put:
+    #   body:
+    #     application/x-www-form-urlencoded:
+    #       properties:
+    #         name:
+    #           description: name on account
+    #           type: string
+    #           examples:
+    #             example1: Naruto Uzumaki
+    #             example2: Kevin Renskers
+    #         gender:
+    #           enum: ["male", "female"]

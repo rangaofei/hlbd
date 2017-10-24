@@ -32,7 +32,7 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: '1.5.8.RELEASE'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.7.0'
-    // https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '1.5.8.RELEASE'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.7.0'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

@@ -1,6 +1,8 @@
 package com.hanlinbode.hlbd.dao;
 
 import com.hanlinbode.hlbd.bean.Student;
+import com.hanlinbode.hlbd.bean.Team;
+import com.hanlinbode.hlbd.responsebean.StudentAndToken;
 import com.hanlinbode.hlbd.responsebean.Token;
 
 import java.util.List;
@@ -18,5 +20,7 @@ public interface StudentDao {
 
     Student findStudentByStudentId(String studentId);
 
-    Student joinTeams(String studentId, String teamId);
+    Team joinTeam(String studentId, String teamId);
+
+    StudentAndToken registerStudent(Student student);
 }

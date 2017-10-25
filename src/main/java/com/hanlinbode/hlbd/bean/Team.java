@@ -1,15 +1,13 @@
 package com.hanlinbode.hlbd.bean;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
-
+@JsonIgnoreProperties({"id","teacher","students","homeWorkList"})
 @Entity
-public class Team implements Serializable{
+public class Team implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +23,7 @@ public class Team implements Serializable{
     private String teamIntroduction;
 
     @ManyToOne
-    @JoinColumn(name = "teacher_id",referencedColumnName = "teacherId")
+    @JoinColumn(name = "teacher_id", referencedColumnName = "teacherId")
     private Teacher teacherTeam;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -47,21 +45,19 @@ public class Team implements Serializable{
     public void setHomeWorkList(List<HomeWork> homeWorkList) {
         this.homeWorkList = homeWorkList;
     }
-    @JsonIgnore
+
     public List<Student> getStudents() {
         return students;
     }
-    @JsonIgnore
+
     public void setStudents(List<Student> students) {
         this.students = students;
     }
 
-    @JsonBackReference(value = "team id")
     public int getId() {
         return id;
     }
 
-    @JsonBackReference(value = "team id")
     public void setId(int id) {
         this.id = id;
     }
@@ -91,12 +87,10 @@ public class Team implements Serializable{
     }
 
 
-    @JsonBackReference(value = "2")
     public Teacher getTeacher() {
         return teacherTeam;
     }
 
-    @JsonBackReference(value = "2")
     public void setTeacher(Teacher teacher) {
         this.teacherTeam = teacher;
     }

@@ -2,6 +2,7 @@ package com.hanlinbode.hlbd.dao;
 
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
+import com.hanlinbode.hlbd.responsebean.StudentAndToken;
 import com.hanlinbode.hlbd.responsebean.Token;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,13 +54,23 @@ public class StudentDaoImpl implements StudentDao {
     }
 
     @Override
-    public Student joinTeams(String studentId, String teamId) {
+    public Team joinTeam(String studentId, String teamId) {
         Student student = studentRepository.findStudentByStudentId(studentId);
         Team team = teamRepository.findTeamByTeamId(teamId);
         if (student.getTeamList().contains(team)) {
             return null;
         }
         student.getTeamList().add(team);
-        return studentRepository.save(student);
+        studentRepository.save(student);
+        return team;
+    }
+
+    @Override
+    public StudentAndToken registerStudent(Student student) {
+        student.setCreatedTime(new Date());
+        student.setStudentId(UUIDUtil.generateId());
+        Student tmp = saveStudent(student);
+        Token token = generateStudentToken(student);
+        return new StudentAndToken(tmp, token);
     }
 }

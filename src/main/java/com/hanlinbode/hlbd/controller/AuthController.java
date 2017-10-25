@@ -11,11 +11,14 @@ import com.hanlinbode.hlbd.responsebean.StudentAndToken;
 import com.hanlinbode.hlbd.responsebean.TeacherAndToken;
 import com.hanlinbode.hlbd.responsebean.Token;
 import com.hanlinbode.hlbd.util.JWTUtil;
+import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 @RestController
 public class AuthController {
@@ -31,12 +34,9 @@ public class AuthController {
     public BaseBean<StudentAndToken> response(@RequestBody Student input) {
         BaseBean<StudentAndToken> baseBean = new BaseBean<>();
         if (null == studentDao.findStudentByPhone(input.getPhone())) {
-            Student student = studentDao.saveStudent(input);
-            Token token = studentDao.generateStudentToken(input);
-            StudentAndToken studentAndToken = new StudentAndToken(student, token);
             baseBean.setCode(ConstData.POST_SUCCESS);
             baseBean.setMessage("创建成功");
-            baseBean.setBody(studentAndToken);
+            baseBean.setBody(studentDao.registerStudent(input));
             return baseBean;
         } else {
             baseBean.setCode(ConstData.NO_RESULT);

@@ -55,7 +55,7 @@ public class HomeWorkController {
         return result;
     }
 
-    @RequestMapping(path = "/student/{student_id}/{class_id}/getallhomeworks", method = RequestMethod.GET)
+    @RequestMapping(path = "/student/{student_id}/{class_id}/gethomeworks", method = RequestMethod.GET)
     public BaseBean<List<HomeWork>> getStudentAllHomeworks(@PathVariable("student_id") String studentid,
                                                            @PathVariable("class_id") String classid) {
         BaseBean<List<HomeWork>> result = new BaseBean<>();

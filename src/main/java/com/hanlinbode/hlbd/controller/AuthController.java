@@ -94,7 +94,7 @@ public class AuthController {
         } else {
             if (tmp.getPassword().equals(teacher.getPassword())) {
                 teacher.setPhone(tmp.getPhone());
-                Token token = new Token(teacher.getPhone());
+                Token token = teacherDao.generateTeacherToken(tmp);
                 TeacherAndToken teacherAndToken = new TeacherAndToken(tmp, token);
                 result.setCode(ConstData.POST_SUCCESS);
                 result.setMessage("success");

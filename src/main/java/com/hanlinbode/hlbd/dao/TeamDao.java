@@ -12,7 +12,7 @@ public interface TeamDao {
 
     Team findTeamByTeamId(String teamId);
 
-    Teacher saveTeamByTeacher(String teacherId, Team team);
+    Team saveTeamByTeacher(String teacherId, Team team);
 
 
 }

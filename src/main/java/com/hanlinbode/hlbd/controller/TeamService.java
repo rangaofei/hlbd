@@ -25,10 +25,11 @@ public class TeamService {
 
 
     @RequestMapping(path = "teacher/{teacher_id}/createclass", method = RequestMethod.POST)
-    public Team createTeacherClass(@PathVariable("teacher_id") String teacherId, @RequestBody Team team) {
-        Teacher teacher = teamDao.saveTeamByTeacher(teacherId, team);
-        System.out.println("teacherId=" + teacher);
-        return team;
+    public BaseBean<Team> createTeacherClass(@PathVariable("teacher_id") String teacherId, @RequestBody Team team) {
+        BaseBean<Team> result = new BaseBean<>();
+        Team t = teamDao.saveTeamByTeacher(teacherId, team);
+        result.setBody(t);
+        return result;
     }
 
     @RequestMapping(path = "teacher/{teacher_id}/getclasses", method = RequestMethod.GET)

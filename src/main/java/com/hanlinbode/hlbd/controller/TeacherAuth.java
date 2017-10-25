@@ -2,7 +2,7 @@ package com.hanlinbode.hlbd.controller;
 
 import com.hanlinbode.hlbd.ConstData;
 import com.hanlinbode.hlbd.responsebean.BaseBean;
-import com.hanlinbode.hlbd.bean.TeacherAndSubject;
+import com.hanlinbode.hlbd.responsebean.TeacherAndSubject;
 import com.hanlinbode.hlbd.bean.TeacherSubject;
 import com.hanlinbode.hlbd.dao.TeacherDao;
 import com.hanlinbode.hlbd.dao.TeacherSubjectDao;
@@ -26,13 +26,13 @@ public class TeacherAuth {
 
 
     @RequestMapping(value = "teacher/{teacher_id}/setsubject", method = RequestMethod.POST)
-    public BaseBean<String> setSubject(@PathVariable("teacher_id") String id, @RequestBody List<TeacherSubject> teacherSubjects) {
+    public BaseBean<List<TeacherSubject>> setSubject(@PathVariable("teacher_id") String id, @RequestBody List<TeacherSubject> teacherSubjects) {
         System.out.println(teacherSubjects.get(0).toString());
-        teacherSubjectDao.saveTeacherSubject(id, teacherSubjects);
-        BaseBean<String> result = new BaseBean<>();
+        List<TeacherSubject> teacherSubject = teacherSubjectDao.saveTeacherSubject(id, teacherSubjects);
+        BaseBean<List<TeacherSubject>> result = new BaseBean<>();
         result.setMessage("保存成功");
         result.setCode(ConstData.POST_SUCCESS);
-        result.setBody("success");
+        result.setBody(teacherSubject);
         return result;
     }
 

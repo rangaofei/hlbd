@@ -1,48 +1,36 @@
 package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
+@JsonIgnoreProperties({"id"})
 @Entity
-public class TeacherSubject implements Serializable{
+public class TeacherSubject implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)
+    private int stage_id;
+    @Column(nullable = false)
     private String stage;
+    @Column(nullable = false)
+    private int subject_id;
     @Column(nullable = false)
     private String subject;
     @Column(nullable = false)
+    private int version_id;
+    @Column(nullable = false)
     private String version;
+    @Column(nullable = false)
+    private int textbook_id;
     @Column(nullable = false)
     private String textbook;
     @ManyToOne
     @JoinColumn(name = "fk_teacher_id", referencedColumnName = "teacherId")
     private Teacher teacherSubject;
 
-    //    @Column(insertable = false, updatable = false)
-//    private int teacher_id;
-//
-//    @JsonBackReference(value = "subject teacher id")
-//    public int getTeacher_id() {
-//        return teacher_id;
-//    }
-//
-//    @JsonBackReference(value = "subject teacher id")
-//    public void setTeacher_id(int teacher_id) {
-//        this.teacher_id = teacher_id;
-//    }
-    @JsonBackReference(value = "subject id")
-    public int getId() {
-        return id;
-    }
-
-    @JsonBackReference(value = "subject id")
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getStage() {
         return stage;

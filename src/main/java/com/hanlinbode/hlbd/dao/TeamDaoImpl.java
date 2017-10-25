@@ -32,12 +32,13 @@ public class TeamDaoImpl implements TeamDao {
     }
 
     @Override
-    public Teacher saveTeamByTeacher(String teacherId, Team team) {
+    public Team saveTeamByTeacher(String teacherId, Team team) {
         Teacher teacher = teacherRepository.findTeacherByTeacherId(teacherId);
         team.setTeacher(teacher);
         team.setTeamId(UUIDUtil.generatedTeamId());
-        teacher.getTeams().add(team);
-        return teacherRepository.save(teacher);
+//        teacher.getTeams().add(team);
+//        return teacherRepository.save(teacher);
+        return teamRepository.save(team);
 
     }
 

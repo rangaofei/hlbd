@@ -29,8 +29,8 @@ public class TeacherSubjectDaoImpl implements TeacherSubjectDao {
         }
         teacherSubjects.removeAll(teacher.getTeacherSubjects());
         teacher.getTeacherSubjects().addAll(teacherSubjects);
-        teacherRepository.save(teacher);
-        return teacherSubjects;
+        Teacher t = teacherRepository.save(teacher);
+        return t.getTeacherSubjects();
     }
 
 

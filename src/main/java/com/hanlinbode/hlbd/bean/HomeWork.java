@@ -2,13 +2,16 @@ package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.sound.sampled.Line;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+@JsonIgnoreProperties({"id", "fk_teacher_id", "answers", "teamList", "teacher"})
 @Entity
 public class HomeWork implements Serializable {
     @Id
@@ -29,10 +32,12 @@ public class HomeWork implements Serializable {
 
     @OneToMany(mappedBy = "answerHomeWork", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Answer> answers;
+
     @JsonBackReference(value = "12")
     public List<Answer> getAnswers() {
         return answers;
     }
+
     @JsonBackReference(value = "12")
     public void setAnswers(List<Answer> answers) {
         this.answers = answers;
@@ -58,6 +63,16 @@ public class HomeWork implements Serializable {
     @ManyToOne
     @JoinColumn(name = "fk_teacher_id", referencedColumnName = "teacherId")
     private Teacher teacherHomeWork;
+    @OneToMany(mappedBy = "homeWork", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<InfoQuestion> infoQuestions;
+
+    public List<InfoQuestion> getInfoQuestions() {
+        return infoQuestions;
+    }
+
+    public void setInfoQuestions(List<InfoQuestion> infoQuestions) {
+        this.infoQuestions = infoQuestions;
+    }
 
     @JsonBackReference(value = "homework id")
     public int getId() {
@@ -111,10 +126,12 @@ public class HomeWork implements Serializable {
     public void setCrteatedTime(Date crteatedTime) {
         this.crteatedTime = crteatedTime;
     }
+
     @JsonBackReference(value = "homework teamlist")
     public List<Team> getTeamList() {
         return teamList;
     }
+
     @JsonBackReference(value = "homework teamlist")
     public void setTeamList(List<Team> teamList) {
         this.teamList = teamList;

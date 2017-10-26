@@ -6,7 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
-import javax.sound.sampled.Line;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -26,32 +25,13 @@ public class HomeWork implements Serializable {
     @Column
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
-    private Date crteatedTime;
+    private Date createdTime;
     @Column(insertable = false, updatable = false)
     public String fk_teacher_id;
 
     @OneToMany(mappedBy = "answerHomeWork", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Answer> answers;
 
-    @JsonBackReference(value = "12")
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    @JsonBackReference(value = "12")
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
-
-    @JsonBackReference(value = "homework teacher id")
-    public String getFkTeacherId() {
-        return fk_teacher_id;
-    }
-
-    @JsonBackReference(value = "homework teacher id")
-    public void setFkTeacherId(String teacherId) {
-        this.fk_teacher_id = teacherId;
-    }
 
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -63,6 +43,7 @@ public class HomeWork implements Serializable {
     @ManyToOne
     @JoinColumn(name = "fk_teacher_id", referencedColumnName = "teacherId")
     private Teacher teacherHomeWork;
+
     @OneToMany(mappedBy = "homeWork", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<InfoQuestion> infoQuestions;
 
@@ -92,12 +73,10 @@ public class HomeWork implements Serializable {
         this.homeworkId = homeworkId;
     }
 
-    @JsonIgnore
     public Teacher getTeacherHomeWork() {
         return teacherHomeWork;
     }
 
-    @JsonIgnore
     public void setTeacherHomeWork(Teacher teacherHomeWork) {
         this.teacherHomeWork = teacherHomeWork;
     }
@@ -119,22 +98,35 @@ public class HomeWork implements Serializable {
     }
 
     @Temporal(TemporalType.TIMESTAMP)
-    public Date getCrteatedTime() {
-        return crteatedTime;
+    public Date getCreatedTime() {
+        return createdTime;
     }
 
-    public void setCrteatedTime(Date crteatedTime) {
-        this.crteatedTime = crteatedTime;
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
     }
 
-    @JsonBackReference(value = "homework teamlist")
     public List<Team> getTeamList() {
         return teamList;
     }
 
-    @JsonBackReference(value = "homework teamlist")
     public void setTeamList(List<Team> teamList) {
         this.teamList = teamList;
+    }
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
+    public String getFkTeacherId() {
+        return fk_teacher_id;
+    }
+
+    public void setFkTeacherId(String teacherId) {
+        this.fk_teacher_id = teacherId;
     }
 
     @Override
@@ -143,7 +135,7 @@ public class HomeWork implements Serializable {
                 "UID=" + id +
                 ", type=" + type +
                 ", name='" + name + '\'' +
-                ", crteatedTime='" + crteatedTime + '\'' +
+                ", createdTime='" + createdTime + '\'' +
                 '}';
     }
 }

@@ -19,17 +19,6 @@ public class Answer {
     @JoinColumn(name = "fk_student_id", referencedColumnName = "studentId")
     private Student student;
 
-//    @ManyToOne
-//    @JoinColumn(name = "fk_team_id", referencedColumnName = "teamId")
-//    private Team team;
-//
-//    public Team getTeam() {
-//        return team;
-//    }
-//
-//    public void setTeam(Team team) {
-//        this.team = team;
-//    }
 
     private String answerUrl;
     @ManyToOne

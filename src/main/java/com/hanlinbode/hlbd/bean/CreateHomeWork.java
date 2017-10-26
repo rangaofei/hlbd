@@ -2,7 +2,7 @@ package com.hanlinbode.hlbd.bean;
 
 import java.util.List;
 
-public class CreateClass {
+public class CreateHomeWork {
     private HomeWork homeWork;
     private List<Team> teams;
 

@@ -27,10 +27,10 @@ public class HomeWorkController {
     private TeamDao teamDao;
 
     @RequestMapping(path = "/teacher/{teacher_id}/createhomework", method = RequestMethod.POST)
-    public BaseBean<HomeWork> createHomeWork(@PathVariable("teacher_id") String id, @RequestBody CreateClass createClass) {
+    public BaseBean<HomeWork> createHomeWork(@PathVariable("teacher_id") String id, @RequestBody CreateHomeWork createHomeWork) {
         BaseBean<HomeWork> result = new BaseBean<>();
-        HomeWork homeWork = createClass.getHomeWork();
-        List<Team> teams = createClass.getTeams();
+        HomeWork homeWork = createHomeWork.getHomeWork();
+        List<Team> teams = createHomeWork.getTeams();
         HomeWork h = homeWorkDao.createHomeWork(id, homeWork, teams);
         result.setCode(ConstData.POST_SUCCESS);
         result.setBody(h);

@@ -15,7 +15,7 @@ import javax.swing.text.TabExpander;
 import java.util.List;
 
 @RestController
-public class TeamService {
+public class TeamController {
     @Autowired
     private TeamDao teamDao;
     @Autowired
@@ -59,7 +59,6 @@ public class TeamService {
         if (team == null) {
             result.setMessage("您已加入过该班级");
         }
-
         result.setCode(201);
         result.setBody(team);
         return result;

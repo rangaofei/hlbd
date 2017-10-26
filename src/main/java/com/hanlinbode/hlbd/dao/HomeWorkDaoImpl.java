@@ -1,6 +1,5 @@
 package com.hanlinbode.hlbd.dao;
 
-import com.hanlinbode.hlbd.bean.Answer;
 import com.hanlinbode.hlbd.bean.HomeWork;
 import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.bean.Team;
@@ -25,7 +24,7 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
 
     @Override
     public HomeWork createHomeWork(String teacherId, HomeWork homeWork, List<Team> teams) {
-        homeWork.setCrteatedTime(new Date());
+        homeWork.setCreatedTime(new Date());
         homeWork.setHomeworkId(UUIDUtil.generateId());
         for (Team t : teams) {
             Team team = teamRepository.findTeamByTeamId(t.getTeamId());

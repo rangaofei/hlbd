@@ -1,16 +1,14 @@
 package com.hanlinbode.hlbd.bean;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.hanlinbode.hlbd.responsebean.Token;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-@JsonIgnoreProperties({"id","role","answers","teamList"})
+@JsonIgnoreProperties({"id","role","studentAnswers","teamList"})
 @Entity
 public class Student implements Serializable {
     @Id
@@ -39,7 +37,7 @@ public class Student implements Serializable {
     private String role;
 
     @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Answer> answers;
+    private List<StudentAnswer> studentAnswers;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "team_student",
@@ -127,8 +125,32 @@ public class Student implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", crteatedTime=" + createdTime +
                 ", role='" + role + '\'' +
-                ", answers=" + answers +
-                ", teamList=" + teamList +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Student student = (Student) o;
+
+        if (studentId != null ? !studentId.equals(student.studentId) : student.studentId != null) return false;
+        if (name != null ? !name.equals(student.name) : student.name != null) return false;
+        if (password != null ? !password.equals(student.password) : student.password != null) return false;
+        if (phone != null ? !phone.equals(student.phone) : student.phone != null) return false;
+        if (createdTime != null ? !createdTime.equals(student.createdTime) : student.createdTime != null) return false;
+        return role != null ? role.equals(student.role) : student.role == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = studentId != null ? studentId.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (phone != null ? phone.hashCode() : 0);
+        result = 31 * result + (createdTime != null ? createdTime.hashCode() : 0);
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        return result;
     }
 }

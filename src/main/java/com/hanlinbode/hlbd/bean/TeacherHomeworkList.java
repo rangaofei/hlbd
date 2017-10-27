@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
-@JsonIgnoreProperties({"id"})
+@JsonIgnoreProperties({"id", "teacherHomeWork"})
 @Entity
-public class HomeworkQuestion {
+public class TeacherHomeworkList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -25,8 +25,16 @@ public class HomeworkQuestion {
     @Column(nullable = false)
     private int questiontypeId;
     @ManyToOne
-    @JoinColumn(name = "fk_homework_id",referencedColumnName = "homeworkId")
-    private HomeWork homeWork;
+    @JoinColumn(name = "fk_homework_id", referencedColumnName = "homeworkId")
+    private TeacherHomeWork teacherHomeWork;
+
+    public TeacherHomeWork getTeacherHomeWork() {
+        return teacherHomeWork;
+    }
+
+    public void setTeacherHomeWork(TeacherHomeWork teacherHomeWork) {
+        this.teacherHomeWork = teacherHomeWork;
+    }
 
     public int getStageId() {
         return stageId;
@@ -86,7 +94,7 @@ public class HomeworkQuestion {
 
     @Override
     public String toString() {
-        return "HomeworkQuestion{" +
+        return "TeacherHomeworkList{" +
                 "stageId=" + stageId +
                 ", xksubjectId=" + subjectId +
                 ", xkversionId=" + versionId +

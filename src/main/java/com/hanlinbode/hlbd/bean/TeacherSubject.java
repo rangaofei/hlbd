@@ -12,19 +12,19 @@ public class TeacherSubject implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)
-    private int stage_id;
+    private int stageId;
     @Column(nullable = false)
     private String stage;
     @Column(nullable = false)
-    private int subject_id;
+    private int subjectId;
     @Column(nullable = false)
     private String subject;
     @Column(nullable = false)
-    private int version_id;
+    private int versionId;
     @Column(nullable = false)
     private String version;
     @Column(nullable = false)
-    private int textbook_id;
+    private int textbookId;
     @Column(nullable = false)
     private String textbook;
     @ManyToOne
@@ -72,6 +72,38 @@ public class TeacherSubject implements Serializable {
     @JsonBackReference(value = "1")
     public void setTeacher(Teacher teacher) {
         this.teacherSubject = teacher;
+    }
+
+    public int getStageId() {
+        return stageId;
+    }
+
+    public void setStageId(int stageId) {
+        this.stageId = stageId;
+    }
+
+    public int getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(int subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public int getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(int versionId) {
+        this.versionId = versionId;
+    }
+
+    public int getTextbookId() {
+        return textbookId;
+    }
+
+    public void setTextbookId(int textbookId) {
+        this.textbookId = textbookId;
     }
 
     @Override

@@ -3,7 +3,6 @@ package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.hanlinbode.hlbd.responsebean.Token;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -11,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@JsonIgnoreProperties({"id", "role", "homeWork", "teams", "teacherSubjects", "homeWork", "token"})
+@JsonIgnoreProperties({"id", "role", "teacherHomeWorks", "teams", "teacherSubjects", "teacherHomeWorks", "token"})
 @Entity
 public class Teacher implements Serializable {
 
@@ -47,15 +46,15 @@ public class Teacher implements Serializable {
     private List<TeacherSubject> teacherSubjects;
 
     @OneToMany(mappedBy = "teacherHomeWork", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<HomeWork> homeWork;
+    private List<TeacherHomeWork> teacherHomeWorks;
 
 
-    public List<HomeWork> getHomeWork() {
-        return homeWork;
+    public List<TeacherHomeWork> getTeacherHomeWorks() {
+        return teacherHomeWorks;
     }
 
-    public void setHomeWork(List<HomeWork> homeWork) {
-        this.homeWork = homeWork;
+    public void setTeacherHomeWorks(List<TeacherHomeWork> teacherHomeWorks) {
+        this.teacherHomeWorks = teacherHomeWorks;
     }
 
     public List<TeacherSubject> getTeacherSubjects() {
@@ -145,8 +144,7 @@ public class Teacher implements Serializable {
                 ", phone='" + phone + '\'' +
                 ", createdTime=" + createdTime +
                 ", role='" + role + '\'' +
-                ", teams=" + teams +
-                ", teacherSubjects=" + teacherSubjects +
+
                 '}';
     }
 

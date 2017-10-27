@@ -1,7 +1,8 @@
 package com.hanlinbode.hlbd.dao;
 
-import com.hanlinbode.hlbd.bean.HomeWork;
+import com.hanlinbode.hlbd.bean.TeacherHomeWork;
 import com.hanlinbode.hlbd.bean.Teacher;
+import com.hanlinbode.hlbd.bean.TeacherHomeworkList;
 import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,22 +24,27 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
     private AnswerDaoImpl answerDao;
 
     @Override
-    public HomeWork createHomeWork(String teacherId, HomeWork homeWork, List<Team> teams) {
-        homeWork.setCreatedTime(new Date());
-        homeWork.setHomeworkId(UUIDUtil.generateId());
+    public TeacherHomeWork createHomeWork(String teacherId, TeacherHomeWork teacherHomeWork, List<Team> teams) {
+        teacherHomeWork.setCreatedTime(new Date());
+        teacherHomeWork.setHomeworkId(UUIDUtil.generateId());
+        for (TeacherHomeworkList tlist : teacherHomeWork.getTeacherHomeworkLists()) {
+            tlist.setTeacherHomeWork(teacherHomeWork);
+        }//保存题目列表的题目外键
+        Teacher teacher = teacherRepository.findTeacherByTeacherId(teacherId);
+        teacherHomeWork.setTeacherHomeWork(teacher);//保存老师的外键
+        //把题目发给班级
         for (Team t : teams) {
             Team team = teamRepository.findTeamByTeamId(t.getTeamId());
-            team.getHomeWorkList().add(homeWork);
-            answerDao.saveAnserByTeam(homeWork, team);
+            team.getTeacherHomeWorkList().add(teacherHomeWork);
+            answerDao.saveAnserByTeam(teacherHomeWork, team);
         }
-        Teacher teacher = teacherRepository.findTeacherByTeacherId(teacherId);
-        homeWork.setTeacherHomeWork(teacher);
-        return homeWorkRepository.save(homeWork);
+
+        return homeWorkRepository.save(teacherHomeWork);
 
     }
 
     @Override
-    public List<HomeWork> findHomeWorkByTeacherId(String teacherId) {
+    public List<TeacherHomeWork> findHomeWorkByTeacherId(String teacherId) {
         return homeWorkRepository.findHomeWorkByTeacherId(teacherId);
     }
 }

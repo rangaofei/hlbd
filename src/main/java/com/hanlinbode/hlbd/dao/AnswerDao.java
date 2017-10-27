@@ -1,12 +1,18 @@
 package com.hanlinbode.hlbd.dao;
 
-import com.hanlinbode.hlbd.bean.Answer;
-import com.hanlinbode.hlbd.bean.HomeWork;
+import com.hanlinbode.hlbd.bean.StudentAnswer;
+import com.hanlinbode.hlbd.bean.TeacherHomeWork;
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
 
-public interface AnswerDao {
-    Answer saveAnswer(HomeWork homeWork, Student student);
+import java.util.List;
 
-    Answer saveAnserByTeam(HomeWork homeWork, Team team);
+public interface AnswerDao {
+    StudentAnswer saveAnswer(TeacherHomeWork teacherHomeWork, Student student);
+
+    StudentAnswer saveAnserByTeam(TeacherHomeWork teacherHomeWork, Team team);
+
+    List<StudentAnswer> findAnswerByTeacherHomeWorkAndStudent(TeacherHomeWork teacherHomeWork, Student student);
+
+    StudentAnswer findAnswerById(String answerId);
 }

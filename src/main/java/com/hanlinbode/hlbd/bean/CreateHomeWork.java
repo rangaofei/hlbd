@@ -3,15 +3,15 @@ package com.hanlinbode.hlbd.bean;
 import java.util.List;
 
 public class CreateHomeWork {
-    private HomeWork homeWork;
+    private TeacherHomeWork teacherHomeWork;
     private List<Team> teams;
 
-    public HomeWork getHomeWork() {
-        return homeWork;
+    public TeacherHomeWork getTeacherHomeWork() {
+        return teacherHomeWork;
     }
 
-    public void setHomeWork(HomeWork homeWork) {
-        this.homeWork = homeWork;
+    public void setTeacherHomeWork(TeacherHomeWork teacherHomeWork) {
+        this.teacherHomeWork = teacherHomeWork;
     }
 
     public List<Team> getTeams() {

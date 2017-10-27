@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-@JsonIgnoreProperties({"id","teacher","students","homeWorkList"})
+@JsonIgnoreProperties({"id","teacher","students","teacherHomeWorkList"})
 @Entity
 public class Team implements Serializable {
 
@@ -35,15 +35,15 @@ public class Team implements Serializable {
     @JoinTable(name = "team_homework",
             joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "teamId")},
             inverseJoinColumns = {@JoinColumn(name = "homework_id", referencedColumnName = "homeworkId")})
-    private List<HomeWork> homeWorkList;
+    private List<TeacherHomeWork> teacherHomeWorkList;
 
 
-    public List<HomeWork> getHomeWorkList() {
-        return homeWorkList;
+    public List<TeacherHomeWork> getTeacherHomeWorkList() {
+        return teacherHomeWorkList;
     }
 
-    public void setHomeWorkList(List<HomeWork> homeWorkList) {
-        this.homeWorkList = homeWorkList;
+    public void setTeacherHomeWorkList(List<TeacherHomeWork> teacherHomeWorkList) {
+        this.teacherHomeWorkList = teacherHomeWorkList;
     }
 
     public List<Student> getStudents() {
@@ -103,7 +103,7 @@ public class Team implements Serializable {
                 ", teamName='" + teamName + '\'' +
                 ", teamIntroduction='" + teamIntroduction + '\'' +
                 ", students=" + students +
-                ", homeWorkList=" + homeWorkList +
+
                 '}';
     }
 }

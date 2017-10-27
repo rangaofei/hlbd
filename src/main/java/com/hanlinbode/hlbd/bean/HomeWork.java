@@ -1,7 +1,6 @@
 package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -45,14 +44,14 @@ public class HomeWork implements Serializable {
     private Teacher teacherHomeWork;
 
     @OneToMany(mappedBy = "homeWork", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<InfoQuestion> infoQuestions;
+    private List<HomeworkQuestion> homeworkQuestions;
 
-    public List<InfoQuestion> getInfoQuestions() {
-        return infoQuestions;
+    public List<HomeworkQuestion> getHomeworkQuestions() {
+        return homeworkQuestions;
     }
 
-    public void setInfoQuestions(List<InfoQuestion> infoQuestions) {
-        this.infoQuestions = infoQuestions;
+    public void setHomeworkQuestions(List<HomeworkQuestion> homeworkQuestions) {
+        this.homeworkQuestions = homeworkQuestions;
     }
 
     @JsonBackReference(value = "homework id")

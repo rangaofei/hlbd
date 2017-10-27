@@ -6,18 +6,18 @@ import javax.persistence.*;
 
 @JsonIgnoreProperties({"id"})
 @Entity
-public class InfoQuestion {
+public class HomeworkQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)
     private int stageId;
     @Column(nullable = false)
-    private int xksubjectId;
+    private int subjectId;
     @Column(nullable = false)
-    private int xkversionId;
+    private int versionId;
     @Column(nullable = false)
-    private int xkTextbookId;
+    private int textbookId;
     @Column(nullable = false)
     private int booknodeId;
     @Column(nullable = false)
@@ -36,28 +36,28 @@ public class InfoQuestion {
         this.stageId = stageId;
     }
 
-    public int getXksubjectId() {
-        return xksubjectId;
+    public int getSubjectId() {
+        return subjectId;
     }
 
-    public void setXksubjectId(int xksubjectId) {
-        this.xksubjectId = xksubjectId;
+    public void setSubjectId(int xksubjectId) {
+        this.subjectId = xksubjectId;
     }
 
-    public int getXkversionId() {
-        return xkversionId;
+    public int getVersionId() {
+        return versionId;
     }
 
-    public void setXkversionId(int xkversionId) {
-        this.xkversionId = xkversionId;
+    public void setVersionId(int xkversionId) {
+        this.versionId = xkversionId;
     }
 
-    public int getXkTextbookId() {
-        return xkTextbookId;
+    public int getTextbookId() {
+        return textbookId;
     }
 
-    public void setXkTextbookId(int xkTextbookId) {
-        this.xkTextbookId = xkTextbookId;
+    public void setTextbookId(int xkTextbookId) {
+        this.textbookId = xkTextbookId;
     }
 
     public int getBooknodeId() {
@@ -86,11 +86,11 @@ public class InfoQuestion {
 
     @Override
     public String toString() {
-        return "InfoQuestion{" +
+        return "HomeworkQuestion{" +
                 "stageId=" + stageId +
-                ", xksubjectId=" + xksubjectId +
-                ", xkversionId=" + xkversionId +
-                ", xkTextbookId=" + xkTextbookId +
+                ", xksubjectId=" + subjectId +
+                ", xkversionId=" + versionId +
+                ", xkTextbookId=" + textbookId +
                 ", booknodeId=" + booknodeId +
                 ", questionId=" + questionId +
                 ", questiontypeId=" + questiontypeId +

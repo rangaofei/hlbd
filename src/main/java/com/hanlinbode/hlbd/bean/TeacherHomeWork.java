@@ -1,6 +1,7 @@
 package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -26,17 +27,16 @@ public class TeacherHomeWork implements Serializable {
 
     private int totalStudent;
 
-    public int getTotalStudent() {
-        return totalStudent;
-    }
+    private int questionCount;
+    private int commitedCount;
+    private float correctRate;
+    private float difficult;
 
-    public void setTotalStudent(int totalStudent) {
-        this.totalStudent = totalStudent;
-    }
 
     @Column
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
     @Column(insertable = false, updatable = false)
     public String fk_teacher_id;
@@ -143,6 +143,38 @@ public class TeacherHomeWork implements Serializable {
         this.fk_teacher_id = teacherId;
     }
 
+    public int getQuestionCount() {
+        return questionCount;
+    }
+
+    public void setQuestionCount(int questionCount) {
+        this.questionCount = questionCount;
+    }
+
+    public int getCommitedCount() {
+        return commitedCount;
+    }
+
+    public void setCommitedCount(int commitedCount) {
+        this.commitedCount = commitedCount;
+    }
+
+    public float getCorrectRate() {
+        return correctRate;
+    }
+
+    public void setCorrectRate(float correctRate) {
+        this.correctRate = correctRate;
+    }
+
+    public float getDifficult() {
+        return difficult;
+    }
+
+    public void setDifficult(float difficult) {
+        this.difficult = difficult;
+    }
+
     @Override
     public String toString() {
         return "TeacherHomeWork{" +
@@ -151,6 +183,14 @@ public class TeacherHomeWork implements Serializable {
                 ", name='" + name + '\'' +
                 ", createdTime='" + createdTime + '\'' +
                 '}';
+    }
+
+    public int getTotalStudent() {
+        return totalStudent;
+    }
+
+    public void setTotalStudent(int totalStudent) {
+        this.totalStudent = totalStudent;
     }
 
     @Override

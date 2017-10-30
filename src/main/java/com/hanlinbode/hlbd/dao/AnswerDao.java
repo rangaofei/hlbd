@@ -15,4 +15,6 @@ public interface AnswerDao {
     List<StudentAnswer> findAnswerByTeacherHomeWorkAndStudent(TeacherHomeWork teacherHomeWork, Student student);
 
     StudentAnswer findAnswerById(String answerId);
+
+    StudentAnswer updateAnswer(StudentAnswer answer);
 }

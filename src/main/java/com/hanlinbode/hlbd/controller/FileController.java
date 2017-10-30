@@ -1,6 +1,7 @@
 package com.hanlinbode.hlbd.controller;
 
 import com.hanlinbode.hlbd.composbean.BaseBean;
+import com.hanlinbode.hlbd.util.ImageUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +14,7 @@ public class FileController {
     @ResponseBody
     public BaseBean<String> imgUpdate(@RequestParam(value = "file") MultipartFile file) {
         BaseBean<String> result = new BaseBean<>();
-        String resourceLocation = "./src/main/resources/image_upload//";
+        String resourceLocation = "d:\\test\\";
         if (file.isEmpty()) {
             result.setCode(415);
             result.setMessage("文件不能为空");
@@ -48,5 +49,10 @@ public class FileController {
 
     }
 
-
+    @RequestMapping(value = "/auth/imgupload", produces = "application/json; charset=utf-8", method = RequestMethod.POST)
+    @ResponseBody
+    public String imgUpdate(@RequestBody String base64) {
+        ImageUtils.decodeBase64ToImage(base64,"d:\\test\\","abc.jpg");
+        return "success";
+    }
 }

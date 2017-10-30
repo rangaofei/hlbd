@@ -9,4 +9,8 @@ public interface HomeWorkDao {
     TeacherHomeWork createHomeWork(String teacherId, TeacherHomeWork teacherHomeWork, List<Team> teams);
 
     List<TeacherHomeWork> findHomeWorkByTeacherId(String teacherId);
+
+    TeacherHomeWork findHomeWorkByHomeWorkId(String homeworkId);
+
+    TeacherHomeWork updateTeacherHomeWork(TeacherHomeWork teacherHomeWork);
 }

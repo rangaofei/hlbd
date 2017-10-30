@@ -26,6 +26,7 @@ public class StudentAnswerList {
     private int questiontypeId;
 
     private String answer;
+    private String answerImg;
     private String answerComment;
     private String correct;
     private String correctComment;
@@ -148,5 +149,13 @@ public class StudentAnswerList {
 
     public void setStudentAnswer(StudentAnswer studentAnswer) {
         this.studentAnswer = studentAnswer;
+    }
+
+    public String getAnswerImg() {
+        return answerImg;
+    }
+
+    public void setAnswerImg(String answerImg) {
+        this.answerImg = answerImg;
     }
 }

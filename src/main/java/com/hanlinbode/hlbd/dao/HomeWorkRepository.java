@@ -9,8 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface HomeWorkRepository extends JpaRepository<TeacherHomeWork,Long> {
+public interface HomeWorkRepository extends JpaRepository<TeacherHomeWork, Long> {
 
     @Query("select h from TeacherHomeWork h where h.fk_teacher_id=:teacher_id")
     List<TeacherHomeWork> findHomeWorkByTeacherId(@Param("teacher_id") String teacherId);
+
+    TeacherHomeWork findTeacherHomeWorkByHomeworkId(String homeworkId);
 }

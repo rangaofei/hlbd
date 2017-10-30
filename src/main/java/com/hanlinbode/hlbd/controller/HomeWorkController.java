@@ -30,9 +30,7 @@ public class HomeWorkController {
     @RequestMapping(path = "/teacher/{teacher_id}/createhomework", method = RequestMethod.POST)
     public BaseBean<TeacherHomeWork> createHomeWork(@PathVariable("teacher_id") String id, @RequestBody CreateHomeWork createHomeWork) {
         BaseBean<TeacherHomeWork> result = new BaseBean<>();
-        TeacherHomeWork teacherHomeWork = createHomeWork.getTeacherHomeWork();
-        List<Team> teams = createHomeWork.getTeams();
-        TeacherHomeWork h = homeWorkDao.createHomeWork(id, teacherHomeWork, teams);
+        TeacherHomeWork h = homeWorkDao.createHomeWork(id, createHomeWork.getTeacherHomeWork(), createHomeWork.getTeams());
         result.setCode(ConstData.POST_SUCCESS);
         result.setBody(h);
         result.setMessage("创建成功");
@@ -85,6 +83,23 @@ public class HomeWorkController {
         StudentAnswer studentAnswer = answerDao.findAnswerById(answerId);
         StudentAnswerAndList l = new StudentAnswerAndList(studentAnswer, studentAnswer.getStudentAnswerLists());
         result.setBody(l);
+        result.setMessage("获取成功");
+        result.setCode(ConstData.GET_SUCCESS);
+        return result;
+    }
+
+    @RequestMapping(path = "/student/{answer_id}/commitanswer")
+    public BaseBean<StudentAnswerAndList> commitStudentAnswer(@PathVariable("answer_id") String answerId,
+                                                              @RequestBody List<StudentAnswerList> studentAnswerList) {
+        BaseBean<StudentAnswerAndList> result = new BaseBean<>();
+        StudentAnswer studentAnswer = answerDao.findAnswerById(answerId);
+        TeacherHomeWork teacherHomeWork = homeWorkDao.findHomeWorkByHomeWorkId(studentAnswer.getFk_homework_id());
+        teacherHomeWork.setCommitedCount(teacherHomeWork.getCommitedCount() + 1);
+        homeWorkDao.updateTeacherHomeWork(teacherHomeWork);
+        studentAnswer.setStudentAnswerLists(studentAnswerList);
+        answerDao.updateAnswer(studentAnswer);
+        StudentAnswerAndList re = new StudentAnswerAndList(studentAnswer, studentAnswerList);
+        result.setBody(re);
         result.setMessage("获取成功");
         result.setCode(ConstData.GET_SUCCESS);
         return result;

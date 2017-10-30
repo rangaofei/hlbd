@@ -1,8 +1,10 @@
 package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hanlinbode.hlbd.util.UUIDUtil;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -26,7 +28,10 @@ public class StudentAnswer {
     @Column(insertable = false, updatable = false)
     private String fk_student_id;
 
-
+    @Column
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
 
     private int type;

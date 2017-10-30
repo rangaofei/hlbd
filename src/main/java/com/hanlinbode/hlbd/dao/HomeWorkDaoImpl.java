@@ -32,6 +32,7 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
         }//保存题目列表的题目外键
         Teacher teacher = teacherRepository.findTeacherByTeacherId(teacherId);
         teacherHomeWork.setTeacherHomeWork(teacher);//保存老师的外键
+        teacherHomeWork.setQuestionCount(teacherHomeWork.getTeacherHomeworkLists().size());
         int totalStudent = 0;
         //把题目发给班级
 
@@ -55,4 +56,17 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
     public List<TeacherHomeWork> findHomeWorkByTeacherId(String teacherId) {
         return homeWorkRepository.findHomeWorkByTeacherId(teacherId);
     }
+
+    @Override
+    public TeacherHomeWork findHomeWorkByHomeWorkId(String homeworkId) {
+        return homeWorkRepository.findTeacherHomeWorkByHomeworkId(homeworkId);
+    }
+
+    @Override
+    public TeacherHomeWork updateTeacherHomeWork(TeacherHomeWork teacherHomeWork) {
+
+        return homeWorkRepository.saveAndFlush(teacherHomeWork);
+    }
+
+
 }

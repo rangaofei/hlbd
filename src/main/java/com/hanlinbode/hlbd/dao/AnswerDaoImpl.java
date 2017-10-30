@@ -53,4 +53,11 @@ public class AnswerDaoImpl implements AnswerDao {
         return answerRepository.findStudentAnswerByAnswerId(answerId);
     }
 
+    @Override
+    public StudentAnswer updateAnswer(StudentAnswer answer) {
+        answer.setState(1);
+        answer.setCommitedStudentCount(answer.getCommitedStudentCount() + 1);
+        return answerRepository.saveAndFlush(answer);
+    }
+
 }

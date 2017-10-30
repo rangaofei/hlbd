@@ -1,9 +1,8 @@
-package com.hanlinbode.hlbd.responsebean;
+package com.hanlinbode.hlbd.composbean;
 
 import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.bean.TeacherSubject;
 
-import javax.security.auth.Subject;
 import java.util.List;
 
 public class TeacherAndSubject {

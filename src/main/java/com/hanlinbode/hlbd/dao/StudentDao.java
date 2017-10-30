@@ -2,8 +2,8 @@ package com.hanlinbode.hlbd.dao;
 
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
-import com.hanlinbode.hlbd.responsebean.StudentAndToken;
-import com.hanlinbode.hlbd.responsebean.Token;
+import com.hanlinbode.hlbd.composbean.StudentAndToken;
+import com.hanlinbode.hlbd.composbean.Token;
 
 import java.util.List;
 

@@ -23,6 +23,17 @@ public class TeacherHomeWork implements Serializable {
     private String name;
 
     private String subjectName;
+
+    private int totalStudent;
+
+    public int getTotalStudent() {
+        return totalStudent;
+    }
+
+    public void setTotalStudent(int totalStudent) {
+        this.totalStudent = totalStudent;
+    }
+
     @Column
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)

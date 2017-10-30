@@ -1,8 +1,8 @@
 package com.hanlinbode.hlbd.dao;
 
 import com.hanlinbode.hlbd.bean.Teacher;
-import com.hanlinbode.hlbd.responsebean.TeacherAndToken;
-import com.hanlinbode.hlbd.responsebean.Token;
+import com.hanlinbode.hlbd.composbean.TeacherAndToken;
+import com.hanlinbode.hlbd.composbean.Token;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

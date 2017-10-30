@@ -2,12 +2,14 @@ package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hanlinbode.hlbd.util.UUIDUtil;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
-@JsonIgnoreProperties({"id", "fk_homework_id", "fk_student_id", "studentAnswerLists"})
 @Entity
+@JsonIgnoreProperties({"id", "fk_homework_id", "fk_student_id", "studentAnswerLists"})
 public class StudentAnswer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,23 +26,8 @@ public class StudentAnswer {
     @Column(insertable = false, updatable = false)
     private String fk_student_id;
 
-    public String getFk_homework_id() {
-        return fk_homework_id;
-    }
 
-    public void setFk_homework_id(String homeWorkId) {
-        this.fk_homework_id = homeWorkId;
-    }
-
-    public String getFk_student_id() {
-        return fk_student_id;
-    }
-
-    public void setFk_student_id(String studentId) {
-        this.fk_student_id = studentId;
-    }
-
-    private String createdTime;
+    private Date createdTime;
 
     private int type;
     private int qustionCount;
@@ -63,6 +50,22 @@ public class StudentAnswer {
         this.studentAnswerLists = studentAnswerLists;
     }
 
+    public String getFk_homework_id() {
+        return fk_homework_id;
+    }
+
+    public void setFk_homework_id(String homeWorkId) {
+        this.fk_homework_id = homeWorkId;
+    }
+
+    public String getFk_student_id() {
+        return fk_student_id;
+    }
+
+    public void setFk_student_id(String studentId) {
+        this.fk_student_id = studentId;
+    }
+
     @JsonBackReference(value = "10")
     public TeacherHomeWork getAnswerTeacherHomeWork() {
         return answerTeacherHomeWork;
@@ -71,6 +74,18 @@ public class StudentAnswer {
     @JsonBackReference(value = "10")
     public void setAnswerTeacherHomeWork(TeacherHomeWork answerTeacherHomeWork) {
         this.answerTeacherHomeWork = answerTeacherHomeWork;
+    }
+
+
+    public void initWithHomeWork(TeacherHomeWork teacherHomeWork) {
+        this.setAnswerId(UUIDUtil.generateId());
+        this.setAnswerTeacherHomeWork(teacherHomeWork);
+        this.setAnswerName(teacherHomeWork.getName());
+        this.setType(teacherHomeWork.getType());
+        this.setSubjecName(teacherHomeWork.getSubjectName());
+        this.setCreatedTime(teacherHomeWork.getCreatedTime());
+        this.setQustionCount(teacherHomeWork.getTeacherHomeworkLists().size());
+        this.setStudentCount(teacherHomeWork.getTotalStudent());
     }
 
 
@@ -109,24 +124,14 @@ public class StudentAnswer {
         this.student = student;
     }
 
-    public String getCreatedTime() {
+    public Date getCreatedTime() {
         return createdTime;
     }
 
-    public void setCreatedTime(String createdTime) {
+    public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
     }
 
-    @Override
-    public String toString() {
-        return "Answers{" +
-                "id=" + id +
-                ", AnswerId='" + answerId + '\'' +
-                ", answerName='" + answerName + '\'' +
-                ", student=" + student +
-                ", createdTime='" + createdTime + '\'' +
-                '}';
-    }
 
     public int getType() {
         return type;
@@ -135,7 +140,6 @@ public class StudentAnswer {
     public void setType(int type) {
         this.type = type;
     }
-
 
     public float getCorrectRate() {
         return correctRate;
@@ -183,5 +187,16 @@ public class StudentAnswer {
 
     public void setCommitedStudentCount(int commitedStudentCount) {
         this.commitedStudentCount = commitedStudentCount;
+    }
+
+    @Override
+    public String toString() {
+        return "Answers{" +
+                "id=" + id +
+                ", AnswerId='" + answerId + '\'' +
+                ", answerName='" + answerName + '\'' +
+                ", student=" + student +
+                ", createdTime='" + createdTime + '\'' +
+                '}';
     }
 }

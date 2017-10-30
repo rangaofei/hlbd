@@ -6,19 +6,16 @@ import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.dao.StudentDao;
 import com.hanlinbode.hlbd.dao.TeacherDao;
 import com.hanlinbode.hlbd.dao.TeacherSubjectDao;
-import com.hanlinbode.hlbd.responsebean.BaseBean;
-import com.hanlinbode.hlbd.responsebean.StudentAndToken;
-import com.hanlinbode.hlbd.responsebean.TeacherAndToken;
-import com.hanlinbode.hlbd.responsebean.Token;
+import com.hanlinbode.hlbd.composbean.BaseBean;
+import com.hanlinbode.hlbd.composbean.StudentAndToken;
+import com.hanlinbode.hlbd.composbean.TeacherAndToken;
+import com.hanlinbode.hlbd.composbean.Token;
 import com.hanlinbode.hlbd.util.JWTUtil;
-import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Date;
 
 @RestController
 public class AuthController {

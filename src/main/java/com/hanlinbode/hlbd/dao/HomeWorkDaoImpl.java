@@ -32,13 +32,21 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
         }//保存题目列表的题目外键
         Teacher teacher = teacherRepository.findTeacherByTeacherId(teacherId);
         teacherHomeWork.setTeacherHomeWork(teacher);//保存老师的外键
+        int totalStudent = 0;
         //把题目发给班级
+
+        for (Team m : teams) {
+            Team team = teamRepository.findTeamByTeamId(m.getTeamId());
+            totalStudent += team.getTeamColumn();
+        }
+        teacherHomeWork.setTotalStudent(totalStudent);
+
         for (Team t : teams) {
             Team team = teamRepository.findTeamByTeamId(t.getTeamId());
             team.getTeacherHomeWorkList().add(teacherHomeWork);
             answerDao.saveAnserByTeam(teacherHomeWork, team);
-        }
 
+        }
         return homeWorkRepository.save(teacherHomeWork);
 
     }

@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
-@JsonIgnoreProperties({"id","teacher","students","teacherHomeWorkList"})
+
+@JsonIgnoreProperties({"id", "teacher", "students", "teacherHomeWorkList"})
 @Entity
 public class Team implements Serializable {
 
@@ -21,6 +22,8 @@ public class Team implements Serializable {
 
     @Column(nullable = false)
     private String teamIntroduction;
+
+    private int teamColumn;
 
     @ManyToOne
     @JoinColumn(name = "teacher_id", referencedColumnName = "teacherId")
@@ -93,6 +96,14 @@ public class Team implements Serializable {
 
     public void setTeacher(Teacher teacher) {
         this.teacherTeam = teacher;
+    }
+
+    public int getTeamColumn() {
+        return teamColumn;
+    }
+
+    public void setTeamColumn(int teamColumn) {
+        this.teamColumn = teamColumn;
     }
 
     @Override

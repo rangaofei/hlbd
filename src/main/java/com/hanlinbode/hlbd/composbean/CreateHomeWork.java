@@ -1,4 +1,7 @@
-package com.hanlinbode.hlbd.bean;
+package com.hanlinbode.hlbd.composbean;
+
+import com.hanlinbode.hlbd.bean.TeacherHomeWork;
+import com.hanlinbode.hlbd.bean.Team;
 
 import java.util.List;
 

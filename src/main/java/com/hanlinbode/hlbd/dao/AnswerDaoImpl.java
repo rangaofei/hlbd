@@ -26,11 +26,8 @@ public class AnswerDaoImpl implements AnswerDao {
     public StudentAnswer saveAnserByTeam(TeacherHomeWork teacherHomeWork, Team team) {
         for (Student s : team.getStudents()) {
             StudentAnswer studentAnswer = new StudentAnswer();
-            studentAnswer.setAnswerTeacherHomeWork(teacherHomeWork);
-            studentAnswer.setAnswerId(UUIDUtil.generateId());
-            studentAnswer.setAnswerName(teacherHomeWork.getName());
+            studentAnswer.initWithHomeWork(teacherHomeWork);
             studentAnswer.setStudent(s);
-            studentAnswer.setType(teacherHomeWork.getType());
             List<StudentAnswerList> re = new ArrayList<>();
             for (TeacherHomeworkList ts : teacherHomeWork.getTeacherHomeworkLists()) {
                 StudentAnswerList studentAnswerList = new StudentAnswerList(ts);

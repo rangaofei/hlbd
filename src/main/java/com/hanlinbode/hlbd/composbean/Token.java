@@ -1,10 +1,7 @@
-package com.hanlinbode.hlbd.responsebean;
+package com.hanlinbode.hlbd.composbean;
 
-import com.google.gson.Gson;
 import com.hanlinbode.hlbd.ConstData;
 import com.hanlinbode.hlbd.util.JWTUtil;
-
-import javax.json.JsonObject;
 
 public class Token {
     private String accessToken;

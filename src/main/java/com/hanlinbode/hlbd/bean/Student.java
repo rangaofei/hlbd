@@ -8,8 +8,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-@JsonIgnoreProperties({"id","role","studentAnswers","teamList"})
+
 @Entity
+@JsonIgnoreProperties({"id", "role", "studentAnswers", "teamList"})
 public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

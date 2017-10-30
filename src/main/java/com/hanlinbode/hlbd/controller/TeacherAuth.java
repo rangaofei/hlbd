@@ -1,8 +1,8 @@
 package com.hanlinbode.hlbd.controller;
 
 import com.hanlinbode.hlbd.ConstData;
-import com.hanlinbode.hlbd.responsebean.BaseBean;
-import com.hanlinbode.hlbd.responsebean.TeacherAndSubject;
+import com.hanlinbode.hlbd.composbean.BaseBean;
+import com.hanlinbode.hlbd.composbean.TeacherAndSubject;
 import com.hanlinbode.hlbd.bean.TeacherSubject;
 import com.hanlinbode.hlbd.dao.TeacherDao;
 import com.hanlinbode.hlbd.dao.TeacherSubjectDao;

@@ -2,9 +2,10 @@ package com.hanlinbode.hlbd.controller;
 
 import com.hanlinbode.hlbd.ConstData;
 import com.hanlinbode.hlbd.bean.*;
+import com.hanlinbode.hlbd.composbean.CreateHomeWork;
 import com.hanlinbode.hlbd.dao.*;
-import com.hanlinbode.hlbd.responsebean.BaseBean;
-import com.hanlinbode.hlbd.responsebean.StudentAnswerAndList;
+import com.hanlinbode.hlbd.composbean.BaseBean;
+import com.hanlinbode.hlbd.composbean.StudentAnswerAndList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

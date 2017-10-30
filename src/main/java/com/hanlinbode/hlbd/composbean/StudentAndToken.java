@@ -1,4 +1,4 @@
-package com.hanlinbode.hlbd.responsebean;
+package com.hanlinbode.hlbd.composbean;
 
 import com.hanlinbode.hlbd.bean.Student;
 

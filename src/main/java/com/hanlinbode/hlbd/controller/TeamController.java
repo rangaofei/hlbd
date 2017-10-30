@@ -1,9 +1,8 @@
 package com.hanlinbode.hlbd.controller;
 
 import com.hanlinbode.hlbd.ConstData;
-import com.hanlinbode.hlbd.responsebean.BaseBean;
+import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.bean.Student;
-import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.dao.StudentDao;
 import com.hanlinbode.hlbd.dao.TeacherDao;
@@ -11,7 +10,6 @@ import com.hanlinbode.hlbd.dao.TeamDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.TabExpander;
 import java.util.List;
 
 @RestController

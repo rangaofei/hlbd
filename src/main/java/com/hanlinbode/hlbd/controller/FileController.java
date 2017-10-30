@@ -1,6 +1,6 @@
 package com.hanlinbode.hlbd.controller;
 
-import com.hanlinbode.hlbd.responsebean.BaseBean;
+import com.hanlinbode.hlbd.composbean.BaseBean;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,7 +13,7 @@ public class FileController {
     @ResponseBody
     public BaseBean<String> imgUpdate(@RequestParam(value = "file") MultipartFile file) {
         BaseBean<String> result = new BaseBean<>();
-        String resourceLocation = "d://test//";
+        String resourceLocation = "./src/main/resources/image_upload//";
         if (file.isEmpty()) {
             result.setCode(415);
             result.setMessage("文件不能为空");

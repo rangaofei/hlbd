@@ -2,8 +2,8 @@ package com.hanlinbode.hlbd.dao;
 
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
-import com.hanlinbode.hlbd.responsebean.StudentAndToken;
-import com.hanlinbode.hlbd.responsebean.Token;
+import com.hanlinbode.hlbd.composbean.StudentAndToken;
+import com.hanlinbode.hlbd.composbean.Token;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -62,6 +62,8 @@ public class StudentDaoImpl implements StudentDao {
         }
         student.getTeamList().add(team);
         studentRepository.save(student);
+        team.setTeamColumn(team.getStudents().size());
+        teamRepository.save(team);
         return team;
     }
 

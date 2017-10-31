@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
-@JsonIgnoreProperties({"studentAnswer"})
+@JsonIgnoreProperties({"studentAnswer", "awaitCorrect"})
 @Entity
-public class StudentAnswerList {
+public class StudentAnswerQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -32,21 +32,57 @@ public class StudentAnswerList {
     private String correct;
     private String correctComment;
 
-    @ManyToOne
-    private StudentAnswer studentAnswer;
+    private boolean awaitCorrect;
+    private String studentId;
+    private int teacherHomeworkQuestionId;
+    private String answerId;
 
-    public StudentAnswerList() {
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public String getAnswerId() {
+        return answerId;
+    }
+
+    public void setAnswerId(String answerId) {
+        this.answerId = answerId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public int getTeacherHomeworkQuestionId() {
+        return teacherHomeworkQuestionId;
+    }
+
+    public void setTeacherHomeworkQuestionId(int teacherHomeworkQuestionId) {
+        this.teacherHomeworkQuestionId = teacherHomeworkQuestionId;
+    }
+
+    public boolean isAwaitCorrect() {
+        return awaitCorrect;
+    }
+
+    public void setAwaitCorrect(boolean awaitCorrect) {
+        this.awaitCorrect = awaitCorrect;
     }
 
 
-    public StudentAnswerList(TeacherHomeworkList teacherHomeworkList) {
-        this.stageId = teacherHomeworkList.getStageId();
-        this.subjectId = teacherHomeworkList.getSubjectId();
-        this.versionId = teacherHomeworkList.getVersionId();
-        this.textbookId = teacherHomeworkList.getTextbookId();
-        this.booknodeId = teacherHomeworkList.getBooknodeId();
-        this.questionId = teacherHomeworkList.getQuestionId();
-        this.questiontypeId = teacherHomeworkList.getQuestiontypeId();
+    public StudentAnswerQuestion() {
+    }
+
+
+    public StudentAnswerQuestion(TeacherHomeworkQuestion teacherHomeworkQuestion) {
+        this.stageId = teacherHomeworkQuestion.getStageId();
+        this.subjectId = teacherHomeworkQuestion.getSubjectId();
+        this.versionId = teacherHomeworkQuestion.getVersionId();
+        this.textbookId = teacherHomeworkQuestion.getTextbookId();
+        this.booknodeId = teacherHomeworkQuestion.getBooknodeId();
+        this.questionId = teacherHomeworkQuestion.getQuestionId();
+        this.questiontypeId = teacherHomeworkQuestion.getQuestiontypeId();
+        this.teacherHomeworkQuestionId = teacherHomeworkQuestion.getId();
     }
 
     public int getId() {
@@ -113,9 +149,6 @@ public class StudentAnswerList {
         this.questiontypeId = questiontypeId;
     }
 
-    public StudentAnswer getStudentAnswer() {
-        return studentAnswer;
-    }
 
     public String getAnswer() {
         return answer;
@@ -149,9 +182,6 @@ public class StudentAnswerList {
         this.correctComment = correctComment;
     }
 
-    public void setStudentAnswer(StudentAnswer studentAnswer) {
-        this.studentAnswer = studentAnswer;
-    }
 
     public String getAnswerImg() {
         return answerImg;

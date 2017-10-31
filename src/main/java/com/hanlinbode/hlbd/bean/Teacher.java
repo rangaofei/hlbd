@@ -39,31 +39,6 @@ public class Teacher implements Serializable {
     @Column(nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "teacherTeam", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Team> teams;
-
-    @OneToMany(mappedBy = "teacherSubject", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<TeacherSubject> teacherSubjects;
-
-    @OneToMany(mappedBy = "teacherHomeWork", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<TeacherHomeWork> teacherHomeWorks;
-
-
-    public List<TeacherHomeWork> getTeacherHomeWorks() {
-        return teacherHomeWorks;
-    }
-
-    public void setTeacherHomeWorks(List<TeacherHomeWork> teacherHomeWorks) {
-        this.teacherHomeWorks = teacherHomeWorks;
-    }
-
-    public List<TeacherSubject> getTeacherSubjects() {
-        return teacherSubjects;
-    }
-
-    public void setTeacherSubjects(List<TeacherSubject> teacherSubjects) {
-        this.teacherSubjects = teacherSubjects;
-    }
 
     public Teacher() {
         role = "T";
@@ -125,14 +100,6 @@ public class Teacher implements Serializable {
         this.role = role;
     }
 
-
-    public List<Team> getTeams() {
-        return teams;
-    }
-
-    public void setTeams(List<Team> teams) {
-        this.teams = teams;
-    }
 
     @Override
     public String toString() {

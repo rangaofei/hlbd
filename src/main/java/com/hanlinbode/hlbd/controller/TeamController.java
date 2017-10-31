@@ -34,7 +34,7 @@ public class TeamController {
     public BaseBean<List<Team>> getTeacherClasses(@PathVariable("teacher_id") String id) {
         System.out.println(id);
         BaseBean<List<Team>> listBaseBean = new BaseBean<>();
-        List<Team> teamList = teacherDao.findTeacherByTeacherId(id).getTeams();
+        List<Team> teamList = teamDao.findTeamsByteacherId(id);
         if (teamList.size() < 1) {
             listBaseBean.setCode(ConstData.NO_RESULT);
             listBaseBean.setBody(null);

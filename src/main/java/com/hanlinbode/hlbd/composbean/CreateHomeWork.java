@@ -1,20 +1,20 @@
 package com.hanlinbode.hlbd.composbean;
 
-import com.hanlinbode.hlbd.bean.TeacherHomeWork;
+import com.hanlinbode.hlbd.bean.TeacherHomework;
 import com.hanlinbode.hlbd.bean.Team;
 
 import java.util.List;
 
 public class CreateHomeWork {
-    private TeacherHomeWork teacherHomeWork;
+    private TeacherHomework teacherHomework;
     private List<Team> teams;
 
-    public TeacherHomeWork getTeacherHomeWork() {
-        return teacherHomeWork;
+    public TeacherHomework getTeacherHomework() {
+        return teacherHomework;
     }
 
-    public void setTeacherHomeWork(TeacherHomeWork teacherHomeWork) {
-        this.teacherHomeWork = teacherHomeWork;
+    public void setTeacherHomework(TeacherHomework teacherHomework) {
+        this.teacherHomework = teacherHomework;
     }
 
     public List<Team> getTeams() {

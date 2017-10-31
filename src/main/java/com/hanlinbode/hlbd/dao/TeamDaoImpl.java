@@ -12,8 +12,6 @@ import java.util.List;
 public class TeamDaoImpl implements TeamDao {
     @Autowired
     private TeamRepository teamRepository;
-    @Autowired
-    private TeacherRepository teacherRepository;
 
 
     @Override
@@ -33,13 +31,15 @@ public class TeamDaoImpl implements TeamDao {
 
     @Override
     public Team saveTeamByTeacher(String teacherId, Team team) {
-        Teacher teacher = teacherRepository.findTeacherByTeacherId(teacherId);
-        team.setTeacher(teacher);
+        team.setTeacherId(teacherId);
         team.setTeamId(UUIDUtil.generatedTeamId());
-//        teacher.getTeams().add(team);
-//        return teacherRepository.save(teacher);
         return teamRepository.save(team);
 
+    }
+
+    @Override
+    public List<Team> findTeamsByteacherId(String teacherId) {
+        return teamRepository.findTeamsByTeacherId(teacherId);
     }
 
 }

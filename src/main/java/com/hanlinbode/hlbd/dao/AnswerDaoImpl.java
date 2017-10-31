@@ -1,7 +1,6 @@
 package com.hanlinbode.hlbd.dao;
 
 import com.hanlinbode.hlbd.bean.*;
-import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,39 +13,43 @@ public class AnswerDaoImpl implements AnswerDao {
     private AnswerRepository answerRepository;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private AnswerQuestionRepository answerQuestionRepository;
 
     @Override
-    public StudentAnswer saveAnswer(TeacherHomeWork teacherHomeWork, Student student) {
+    public StudentAnswer saveAnswer(TeacherHomework teacherHomework, Student student) {
         StudentAnswer studentAnswer = new StudentAnswer();
-//        studentAnswer.setAnswerTeacherHomeWork(teacherHomeWork);
-        studentAnswer.setStudent(student);
+//        studentAnswer.setAnswerTeacherHomework(teacherHomework);
+//        studentAnswer.setStudent(student);
         answerRepository.save(studentAnswer);
         return null;
     }
 
     @Override
-    public StudentAnswer saveAnserByTeam(TeacherHomeWork teacherHomeWork, Team team) {
+    public StudentAnswer saveAnserByTeam(TeacherHomework teacherHomework, Team team) {
         for (Student s : team.getStudents()) {
             StudentAnswer studentAnswer = new StudentAnswer();
-            studentAnswer.initWithHomeWork(teacherHomeWork);
-            studentAnswer.setStudent(s);
-            List<StudentAnswerList> re = new ArrayList<>();
-            for (TeacherHomeworkList ts : teacherHomeWork.getTeacherHomeworkLists()) {
-                StudentAnswerList studentAnswerList = new StudentAnswerList(ts);
-                re.add(studentAnswerList);
+            studentAnswer.initWithHomeWork(teacherHomework);
+            studentAnswer.setStudentId(s.getStudentId());
+            studentAnswer.setStudentName(s.getName());
+            studentAnswer.setTeamId(team.getTeamId());
+            List<StudentAnswerQuestion> re = new ArrayList<>();
+            for (TeacherHomeworkQuestion ts : teacherHomework.getTeacherHomeworkQuestions()) {
+                StudentAnswerQuestion studentAnswerQuestion = new StudentAnswerQuestion(ts);
+                studentAnswerQuestion.setStudentId(s.getStudentId());
+                studentAnswerQuestion.setAnswerId(studentAnswer.getAnswerId());
+                re.add(studentAnswerQuestion);
             }
+            answerQuestionRepository.save(re);
             studentAnswer.setStudentAnswerLists(re);
-            for (StudentAnswerList sList : studentAnswer.getStudentAnswerLists()) {
-                sList.setStudentAnswer(studentAnswer);
-            }
             answerRepository.save(studentAnswer);
         }
         return null;
     }
 
     @Override
-    public List<StudentAnswer> findAnswerByTeacherHomeWorkAndStudent(TeacherHomeWork teacherHomeWork, Student student) {
-        return answerRepository.findAnswerByhomeworkAndStudent(teacherHomeWork.getHomeworkId(), student.getStudentId());
+    public List<StudentAnswer> findAnswerByTeacherHomeWorkAndStudent(TeacherHomework teacherHomework, Student student) {
+        return answerRepository.findAnswerByhomeworkAndStudent(teacherHomework.getHomeworkId(), student.getStudentId());
 
     }
 
@@ -58,15 +61,7 @@ public class AnswerDaoImpl implements AnswerDao {
     @Override
     public StudentAnswer updateAnswer(StudentAnswer answer) {
         answer.setState(1);
-        for (StudentAnswerList list : answer.getStudentAnswerLists()) {
-            if (list.getQuestiontypeId() == 2) {
-                if (list.getAnswer().equals(questionRepository.findQuestionById(list.getQuestionId()))) {
-                    list.setScore(100);
-                } else {
-                    list.setScore(0);
-                }
-            }
-        }
+
         return answerRepository.saveAndFlush(answer);
     }
 

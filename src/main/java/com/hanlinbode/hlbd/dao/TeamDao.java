@@ -14,5 +14,6 @@ public interface TeamDao {
 
     Team saveTeamByTeacher(String teacherId, Team team);
 
+    List<Team> findTeamsByteacherId(String teacherId);
 
 }

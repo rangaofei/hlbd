@@ -11,20 +11,18 @@ spring:
   jpa:
    hibernate:
      ddl-auto: update
-#  mail:
-#    host: smtp.126.com
-#    username: rangaofei085@126.com
-#    password: rangaofei123
-#    default-encoding: UTF-8
+
   data:
     jpa:
       repositories:
         enabled: true
   logging:
+    config: logback.xml
     level:
       org.springframework:
         data: DEBUG
         security: DEBUG
+
 jwt:
   header: Authorization
   secret: mySecret
@@ -36,11 +34,3 @@ jwt:
       path: auth
       refresh: refresh
       register: "auth/register"
-
-
-springfox.documentation.swagger.v2.path: /auth/api-docs
-#springfox.documentation.swagger.v2.host=test
-custom:
-  resourceLocationProtocol: file://
-  resourceLocation: /usr/local/upload/
-  tmpLocation: /usr/local/upload/tmp/

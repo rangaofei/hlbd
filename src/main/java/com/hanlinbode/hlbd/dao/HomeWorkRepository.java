@@ -1,6 +1,6 @@
 package com.hanlinbode.hlbd.dao;
 
-import com.hanlinbode.hlbd.bean.TeacherHomeWork;
+import com.hanlinbode.hlbd.bean.TeacherHomework;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface HomeWorkRepository extends JpaRepository<TeacherHomeWork, Long> {
+public interface HomeWorkRepository extends JpaRepository<TeacherHomework, Long> {
 
-    @Query("select h from TeacherHomeWork h where h.fk_teacher_id=:teacher_id")
-    List<TeacherHomeWork> findHomeWorkByTeacherId(@Param("teacher_id") String teacherId);
+    @Query("select h from TeacherHomework h where h.teacherId=:teacher_id")
+    List<TeacherHomework> findHomeWorkByTeacherId(@Param("teacher_id") String teacherId);
 
-    TeacherHomeWork findTeacherHomeWorkByHomeworkId(String homeworkId);
+    TeacherHomework findTeacherHomeWorkByHomeworkId(String homeworkId);
 }

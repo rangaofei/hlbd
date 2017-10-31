@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @JsonIgnoreProperties({"id", "teacherHomeWork"})
 @Entity
-public class TeacherHomeworkList {
+public class TeacherHomeworkQuestion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -24,16 +24,27 @@ public class TeacherHomeworkList {
     private int questionId;//答案选项用的此id
     @Column(nullable = false)
     private int questiontypeId;
-    @ManyToOne
-    @JoinColumn(name = "fk_homework_id", referencedColumnName = "homeworkId")
-    private TeacherHomeWork teacherHomeWork;
 
-    public TeacherHomeWork getTeacherHomeWork() {
-        return teacherHomeWork;
+    private int correctRate;
+
+    private boolean awaitCorrect;
+
+    public int getId() {
+        return id;
     }
 
-    public void setTeacherHomeWork(TeacherHomeWork teacherHomeWork) {
-        this.teacherHomeWork = teacherHomeWork;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private String teacherHomeworkId;
+
+    public String getTeacherHomeworkId() {
+        return teacherHomeworkId;
+    }
+
+    public void setTeacherHomeworkId(String teacherHomeworkId) {
+        this.teacherHomeworkId = teacherHomeworkId;
     }
 
     public int getStageId() {
@@ -88,13 +99,29 @@ public class TeacherHomeworkList {
         return questiontypeId;
     }
 
+    public boolean isAwaitCorrect() {
+        return awaitCorrect;
+    }
+
+    public int getCorrectRate() {
+        return correctRate;
+    }
+
+    public void setCorrectRate(int correctRate) {
+        this.correctRate = correctRate;
+    }
+
+    public void setAwaitCorrect(boolean awaitCorrect) {
+        this.awaitCorrect = awaitCorrect;
+    }
+
     public void setQuestiontypeId(int questiontypeId) {
         this.questiontypeId = questiontypeId;
     }
 
     @Override
     public String toString() {
-        return "TeacherHomeworkList{" +
+        return "TeacherHomeworkQuestion{" +
                 "stageId=" + stageId +
                 ", xksubjectId=" + subjectId +
                 ", xkversionId=" + versionId +

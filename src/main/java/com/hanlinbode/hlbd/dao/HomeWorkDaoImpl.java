@@ -21,58 +21,59 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
     private AnswerDaoImpl answerDao;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private HomeworkQuestionRepository homeworkQuestionRepository;
 
     @Override
-    public TeacherHomeWork createHomeWork(String teacherId, TeacherHomeWork teacherHomeWork, List<Team> teams) {
-        teacherHomeWork.setCreatedTime(new Date());
-        teacherHomeWork.setHomeworkId(UUIDUtil.generateId());
-        for (TeacherHomeworkList tlist : teacherHomeWork.getTeacherHomeworkLists()) {
-            tlist.setTeacherHomeWork(teacherHomeWork);
-        }//保存题目列表的题目外键
+    public TeacherHomework createHomeWork(String teacherId, TeacherHomework teacherHomework, List<Team> teams) {
+        teacherHomework.setCreatedTime(new Date());
+        teacherHomework.setHomeworkId(UUIDUtil.generateId());
         Teacher teacher = teacherRepository.findTeacherByTeacherId(teacherId);
-        teacherHomeWork.setTeacherHomeWork(teacher);//保存老师的外键
-        teacherHomeWork.setQuestionCount(teacherHomeWork.getTeacherHomeworkLists().size());
-        float sum = 0;
-        for (TeacherHomeworkList list : teacherHomeWork.getTeacherHomeworkLists()) {
-            Question question = questionRepository.findQuestionById(list.getQuestionId());
-            sum += question.getDifficult();
-        }
-        System.out.println("总难度"+sum);
-        teacherHomeWork.setDifficult(sum / teacherHomeWork.getTeacherHomeworkLists().size());
+        teacherHomework.setTeacherId(teacherId);
+        teacherHomework.setQuestionCount(teacherHomework.getTeacherHomeworkQuestions().size());
+        for (TeacherHomeworkQuestion tlist : teacherHomework.getTeacherHomeworkQuestions()) {
+            tlist.setTeacherHomeworkId(teacherHomework.getHomeworkId());
+        }//保存题目列表的题目外键
+        homeworkQuestionRepository.save(teacherHomework.getTeacherHomeworkQuestions());
+        teacherHomework.setDifficult(calucateDifficult(teacherHomework.getTeacherHomeworkQuestions()));
         int totalStudent = 0;
-        //把题目发给班级
-
         for (Team m : teams) {
             Team team = teamRepository.findTeamByTeamId(m.getTeamId());
             totalStudent += team.getTeamColumn();
         }
-        teacherHomeWork.setTotalStudent(totalStudent);
+        teacherHomework.setTotalStudent(totalStudent);
 
         for (Team t : teams) {
             Team team = teamRepository.findTeamByTeamId(t.getTeamId());
-            team.getTeacherHomeWorkList().add(teacherHomeWork);
-            answerDao.saveAnserByTeam(teacherHomeWork, team);
-
+            team.getTeacherHomeworkList().add(teacherHomework);
+            answerDao.saveAnserByTeam(teacherHomework, team);
         }
-        return homeWorkRepository.save(teacherHomeWork);
+        return homeWorkRepository.save(teacherHomework);
 
     }
 
     @Override
-    public List<TeacherHomeWork> findHomeWorkByTeacherId(String teacherId) {
+    public List<TeacherHomework> findHomeWorkByTeacherId(String teacherId) {
         return homeWorkRepository.findHomeWorkByTeacherId(teacherId);
     }
 
     @Override
-    public TeacherHomeWork findHomeWorkByHomeWorkId(String homeworkId) {
+    public TeacherHomework findHomeWorkByHomeWorkId(String homeworkId) {
         return homeWorkRepository.findTeacherHomeWorkByHomeworkId(homeworkId);
     }
 
     @Override
-    public TeacherHomeWork updateTeacherHomeWork(TeacherHomeWork teacherHomeWork) {
+    public TeacherHomework updateTeacherHomeWork(TeacherHomework teacherHomework) {
 
-        return homeWorkRepository.saveAndFlush(teacherHomeWork);
+        return homeWorkRepository.saveAndFlush(teacherHomework);
     }
 
-
+    public float calucateDifficult(List<TeacherHomeworkQuestion> questionList) {
+        float sum = 0F;
+        for (TeacherHomeworkQuestion question : questionList) {
+            Question q = questionRepository.findQuestionById(question.getQuestionId());
+            sum += q.getDifficult();
+        }
+        return sum / questionList.size();
+    }
 }

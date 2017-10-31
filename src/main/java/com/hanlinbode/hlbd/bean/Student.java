@@ -37,9 +37,6 @@ public class Student implements Serializable {
     @Column(nullable = false)
     private String role;
 
-    @OneToMany(mappedBy = "student", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<StudentAnswer> studentAnswers;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "team_student",
             joinColumns = {@JoinColumn(name = "student_id", referencedColumnName = "studentId")},

@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 
 @RestController
 public class TeacherAuth {
+    private Logger logger = Logger.getLogger(this.getClass().getName());
     @Autowired
     private TeacherDao teacherDao;
     @Autowired
@@ -27,7 +29,6 @@ public class TeacherAuth {
 
     @RequestMapping(value = "teacher/{teacher_id}/setsubject", method = RequestMethod.POST)
     public BaseBean<List<TeacherSubject>> setSubject(@PathVariable("teacher_id") String id, @RequestBody List<TeacherSubject> teacherSubjects) {
-        System.out.println(teacherSubjects.get(0).toString());
         List<TeacherSubject> teacherSubject = teacherSubjectDao.saveTeacherSubject(id, teacherSubjects);
         BaseBean<List<TeacherSubject>> result = new BaseBean<>();
         result.setMessage("保存成功");
@@ -38,7 +39,6 @@ public class TeacherAuth {
 
     @RequestMapping(value = "teacher/{teacher_id}/getsubject", method = RequestMethod.GET)
     public BaseBean<TeacherAndSubject> getSubject(@PathVariable("teacher_id") String id) {
-        System.out.println("id=" + id);
         BaseBean<TeacherAndSubject> result = new BaseBean<>();
         TeacherAndSubject teacherAndSubject = new TeacherAndSubject();
         List<TeacherSubject> teacherSubjectList = teacherSubjectDao.findSubjectsByTeacherId(id);

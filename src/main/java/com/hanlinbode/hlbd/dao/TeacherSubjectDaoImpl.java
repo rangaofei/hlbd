@@ -18,19 +18,18 @@ public class TeacherSubjectDaoImpl implements TeacherSubjectDao {
     @Override
     public List<TeacherSubject> findSubjectsByTeacherId(String teacherId) {
 
-        return teacherRepository.findTeacherByTeacherId(teacherId).getTeacherSubjects();
+        return teacherSubjectRepository.findTeacherSubjectsByTeacherId(teacherId);
     }
 
     @Override
     public List<TeacherSubject> saveTeacherSubject(String id, List<TeacherSubject> teacherSubjects) {
-        Teacher teacher = teacherRepository.findTeacherByTeacherId(id);
-        for (TeacherSubject teacherSubject : teacherSubjects) {
-            teacherSubject.setTeacher(teacher);
+        for (TeacherSubject t : teacherSubjects) {
+            t.setTeacherId(id);
         }
-        teacherSubjects.removeAll(teacher.getTeacherSubjects());
-        teacher.getTeacherSubjects().addAll(teacherSubjects);
-        Teacher t = teacherRepository.save(teacher);
-        return t.getTeacherSubjects();
+        List<TeacherSubject> teacherSubjectList = findSubjectsByTeacherId(id);
+        teacherSubjects.removeAll(teacherSubjectList);
+        teacherSubjectRepository.save(teacherSubjects);
+        return findSubjectsByTeacherId(id);
     }
 
 

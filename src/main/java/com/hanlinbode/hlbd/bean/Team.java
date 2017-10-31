@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
-@JsonIgnoreProperties({"id", "teacher", "students", "teacherHomeWorkList"})
+@JsonIgnoreProperties({"id", "teacher", "students", "teacherHomeworkList"})
 @Entity
 public class Team implements Serializable {
 
@@ -24,10 +24,7 @@ public class Team implements Serializable {
     private String teamIntroduction;
 
     private int teamColumn;
-
-    @ManyToOne
-    @JoinColumn(name = "teacher_id", referencedColumnName = "teacherId")
-    private Teacher teacherTeam;
+    private String teacherId;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "team_student",
@@ -38,15 +35,15 @@ public class Team implements Serializable {
     @JoinTable(name = "team_homework",
             joinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "teamId")},
             inverseJoinColumns = {@JoinColumn(name = "homework_id", referencedColumnName = "homeworkId")})
-    private List<TeacherHomeWork> teacherHomeWorkList;
+    private List<TeacherHomework> teacherHomeworkList;
 
 
-    public List<TeacherHomeWork> getTeacherHomeWorkList() {
-        return teacherHomeWorkList;
+    public List<TeacherHomework> getTeacherHomeworkList() {
+        return teacherHomeworkList;
     }
 
-    public void setTeacherHomeWorkList(List<TeacherHomeWork> teacherHomeWorkList) {
-        this.teacherHomeWorkList = teacherHomeWorkList;
+    public void setTeacherHomeworkList(List<TeacherHomework> teacherHomeworkList) {
+        this.teacherHomeworkList = teacherHomeworkList;
     }
 
     public List<Student> getStudents() {
@@ -89,13 +86,12 @@ public class Team implements Serializable {
         this.teamIntroduction = teamIntroduction;
     }
 
-
-    public Teacher getTeacher() {
-        return teacherTeam;
+    public String getTeacherId() {
+        return teacherId;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacherTeam = teacher;
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
     }
 
     public int getTeamColumn() {

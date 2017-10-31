@@ -10,9 +10,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@JsonIgnoreProperties({"id", "fk_teacher_id", "teamList", "teacher"})
+@JsonIgnoreProperties({"id", "teamList", "teacher"})
 @Entity
-public class TeacherHomeWork implements Serializable {
+public class TeacherHomework implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -32,38 +32,38 @@ public class TeacherHomeWork implements Serializable {
     private float correctRate;
     private float difficult;
 
+    private boolean awaitCorrect;
+    private String teacherId;
 
     @Column
     @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createdTime;
-    @Column(insertable = false, updatable = false)
-    public String fk_teacher_id;
 
-    @OneToMany(mappedBy = "answerTeacherHomeWork", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<StudentAnswer> studentAnswers;
 
+    public String getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(String teacherId) {
+        this.teacherId = teacherId;
+    }
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "team_homework",
             joinColumns = {@JoinColumn(name = "homework_id", referencedColumnName = "homeworkId")},
             inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "teamId")})
     private List<Team> teamList;
+    @Transient
+    private List<TeacherHomeworkQuestion> teacherHomeworkQuestions;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_teacher_id", referencedColumnName = "teacherId")
-    private Teacher teacherHomeWork;
-
-    @OneToMany(mappedBy = "teacherHomeWork", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TeacherHomeworkList> teacherHomeworkLists;
-
-    public List<TeacherHomeworkList> getTeacherHomeworkLists() {
-        return teacherHomeworkLists;
+    public List<TeacherHomeworkQuestion> getTeacherHomeworkQuestions() {
+        return teacherHomeworkQuestions;
     }
 
-    public void setTeacherHomeworkLists(List<TeacherHomeworkList> teacherHomeworkLists) {
-        this.teacherHomeworkLists = teacherHomeworkLists;
+    public void setTeacherHomeworkQuestions(List<TeacherHomeworkQuestion> teacherHomeworkQuestions) {
+        this.teacherHomeworkQuestions = teacherHomeworkQuestions;
     }
 
     @JsonBackReference(value = "homework id")
@@ -82,16 +82,6 @@ public class TeacherHomeWork implements Serializable {
 
     public void setHomeworkId(String homeworkId) {
         this.homeworkId = homeworkId;
-    }
-
-    @JsonBackReference(value = "3")
-    public Teacher getTeacherHomeWork() {
-        return teacherHomeWork;
-    }
-
-    @JsonBackReference(value = "3")
-    public void setTeacherHomeWork(Teacher teacherHomeWork) {
-        this.teacherHomeWork = teacherHomeWork;
     }
 
     public int getType() {
@@ -127,21 +117,6 @@ public class TeacherHomeWork implements Serializable {
         this.teamList = teamList;
     }
 
-    public List<StudentAnswer> getStudentAnswers() {
-        return studentAnswers;
-    }
-
-    public void setStudentAnswers(List<StudentAnswer> studentAnswers) {
-        this.studentAnswers = studentAnswers;
-    }
-
-    public String getFkTeacherId() {
-        return fk_teacher_id;
-    }
-
-    public void setFkTeacherId(String teacherId) {
-        this.fk_teacher_id = teacherId;
-    }
 
     public int getQuestionCount() {
         return questionCount;
@@ -175,9 +150,17 @@ public class TeacherHomeWork implements Serializable {
         this.difficult = difficult;
     }
 
+    public boolean isAwaitCorrect() {
+        return awaitCorrect;
+    }
+
+    public void setAwaitCorrect(boolean awaitCorrect) {
+        this.awaitCorrect = awaitCorrect;
+    }
+
     @Override
     public String toString() {
-        return "TeacherHomeWork{" +
+        return "TeacherHomework{" +
                 "UID=" + id +
                 ", type=" + type +
                 ", name='" + name + '\'' +
@@ -193,29 +176,6 @@ public class TeacherHomeWork implements Serializable {
         this.totalStudent = totalStudent;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        TeacherHomeWork that = (TeacherHomeWork) o;
-
-        if (type != that.type) return false;
-        if (homeworkId != null ? !homeworkId.equals(that.homeworkId) : that.homeworkId != null) return false;
-        if (name != null ? !name.equals(that.name) : that.name != null) return false;
-        if (createdTime != null ? !createdTime.equals(that.createdTime) : that.createdTime != null) return false;
-        return fk_teacher_id != null ? fk_teacher_id.equals(that.fk_teacher_id) : that.fk_teacher_id == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = homeworkId != null ? homeworkId.hashCode() : 0;
-        result = 31 * result + type;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (createdTime != null ? createdTime.hashCode() : 0);
-        result = 31 * result + (fk_teacher_id != null ? fk_teacher_id.hashCode() : 0);
-        return result;
-    }
 
     public String getSubjectName() {
         return subjectName;
@@ -224,4 +184,6 @@ public class TeacherHomeWork implements Serializable {
     public void setSubjectName(String subjectName) {
         this.subjectName = subjectName;
     }
+
+
 }

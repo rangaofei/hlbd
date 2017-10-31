@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 public interface TeacherSubjectRepository extends JpaRepository<TeacherSubject, Long> {
-//    @Query("select t from TeacherSubject t where t.teacher_id=:teacherId")
-//    List<TeacherSubject> findTeacherSubjectsByTeacherId(@Param("teacherId") int teacherId);
+    List<TeacherSubject> findTeacherSubjectsByTeacherId(String teacherId);
 }

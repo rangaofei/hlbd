@@ -25,6 +25,7 @@ public class StudentAnswerList {
     @Column(nullable = false)
     private int questiontypeId;
 
+    private int score;
     private String answer;
     private String answerImg;
     private String answerComment;
@@ -36,6 +37,7 @@ public class StudentAnswerList {
 
     public StudentAnswerList() {
     }
+
 
     public StudentAnswerList(TeacherHomeworkList teacherHomeworkList) {
         this.stageId = teacherHomeworkList.getStageId();
@@ -157,5 +159,13 @@ public class StudentAnswerList {
 
     public void setAnswerImg(String answerImg) {
         this.answerImg = answerImg;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

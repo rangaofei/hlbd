@@ -97,6 +97,7 @@ public class HomeWorkController {
         teacherHomeWork.setCommitedCount(teacherHomeWork.getCommitedCount() + 1);
         homeWorkDao.updateTeacherHomeWork(teacherHomeWork);
         studentAnswer.setStudentAnswerLists(studentAnswerList);
+        studentAnswer.setCommitedStudentCount(teacherHomeWork.getCommitedCount());
         answerDao.updateAnswer(studentAnswer);
         StudentAnswerAndList re = new StudentAnswerAndList(studentAnswer, studentAnswerList);
         result.setBody(re);

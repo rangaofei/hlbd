@@ -24,8 +24,6 @@ public class AuthController {
     private StudentDao studentDao;
     @Autowired
     private TeacherDao teacherDao;
-    @Autowired
-    private TeacherSubjectDao teacherSubjectDao;
 
     @RequestMapping(value = "/auth/student/register", method = RequestMethod.POST)
     public BaseBean<StudentAndToken> response(@RequestBody Student input) {

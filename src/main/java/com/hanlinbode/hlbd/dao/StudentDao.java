@@ -4,9 +4,10 @@ import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.composbean.StudentAndToken;
 import com.hanlinbode.hlbd.composbean.Token;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public interface StudentDao {
     Student saveStudent(Student student);
 

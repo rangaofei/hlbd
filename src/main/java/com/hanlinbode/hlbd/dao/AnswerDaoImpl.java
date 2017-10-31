@@ -12,6 +12,8 @@ import java.util.List;
 public class AnswerDaoImpl implements AnswerDao {
     @Autowired
     private AnswerRepository answerRepository;
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @Override
     public StudentAnswer saveAnswer(TeacherHomeWork teacherHomeWork, Student student) {
@@ -56,7 +58,15 @@ public class AnswerDaoImpl implements AnswerDao {
     @Override
     public StudentAnswer updateAnswer(StudentAnswer answer) {
         answer.setState(1);
-        answer.setCommitedStudentCount(answer.getCommitedStudentCount() + 1);
+        for (StudentAnswerList list : answer.getStudentAnswerLists()) {
+            if (list.getQuestiontypeId() == 2) {
+                if (list.getAnswer().equals(questionRepository.findQuestionById(list.getQuestionId()))) {
+                    list.setScore(100);
+                } else {
+                    list.setScore(0);
+                }
+            }
+        }
         return answerRepository.saveAndFlush(answer);
     }
 

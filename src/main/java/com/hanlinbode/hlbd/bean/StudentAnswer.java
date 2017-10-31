@@ -41,6 +41,18 @@ public class StudentAnswer {
     private String subjecName;
     private int studentCount;
     private int commitedStudentCount;
+    private float difficult;
+
+    private int seconds;
+
+    public int getSeconds() {
+        return seconds;
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+    }
+
     @ManyToOne
     @JoinColumn(name = "fk_homework_id", referencedColumnName = "homeworkId")
     private TeacherHomeWork answerTeacherHomeWork;
@@ -91,6 +103,7 @@ public class StudentAnswer {
         this.setCreatedTime(teacherHomeWork.getCreatedTime());
         this.setQustionCount(teacherHomeWork.getTeacherHomeworkLists().size());
         this.setStudentCount(teacherHomeWork.getTotalStudent());
+        this.setDifficult(teacherHomeWork.getDifficult());
     }
 
 
@@ -192,6 +205,14 @@ public class StudentAnswer {
 
     public void setCommitedStudentCount(int commitedStudentCount) {
         this.commitedStudentCount = commitedStudentCount;
+    }
+
+    public float getDifficult() {
+        return difficult;
+    }
+
+    public void setDifficult(float difficult) {
+        this.difficult = difficult;
     }
 
     @Override

@@ -1,9 +1,6 @@
 package com.hanlinbode.hlbd.dao;
 
-import com.hanlinbode.hlbd.bean.TeacherHomeWork;
-import com.hanlinbode.hlbd.bean.Teacher;
-import com.hanlinbode.hlbd.bean.TeacherHomeworkList;
-import com.hanlinbode.hlbd.bean.Team;
+import com.hanlinbode.hlbd.bean.*;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +19,8 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
     private TeamRepository teamRepository;
     @Autowired
     private AnswerDaoImpl answerDao;
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @Override
     public TeacherHomeWork createHomeWork(String teacherId, TeacherHomeWork teacherHomeWork, List<Team> teams) {
@@ -33,6 +32,13 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
         Teacher teacher = teacherRepository.findTeacherByTeacherId(teacherId);
         teacherHomeWork.setTeacherHomeWork(teacher);//保存老师的外键
         teacherHomeWork.setQuestionCount(teacherHomeWork.getTeacherHomeworkLists().size());
+        float sum = 0;
+        for (TeacherHomeworkList list : teacherHomeWork.getTeacherHomeworkLists()) {
+            Question question = questionRepository.findQuestionById(list.getQuestionId());
+            sum += question.getDifficult();
+        }
+        System.out.println("总难度"+sum);
+        teacherHomeWork.setDifficult(sum / teacherHomeWork.getTeacherHomeworkLists().size());
         int totalStudent = 0;
         //把题目发给班级
 

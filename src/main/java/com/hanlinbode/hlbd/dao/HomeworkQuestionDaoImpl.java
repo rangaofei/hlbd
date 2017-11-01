@@ -31,5 +31,19 @@ public class HomeworkQuestionDaoImpl implements HomeworkQuestionDao {
         return homeworkQuestionRepository.save(question);
     }
 
+    @Override
+    public boolean waitCorrect(String homeworkId) {
+        boolean result = false;
+        List<TeacherHomeworkQuestion> list = homeworkQuestionRepository
+                .findTeacherHomeworkQuestionsByTeacherHomeworkId(homeworkId);
+        for (TeacherHomeworkQuestion t : list) {
+            if (t.isAwaitCorrect()) {
+                result = true;
+                break;
+            }
+        }
+        return result;
+    }
+
 
 }

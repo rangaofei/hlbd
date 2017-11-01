@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
-@JsonIgnoreProperties({"id", "teacherHomeWork"})
+@JsonIgnoreProperties({"teacherHomeWork"})
 @Entity
 public class TeacherHomeworkQuestion {
     @Id

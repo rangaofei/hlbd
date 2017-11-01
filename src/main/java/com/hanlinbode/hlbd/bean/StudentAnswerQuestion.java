@@ -34,6 +34,7 @@ public class StudentAnswerQuestion {
 
     private boolean awaitCorrect;
     private String studentId;
+    private String studentName;
     private int teacherHomeworkQuestionId;
     private String answerId;
 
@@ -43,6 +44,14 @@ public class StudentAnswerQuestion {
 
     public String getAnswerId() {
         return answerId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
     public void setAnswerId(String answerId) {

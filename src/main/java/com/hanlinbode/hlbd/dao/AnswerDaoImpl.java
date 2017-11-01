@@ -15,6 +15,10 @@ public class AnswerDaoImpl implements AnswerDao {
     private QuestionRepository questionRepository;
     @Autowired
     private AnswerQuestionRepository answerQuestionRepository;
+    @Autowired
+    private AnswerQuestionDao answerQuestionDao;
+    @Autowired
+    private HomeworkQuestionDao homeworkQuestionDao;
 
     @Override
     public StudentAnswer saveAnswer(TeacherHomework teacherHomework, Student student) {
@@ -37,6 +41,7 @@ public class AnswerDaoImpl implements AnswerDao {
             for (TeacherHomeworkQuestion ts : teacherHomework.getTeacherHomeworkQuestions()) {
                 StudentAnswerQuestion studentAnswerQuestion = new StudentAnswerQuestion(ts);
                 studentAnswerQuestion.setStudentId(s.getStudentId());
+                studentAnswerQuestion.setStudentName(s.getName());
                 studentAnswerQuestion.setAnswerId(studentAnswer.getAnswerId());
                 re.add(studentAnswerQuestion);
             }
@@ -49,7 +54,7 @@ public class AnswerDaoImpl implements AnswerDao {
 
     @Override
     public List<StudentAnswer> findAnswerByTeamAndStudent(String teamId, String studentId) {
-        return answerRepository.findAnswerByhomeworkAndStudent(teamId, studentId);
+        return answerRepository.findStudentAnswersByTeamIdAndStudentId(teamId, studentId);
     }
 
 
@@ -67,14 +72,10 @@ public class AnswerDaoImpl implements AnswerDao {
 
     @Override
     public StudentAnswer calucateCorrectRate(String answerId) {
-        List<StudentAnswerQuestion> list = answerQuestionRepository.findStudentAnswerQuestionsByAnswerId(answerId);
-        float sum = 0F;
-        for (StudentAnswerQuestion question : list) {
-            sum += question.getScore();
-        }
-        float rate = sum / list.size();
         StudentAnswer studentAnswer = findAnswerById(answerId);
-        studentAnswer.setCorrectRate(rate);
+        studentAnswer.setCorrectRate(answerQuestionDao.calculateStudentAnswerCorrectRate(answerId));
+        //更新老师表中的正确率
+
         return answerRepository.save(studentAnswer);
     }
 

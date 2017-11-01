@@ -24,11 +24,11 @@ public class TeacherHomework implements Serializable {
     private String name;
 
     private String subjectName;
-
+    private int commitedCount;
     private int totalStudent;
 
     private int questionCount;
-    private int commitedCount;
+
     private float correctRate;
     private float difficult;
 

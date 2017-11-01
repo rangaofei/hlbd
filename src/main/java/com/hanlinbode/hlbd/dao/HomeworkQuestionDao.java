@@ -13,4 +13,6 @@ public interface HomeworkQuestionDao {
     TeacherHomeworkQuestion findTeacherHomeworkQuestionById(int homeworkQuestionId);
 
     TeacherHomeworkQuestion saveTeacherHomeworkQuestion(TeacherHomeworkQuestion question);
+
+    boolean waitCorrect(String homeworkId);
 }

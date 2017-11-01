@@ -100,24 +100,26 @@ public class HomeWorkController {
     }
 
     /**
-     * 获取学生列表
+     * 获取某一题的作业详情
      *
      * @return
      */
-//    @RequestMapping(path = "/teacher/{homework_id}/getstudentlist", method = RequestMethod.GET)
-//    public BaseBean<String> getHomeworkReport() {
-//
-//    }
+    @RequestMapping(path = "/teacher/{homework_id}/{question_id}/getsquestiondetails", method = RequestMethod.GET)
+    public BaseBean<String> getQuestionDetails() {
+        return null;
+
+    }
 
     /**
-     * 获取学生作业报告
+     * 批改作业
      *
      * @return
      */
-//    @RequestMapping(path = "/teacher/{homework_id}/{student_id}/getsutdentreport", method = RequestMethod.GET)
-//    public BaseBean<String> getHomeworkReport() {
-//
-//    }
+    @RequestMapping(path = "/teacher/{homework_id}/{question_id}/correctanswer", method = RequestMethod.GET)
+    public BaseBean<String> getHomeworkReport() {
+
+        return null;
+    }
 
     /**
      * 获取某一题的答题情况

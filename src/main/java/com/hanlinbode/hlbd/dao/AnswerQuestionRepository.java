@@ -10,4 +10,8 @@ import java.util.List;
 public interface AnswerQuestionRepository extends JpaRepository<StudentAnswerQuestion, Long> {
 
     List<StudentAnswerQuestion> findStudentAnswerQuestionsByAnswerId(String answerId);
+
+    List<StudentAnswerQuestion> findStudentAnswerQuestionsByTeacherHomeworkQuestionId(int id);
+
+    StudentAnswerQuestion findStudentAnswerQuestionById(int id);
 }

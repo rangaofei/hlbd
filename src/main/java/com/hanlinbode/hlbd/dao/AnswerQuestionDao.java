@@ -9,4 +9,10 @@ public interface AnswerQuestionDao {
     void commitAnswer(List<StudentAnswerQuestion> questionList, StudentAnswer studentAnswer);
 
     List<StudentAnswerQuestion> findAnswerQuestionByAnswerId(String answerId);
+
+    float calculateStudentAnswerCorrectRate(String answerId);
+
+    float calculateHomeworkQuestionCorrectRate(int homeworkQuestionId);
+
+    boolean waitCorrect(int homeworkQuestionId);
 }

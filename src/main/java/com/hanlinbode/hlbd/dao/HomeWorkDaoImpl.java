@@ -68,6 +68,13 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
         return homeWorkRepository.saveAndFlush(teacherHomework);
     }
 
+    @Override
+    public TeacherHomework updateCommitCount(String homeworkId) {
+        TeacherHomework teacherHomework = homeWorkRepository.findTeacherHomeWorkByHomeworkId(homeworkId);
+        teacherHomework.setCommitedCount(teacherHomework.getCommitedCount() + 1);
+        return homeWorkRepository.saveAndFlush(teacherHomework);
+    }
+
     public float calucateDifficult(List<TeacherHomeworkQuestion> questionList) {
         float sum = 0F;
         for (TeacherHomeworkQuestion question : questionList) {

@@ -18,4 +18,6 @@ public interface AnswerRepository extends JpaRepository<StudentAnswer, Long> {
 
     StudentAnswer findStudentAnswerByAnswerId(String answerId);
 
+    List<StudentAnswer> findStudentAnswersByTeamIdAndStudentId(String teamId, String studentId);
+
 }

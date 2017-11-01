@@ -48,10 +48,10 @@ public class AnswerDaoImpl implements AnswerDao {
     }
 
     @Override
-    public List<StudentAnswer> findAnswerByTeacherHomeWorkAndStudent(TeacherHomework teacherHomework, Student student) {
-        return answerRepository.findAnswerByhomeworkAndStudent(teacherHomework.getHomeworkId(), student.getStudentId());
-
+    public List<StudentAnswer> findAnswerByTeamAndStudent(String teamId, String studentId) {
+        return answerRepository.findAnswerByhomeworkAndStudent(teamId, studentId);
     }
+
 
     @Override
     public StudentAnswer findAnswerById(String answerId) {
@@ -63,6 +63,19 @@ public class AnswerDaoImpl implements AnswerDao {
         answer.setState(1);
 
         return answerRepository.saveAndFlush(answer);
+    }
+
+    @Override
+    public StudentAnswer calucateCorrectRate(String answerId) {
+        List<StudentAnswerQuestion> list = answerQuestionRepository.findStudentAnswerQuestionsByAnswerId(answerId);
+        float sum = 0F;
+        for (StudentAnswerQuestion question : list) {
+            sum += question.getScore();
+        }
+        float rate = sum / list.size();
+        StudentAnswer studentAnswer = findAnswerById(answerId);
+        studentAnswer.setCorrectRate(rate);
+        return answerRepository.save(studentAnswer);
     }
 
 }

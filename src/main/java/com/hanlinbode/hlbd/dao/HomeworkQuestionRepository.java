@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface HomeworkQuestionRepository extends JpaRepository<TeacherHomeworkQuestion, Long> {
     List<TeacherHomeworkQuestion> findTeacherHomeworkQuestionsByTeacherHomeworkId(String homeworkId);
+
+    TeacherHomeworkQuestion findTeacherHomeworkQuestionById(int id);
+
+
 }

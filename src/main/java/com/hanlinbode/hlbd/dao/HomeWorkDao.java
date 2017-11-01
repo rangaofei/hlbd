@@ -13,4 +13,6 @@ public interface HomeWorkDao {
     TeacherHomework findHomeWorkByHomeWorkId(String homeworkId);
 
     TeacherHomework updateTeacherHomeWork(TeacherHomework teacherHomework);
+
+    TeacherHomework updateCommitCount(String homeworkId);
 }

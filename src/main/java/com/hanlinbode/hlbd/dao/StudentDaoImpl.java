@@ -57,7 +57,7 @@ public class StudentDaoImpl implements StudentDao {
     public Team joinTeam(String studentId, String teamId) {
         Student student = studentRepository.findStudentByStudentId(studentId);
         Team team = teamRepository.findTeamByTeamId(teamId);
-        if (student.getTeamList().contains(team)) {
+        if (null==student||student.getTeamList().contains(team)) {
             return null;
         }
         student.getTeamList().add(team);

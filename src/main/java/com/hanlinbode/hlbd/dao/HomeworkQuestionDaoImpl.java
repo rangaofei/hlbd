@@ -15,4 +15,21 @@ public class HomeworkQuestionDaoImpl implements HomeworkQuestionDao {
     public List<TeacherHomeworkQuestion> findQuestionsByHomeworkId(String homeworkId) {
         return homeworkQuestionRepository.findTeacherHomeworkQuestionsByTeacherHomeworkId(homeworkId);
     }
+
+    @Override
+    public List<TeacherHomeworkQuestion> updateCommitState(String homeworkQuestionId) {
+        return null;
+    }
+
+    @Override
+    public TeacherHomeworkQuestion findTeacherHomeworkQuestionById(int homeworkQuestionId) {
+        return homeworkQuestionRepository.findTeacherHomeworkQuestionById(homeworkQuestionId);
+    }
+
+    @Override
+    public TeacherHomeworkQuestion saveTeacherHomeworkQuestion(TeacherHomeworkQuestion question) {
+        return homeworkQuestionRepository.save(question);
+    }
+
+
 }

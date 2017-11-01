@@ -12,11 +12,13 @@ public interface AnswerDao {
 
     StudentAnswer saveAnserByTeam(TeacherHomework teacherHomework, Team team);
 
-    List<StudentAnswer> findAnswerByTeacherHomeWorkAndStudent(TeacherHomework teacherHomework, Student student);
+    List<StudentAnswer> findAnswerByTeamAndStudent(String teamId, String studentId);
 
     StudentAnswer findAnswerById(String answerId);
 
     StudentAnswer updateAnswer(StudentAnswer answer);
+
+    StudentAnswer calucateCorrectRate(String answerId);
 
 
 }

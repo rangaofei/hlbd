@@ -35,6 +35,8 @@ public class HomeWorkController {
     private AnswerQuestionRepository answerQuestionRepository;
     @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
+    private AnswerQuestionDao answerQuestionDao;
 
     /**
      * 创建作业
@@ -130,14 +132,9 @@ public class HomeWorkController {
     public BaseBean<List<StudentAnswer>> getStudentAllHomeworks(@PathVariable("student_id") String studentid,
                                                                 @PathVariable("class_id") String classid) {
         BaseBean<List<StudentAnswer>> result = new BaseBean<>();
-        Student student = studentDao.findStudentByStudentId(studentid);
-        Team team = teamDao.findTeamByTeamId(classid);
-        List<StudentAnswer> studentAnswers = new ArrayList<>();
-        for (TeacherHomework teacherHomework : team.getTeacherHomeworkList()) {
-            List<StudentAnswer> studentAnswer = answerDao
-                    .findAnswerByTeacherHomeWorkAndStudent(teacherHomework, student);
-            studentAnswers.addAll(studentAnswer);
-        }
+        List<StudentAnswer> studentAnswers = answerDao
+                .findAnswerByTeamAndStudent(classid, studentid);
+
         result.setBody(studentAnswers);
         if (studentAnswers.size() < 1) {
             result.setMessage("无作业");
@@ -173,34 +170,11 @@ public class HomeWorkController {
                                                               @RequestBody List<StudentAnswerQuestion> studentAnswerQuestion) {
         BaseBean<StudentAnswerAndList> result = new BaseBean<>();
         StudentAnswer studentAnswer = answerDao.findAnswerById(answerId);
-        TeacherHomework teacherHomework = homeWorkDao.findHomeWorkByHomeWorkId(studentAnswer.getHomeworkId());
-        teacherHomework.setCommitedCount(teacherHomework.getCommitedCount() + 1);
-        homeWorkDao.updateTeacherHomeWork(teacherHomework);
-        for (StudentAnswerQuestion list : studentAnswerQuestion) {
-            list.setStudentId(studentAnswer.getStudentId());
-            list.setAnswerId(studentAnswer.getAnswerId());
-            if (list.getQuestiontypeId() == 2
-                    || list.getQuestiontypeId() == 3
-                    || list.getQuestiontypeId() == 4
-                    || list.getQuestiontypeId() == 5
-                    || list.getQuestiontypeId() == 6
-                    || list.getQuestiontypeId() == 7
-                    || list.getQuestiontypeId() == 39
-                    || list.getQuestiontypeId() == 66
-                    || list.getQuestiontypeId() == 78) {
-
-                System.out.println();
-                if (list.getAnswer().equals(questionRepository.findQuestionById(list.getQuestionId()).getAnswer())) {
-                    list.setScore(100);
-                } else {
-                    list.setScore(0);
-                }
-            }
-        }
-        studentAnswer.setCommitedStudentCount(teacherHomework.getCommitedCount());
+        homeWorkDao.updateCommitCount(studentAnswer.getHomeworkId());
+        studentAnswer.setCommitedStudentCount(studentAnswer.getCommitedStudentCount() + 1);
         answerDao.updateAnswer(studentAnswer);
-        answerQuestionRepository.save(studentAnswerQuestion);
-        StudentAnswerAndList re = new StudentAnswerAndList(studentAnswer, answerQuestionRepository.findStudentAnswerQuestionsByAnswerId(answerId));
+        answerQuestionDao.commitAnswer(studentAnswerQuestion, studentAnswer);
+        StudentAnswerAndList re = new StudentAnswerAndList(studentAnswer, answerQuestionDao.findAnswerQuestionByAnswerId(answerId));
         result.setBody(re);
         result.setMessage("获取成功");
         result.setCode(ConstData.GET_SUCCESS);

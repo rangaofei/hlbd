@@ -10,6 +10,8 @@ public interface AnswerQuestionDao {
 
     List<StudentAnswerQuestion> findAnswerQuestionByAnswerId(String answerId);
 
+    List<StudentAnswerQuestion> findAnserQuesitonByHomeworkQuestionId(int id);
+
     float calculateStudentAnswerCorrectRate(String answerId);
 
     float calculateHomeworkQuestionCorrectRate(int homeworkQuestionId);

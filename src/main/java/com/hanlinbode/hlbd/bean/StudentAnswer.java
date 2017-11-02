@@ -43,6 +43,24 @@ public class StudentAnswer implements Serializable {
     private int commitedStudentCount;
     private float difficult;
     private String teamId;
+    private String finishTime;
+    private String costTime;
+
+    public String getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(String finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public String getCostTime() {
+        return costTime;
+    }
+
+    public void setCostTime(String costTime) {
+        this.costTime = costTime;
+    }
 
     public String getTeamId() {
         return teamId;

@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@JsonIgnoreProperties({"id", "teamList", "teacher"})
+@JsonIgnoreProperties({"id", "teacher"})
 @Entity
 public class TeacherHomework implements Serializable {
     @Id

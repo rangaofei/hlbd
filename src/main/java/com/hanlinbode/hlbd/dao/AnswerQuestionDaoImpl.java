@@ -75,6 +75,12 @@ public class AnswerQuestionDaoImpl implements AnswerQuestionDao {
     }
 
     @Override
+    public List<StudentAnswerQuestion> findAnserQuesitonByHomeworkQuestionId(int id) {
+        return answerQuestionRepository.findStudentAnswerQuestionsByTeacherHomeworkQuestionId(id);
+
+    }
+
+    @Override
     public float calculateStudentAnswerCorrectRate(String answerId) {
         List<StudentAnswerQuestion> list = answerQuestionRepository.findStudentAnswerQuestionsByAnswerId(answerId);
         float sum = 0F;

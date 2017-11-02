@@ -105,9 +105,11 @@ public class HomeWorkController {
      * @return
      */
     @RequestMapping(path = "/teacher/{homework_id}/{question_id}/getsquestiondetails", method = RequestMethod.GET)
-    public BaseBean<String> getQuestionDetails() {
-        return null;
-
+    public BaseBean<List<StudentAnswerQuestion>> getQuestionDetails(@PathVariable("question_id") int id) {
+        BaseBean<List<StudentAnswerQuestion>> result = new BaseBean<>();
+        List<StudentAnswerQuestion> list = answerQuestionDao.findAnserQuesitonByHomeworkQuestionId(id);
+        result.setBody(list);
+        return result;
     }
 
     /**

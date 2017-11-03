@@ -1,12 +1,13 @@
 package com.hanlinbode.hlbd.controller;
 
-import com.hanlinbode.hlbd.ConstData;
-import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
+import com.hanlinbode.hlbd.composbean.BaseBean;
+import com.hanlinbode.hlbd.composbean.TeamAndStudent;
 import com.hanlinbode.hlbd.dao.StudentDao;
 import com.hanlinbode.hlbd.dao.TeacherDao;
 import com.hanlinbode.hlbd.dao.TeamDao;
+import com.hanlinbode.hlbd.util.ConstData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,6 +47,22 @@ public class TeamController {
             listBaseBean.setMessage("success");
             return listBaseBean;
         }
+
+    }
+
+    @RequestMapping(path = "teacher/{team_id}/getstudent", method = RequestMethod.GET)
+    public BaseBean<TeamAndStudent> getStudent(@PathVariable("team_id") String teamId) {
+        BaseBean<TeamAndStudent> result = new BaseBean<>();
+        TeamAndStudent teamAndStudent = new TeamAndStudent();
+        Team team = teamDao.findTeamByTeamId(teamId);
+
+        List<Student> students = team.getStudents();
+        teamAndStudent.setStudentList(students);
+        teamAndStudent.setTeam(team);
+        result.setCode(200);
+        result.setMessage("获取成功");
+        result.setBody(teamAndStudent);
+        return result;
 
     }
 

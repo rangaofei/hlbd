@@ -1,9 +1,12 @@
 package com.hanlinbode.hlbd.bean;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @JsonIgnoreProperties({"id", "teacher", "students", "teacherHomeworkList"})
@@ -23,8 +26,13 @@ public class Team implements Serializable {
     @Column(nullable = false)
     private String teamIntroduction;
 
-    private int teamColumn;
+    private int teamVolume;
     private String teacherId;
+    @Column
+    @CreatedDate
+    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(timezone = "GMT+8", pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createdTime;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "team_student",
@@ -94,12 +102,20 @@ public class Team implements Serializable {
         this.teacherId = teacherId;
     }
 
-    public int getTeamColumn() {
-        return teamColumn;
+    public int getTeamVolume() {
+        return teamVolume;
     }
 
-    public void setTeamColumn(int teamColumn) {
-        this.teamColumn = teamColumn;
+    public void setTeamVolume(int teamVolume) {
+        this.teamVolume = teamVolume;
+    }
+
+    public Date getCreatedTime() {
+        return createdTime;
+    }
+
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
     }
 
     @Override

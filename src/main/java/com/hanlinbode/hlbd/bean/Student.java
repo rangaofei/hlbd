@@ -121,7 +121,7 @@ public class Student implements Serializable {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
-                ", crteatedTime=" + createdTime +
+                ", createdTime=" + createdTime +
                 ", role='" + role + '\'' +
                 '}';
     }

@@ -16,12 +16,11 @@ spring:
     jpa:
       repositories:
         enabled: true
-  logging:
-    config: logback.xml
-    level:
-      org.springframework:
-        data: DEBUG
-        security: DEBUG
+#  logging:
+#    level:
+#      org.springframework:
+#        data: DEBUG
+#        security: DEBUG
 
 jwt:
   header: Authorization

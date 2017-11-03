@@ -39,7 +39,7 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
         int totalStudent = 0;
         for (Team m : teams) {
             Team team = teamRepository.findTeamByTeamId(m.getTeamId());
-            totalStudent += team.getTeamColumn();
+            totalStudent += team.getTeamVolume();
         }
         teacherHomework.setTotalStudent(totalStudent);
 

@@ -1,33 +1,39 @@
 package com.hanlinbode.hlbd.controller;
 
-import com.hanlinbode.hlbd.ConstData;
+import com.hanlinbode.hlbd.util.ConstData;
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.dao.StudentDao;
 import com.hanlinbode.hlbd.dao.TeacherDao;
-import com.hanlinbode.hlbd.dao.TeacherSubjectDao;
 import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.StudentAndToken;
 import com.hanlinbode.hlbd.composbean.TeacherAndToken;
 import com.hanlinbode.hlbd.composbean.Token;
 import com.hanlinbode.hlbd.util.JWTUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 @RestController
 public class AuthController {
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     @Autowired
     private StudentDao studentDao;
     @Autowired
     private TeacherDao teacherDao;
 
+
     @RequestMapping(value = "/auth/student/register", method = RequestMethod.POST)
     public BaseBean<StudentAndToken> response(@RequestBody Student input) {
         BaseBean<StudentAndToken> baseBean = new BaseBean<>();
+        logger.debug(input.toString());
         if (null == studentDao.findStudentByPhone(input.getPhone())) {
             baseBean.setCode(ConstData.POST_SUCCESS);
             baseBean.setMessage("创建成功");

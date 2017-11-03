@@ -1,6 +1,6 @@
 package com.hanlinbode.hlbd.composbean;
 
-import com.hanlinbode.hlbd.ConstData;
+import com.hanlinbode.hlbd.util.ConstData;
 import com.hanlinbode.hlbd.util.JWTUtil;
 
 public class Token {

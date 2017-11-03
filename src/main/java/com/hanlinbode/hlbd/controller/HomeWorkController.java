@@ -1,16 +1,19 @@
 package com.hanlinbode.hlbd.controller;
 
-import com.hanlinbode.hlbd.ConstData;
-import com.hanlinbode.hlbd.bean.*;
+
+import com.hanlinbode.hlbd.bean.StudentAnswer;
+import com.hanlinbode.hlbd.bean.StudentAnswerQuestion;
+import com.hanlinbode.hlbd.bean.TeacherHomework;
+import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
+import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.CreateHomeWork;
 import com.hanlinbode.hlbd.composbean.HomeWorkAndList;
-import com.hanlinbode.hlbd.dao.*;
-import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.StudentAnswerAndList;
+import com.hanlinbode.hlbd.dao.*;
+import com.hanlinbode.hlbd.util.ConstData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 

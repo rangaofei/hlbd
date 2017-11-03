@@ -1,6 +1,6 @@
 package com.hanlinbode.hlbd.controller;
 
-import com.hanlinbode.hlbd.ConstData;
+import com.hanlinbode.hlbd.util.ConstData;
 import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.TeacherAndSubject;
 import com.hanlinbode.hlbd.bean.TeacherSubject;

@@ -1,4 +1,4 @@
-package com.hanlinbode.hlbd;
+package com.hanlinbode.hlbd.util;
 
 public class ConstData {
     public static final int GET_SUCCESS = 200;

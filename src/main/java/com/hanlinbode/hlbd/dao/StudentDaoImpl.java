@@ -62,7 +62,7 @@ public class StudentDaoImpl implements StudentDao {
         }
         student.getTeamList().add(team);
         studentRepository.save(student);
-        team.setTeamColumn(team.getStudents().size());
+        team.setTeamVolume(team.getStudents().size());
         teamRepository.save(team);
         return team;
     }

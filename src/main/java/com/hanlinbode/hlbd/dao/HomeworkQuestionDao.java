@@ -15,4 +15,6 @@ public interface HomeworkQuestionDao {
     TeacherHomeworkQuestion saveTeacherHomeworkQuestion(TeacherHomeworkQuestion question);
 
     boolean waitCorrect(String homeworkId);
+
+    float calculateCorrectRate(String homeworkId);
 }

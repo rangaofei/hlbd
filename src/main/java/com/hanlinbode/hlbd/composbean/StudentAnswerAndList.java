@@ -11,6 +11,9 @@ public class StudentAnswerAndList {
 
     private List<StudentAnswerQuestion> answerList;
 
+    public StudentAnswerAndList() {
+    }
+
     public StudentAnswerAndList(StudentAnswer answer, List<StudentAnswerQuestion> answerList) {
         this.answer = answer;
         this.answerList = answerList;

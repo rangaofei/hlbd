@@ -66,6 +66,7 @@ public class AnswerQuestionDaoImpl implements AnswerQuestionDao {
         }
         TeacherHomework teacherHomework = homeWorkDao.findHomeWorkByHomeWorkId(studentAnswer.getHomeworkId());
         teacherHomework.setAwaitCorrect(homeworkQuestionDao.waitCorrect(studentAnswer.getHomeworkId()));
+        teacherHomework.setCorrectRate(homeworkQuestionDao.calculateCorrectRate(studentAnswer.getHomeworkId()));
         homeWorkDao.updateTeacherHomeWork(teacherHomework);
     }
 

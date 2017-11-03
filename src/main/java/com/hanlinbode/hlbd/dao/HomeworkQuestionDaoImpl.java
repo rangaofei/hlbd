@@ -1,5 +1,6 @@
 package com.hanlinbode.hlbd.dao;
 
+import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -43,6 +44,17 @@ public class HomeworkQuestionDaoImpl implements HomeworkQuestionDao {
             }
         }
         return result;
+    }
+
+    @Override
+    public float calculateCorrectRate(String homeworkId) {
+        float result = 0F;
+        List<TeacherHomeworkQuestion> list = homeworkQuestionRepository.findTeacherHomeworkQuestionsByTeacherHomeworkId(homeworkId);
+        for (TeacherHomeworkQuestion t : list) {
+            result += t.getCorrectRate();
+        }
+
+        return result / list.size();
     }
 
 

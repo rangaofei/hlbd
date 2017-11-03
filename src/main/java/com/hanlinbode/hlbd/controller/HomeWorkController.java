@@ -166,18 +166,19 @@ public class HomeWorkController {
      * 将作业状态标记为假如需要批改已批改
      *
      * @param answerId
-     * @param studentAnswerQuestion
      * @return
      */
     @RequestMapping(path = "/student/{answer_id}/commitanswer")
     public BaseBean<StudentAnswerAndList> commitStudentAnswer(@PathVariable("answer_id") String answerId,
-                                                              @RequestBody List<StudentAnswerQuestion> studentAnswerQuestion) {
+                                                              @RequestBody StudentAnswerAndList list) {
         BaseBean<StudentAnswerAndList> result = new BaseBean<>();
         StudentAnswer studentAnswer = answerDao.findAnswerById(answerId);
         homeWorkDao.updateCommitCount(studentAnswer.getHomeworkId());
         studentAnswer.setCommitedStudentCount(studentAnswer.getCommitedStudentCount() + 1);
+        studentAnswer.setFinishTime(list.getAnswer().getFinishTime());
+        studentAnswer.setCostTime(list.getAnswer().getCostTime());
         answerDao.updateAnswer(studentAnswer);
-        answerQuestionDao.commitAnswer(studentAnswerQuestion, studentAnswer);
+        answerQuestionDao.commitAnswer(list.getAnswerList(), studentAnswer);
         StudentAnswerAndList re = new StudentAnswerAndList(studentAnswer, answerQuestionDao.findAnswerQuestionByAnswerId(answerId));
         result.setBody(re);
         result.setMessage("获取成功");

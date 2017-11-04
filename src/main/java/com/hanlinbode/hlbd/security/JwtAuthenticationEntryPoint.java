@@ -1,4 +1,4 @@
-package com.hanlinbode.hlbd.service;
+package com.hanlinbode.hlbd.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

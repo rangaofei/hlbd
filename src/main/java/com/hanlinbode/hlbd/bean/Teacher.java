@@ -3,6 +3,7 @@ package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hanlinbode.hlbd.enums.Role;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -37,11 +38,12 @@ public class Teacher implements Serializable {
     private Date createdTime;
 
     @Column(nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
     public Teacher() {
-        role = "T";
+        role = Role.TEACHER;
     }
 
     public Teacher(String teacherId) {
@@ -92,11 +94,11 @@ public class Teacher implements Serializable {
     }
 
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

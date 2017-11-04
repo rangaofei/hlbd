@@ -1,4 +1,4 @@
-package com.hanlinbode.hlbd.service;
+package com.hanlinbode.hlbd.security;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

@@ -111,6 +111,7 @@ public class HomeWorkController {
     public BaseBean<List<StudentAnswerQuestion>> getQuestionDetails(@PathVariable("question_id") int id) {
         BaseBean<List<StudentAnswerQuestion>> result = new BaseBean<>();
         List<StudentAnswerQuestion> list = answerQuestionDao.findAnserQuesitonByHomeworkQuestionId(id);
+        logger.info(list.get(0).toString());
         result.setBody(list);
         return result;
     }

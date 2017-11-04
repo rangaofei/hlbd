@@ -33,7 +33,7 @@ public class AuthController {
     @RequestMapping(value = "/auth/student/register", method = RequestMethod.POST)
     public BaseBean<StudentAndToken> response(@RequestBody Student input) {
         BaseBean<StudentAndToken> baseBean = new BaseBean<>();
-        logger.debug(input.toString());
+        logger.info(input.toString());
         if (null == studentDao.findStudentByPhone(input.getPhone())) {
             baseBean.setCode(ConstData.POST_SUCCESS);
             baseBean.setMessage("创建成功");

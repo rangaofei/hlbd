@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
-@JsonIgnoreProperties({"studentAnswer", "awaitCorrect"})
+@JsonIgnoreProperties({"studentAnswer"})
 @Entity
 public class StudentAnswerQuestion {
     @Id
@@ -206,5 +206,29 @@ public class StudentAnswerQuestion {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    @Override
+    public String toString() {
+        return "StudentAnswerQuestion{" +
+                "id=" + id +
+                ", stageId=" + stageId +
+                ", subjectId=" + subjectId +
+                ", versionId=" + versionId +
+                ", textbookId=" + textbookId +
+                ", booknodeId=" + booknodeId +
+                ", questionId=" + questionId +
+                ", questiontypeId=" + questiontypeId +
+                ", score=" + score +
+                ", answer='" + answer + '\'' +
+                ", answerComment='" + answerComment + '\'' +
+                ", correct='" + correct + '\'' +
+                ", correctComment='" + correctComment + '\'' +
+                ", awaitCorrect=" + awaitCorrect +
+                ", studentId='" + studentId + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", teacherHomeworkQuestionId=" + teacherHomeworkQuestionId +
+                ", answerId='" + answerId + '\'' +
+                '}';
     }
 }

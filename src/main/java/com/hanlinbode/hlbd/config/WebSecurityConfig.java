@@ -1,7 +1,8 @@
 package com.hanlinbode.hlbd.config;
 
 
-import com.hanlinbode.hlbd.service.JwtAuthenticationEntryPoint;
+import com.hanlinbode.hlbd.enums.Role;
+import com.hanlinbode.hlbd.security.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,8 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 //.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/teacher/**").hasAuthority("T")
-                .antMatchers("/student/**").hasAuthority("S")
+                .antMatchers("/teacher/**").hasAuthority(Role.TEACHER.name())
+                .antMatchers("/student/**").hasAuthority(Role.STUDENT.name())
                 // 允许对于网站静态资源的无授权访问
                 .antMatchers(
                         HttpMethod.GET,

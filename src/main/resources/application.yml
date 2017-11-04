@@ -12,10 +12,12 @@ spring:
    hibernate:
      ddl-auto: update
 
+
   data:
     jpa:
       repositories:
         enabled: true
+
 #  logging:
 #    level:
 #      org.springframework:

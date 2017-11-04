@@ -1,4 +1,4 @@
-package com.hanlinbode.hlbd.service;
+package com.hanlinbode.hlbd.security;
 
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Teacher;
@@ -9,9 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Component
 public class JwtUserDetailsServiceImpl implements UserDetailsService {

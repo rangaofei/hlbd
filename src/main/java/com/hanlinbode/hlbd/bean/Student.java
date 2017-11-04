@@ -2,6 +2,7 @@ package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hanlinbode.hlbd.enums.Role;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -35,7 +36,8 @@ public class Student implements Serializable {
     private Date createdTime;
 
     @Column(nullable = false)
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "team_student",
@@ -45,9 +47,8 @@ public class Student implements Serializable {
 
 
     public Student() {
-        this.role = "S";
+        this.role = Role.STUDENT;
     }
-
 
     public int getId() {
         return id;
@@ -93,15 +94,15 @@ public class Student implements Serializable {
         return createdTime;
     }
 
-    public void setCreatedTime(Date crteatedTime) {
-        this.createdTime = crteatedTime;
+    public void setCreatedTime(Date createdTime) {
+        this.createdTime = createdTime;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 
@@ -122,7 +123,7 @@ public class Student implements Serializable {
                 ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
                 ", createdTime=" + createdTime +
-                ", role='" + role + '\'' +
+                ", role=" + role +
                 '}';
     }
 
@@ -138,7 +139,7 @@ public class Student implements Serializable {
         if (password != null ? !password.equals(student.password) : student.password != null) return false;
         if (phone != null ? !phone.equals(student.phone) : student.phone != null) return false;
         if (createdTime != null ? !createdTime.equals(student.createdTime) : student.createdTime != null) return false;
-        return role != null ? role.equals(student.role) : student.role == null;
+        return role == student.role;
     }
 
     @Override

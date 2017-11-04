@@ -1,7 +1,8 @@
-package com.hanlinbode.hlbd.service;
+package com.hanlinbode.hlbd.security;
 
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Teacher;
+import com.hanlinbode.hlbd.security.JwtUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -16,7 +17,7 @@ public final class JwtUserFactory {
 
     public static JwtUser create(Teacher teacher) {
         ArrayList<String> list = new ArrayList<>();
-        list.add(teacher.getRole());
+        list.add(teacher.getRole().name());
         return new JwtUser(
                 teacher.getTeacherId(),
                 teacher.getName(),
@@ -28,7 +29,7 @@ public final class JwtUserFactory {
 
     public static JwtUser create(Student student) {
         ArrayList<String> list = new ArrayList<>();
-        list.add(student.getRole());
+        list.add(student.getRole().name());
         return new JwtUser(
                 student.getStudentId(),
                 student.getName(),

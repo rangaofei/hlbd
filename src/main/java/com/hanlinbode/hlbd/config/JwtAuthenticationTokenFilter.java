@@ -1,6 +1,6 @@
 package com.hanlinbode.hlbd.config;
 
-import com.hanlinbode.hlbd.service.JwtUserDetailsServiceImpl;
+import com.hanlinbode.hlbd.security.JwtUserDetailsServiceImpl;
 import com.hanlinbode.hlbd.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

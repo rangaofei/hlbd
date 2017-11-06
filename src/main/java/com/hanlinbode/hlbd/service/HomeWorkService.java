@@ -7,7 +7,7 @@ import com.hanlinbode.hlbd.bean.Team;
 import java.util.List;
 
 public interface HomeWorkService {
-    TeacherHomework createHomeWork(String teacherId, TeacherHomework teacherHomework, List<Team> teams);
+    TeacherHomework createHomeWork(String teacherId, TeacherHomework teacherHomework,List<Team> teams,int totaolStudent);
 
     List<TeacherHomework> findHomeWorkByTeacherId(String teacherId);
 
@@ -18,4 +18,8 @@ public interface HomeWorkService {
     TeacherHomework updateCommitCount(String homeworkId);
 
     float calculateDifficult(List<TeacherHomeworkQuestion> questionList);
+
+    TeacherHomework setHomeworkTotalStudent(int count, TeacherHomework teacherHomework);
+
+    TeacherHomework saveTeacherHomework(TeacherHomework teacherHomework);
 }

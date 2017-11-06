@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
@@ -49,7 +50,7 @@ public class TeamTest {
     @Test
     public void createTeam() throws Exception {
         Team team = new Team();
-        team.setTeamName("一年级");
+        team.setTeamName("二年级");
         team.setTeamIntroduction("第一个班级");
         ObjectMapper o = new ObjectMapper();
         String content = o.writeValueAsString(team);
@@ -62,6 +63,36 @@ public class TeamTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    @Test
+    public void getTeacherTeam() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/teacher/{teacher_id}/getclasses", "15087427115547")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .header("Authorization", "Bearer " + token))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void getTeamInfo() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/teacher/{team_id}/getteaminfo", "8959330466")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .header("Authorization", "Bearer " + token))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+
+    @Test
+    public void getTeamStudents() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/teacher/{team_id}/getteamstudents", "8959330466")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .header("Authorization", "Bearer " + token))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
     @Test
     public void joinTeam() throws Exception {
         mvc.perform(MockMvcRequestBuilders.post("/student/15087254904257/joinclass")

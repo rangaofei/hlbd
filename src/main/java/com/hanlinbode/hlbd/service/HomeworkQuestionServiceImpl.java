@@ -2,13 +2,12 @@ package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
 import com.hanlinbode.hlbd.dao.HomeworkQuestionRepository;
-import com.hanlinbode.hlbd.service.HomeworkQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Component
+@Service
 public class HomeworkQuestionServiceImpl implements HomeworkQuestionService {
     @Autowired
     private HomeworkQuestionRepository homeworkQuestionRepository;

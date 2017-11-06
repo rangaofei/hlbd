@@ -26,14 +26,25 @@ public class ExceptionHandlerAdvice {
     public BaseBean<Object> handleResultNotFoundException(ResultNotFoundException e) {
         BaseBean<Object> result = new BaseBean<>();
         result.setCode(410);
+        result.setBody(e.getBody());
         result.setMessage(e.getMessage());
         return result;
     }
 
     @ExceptionHandler(ResultAlreadyExistException.class)
-    public BaseBean<Object> handleResultAlreadyExistException(ResultAlreadyExistException e){
+    public BaseBean<Object> handleResultAlreadyExistException(ResultAlreadyExistException e) {
         BaseBean<Object> result = new BaseBean<>();
         result.setCode(411);
+        result.setBody(e.getBody());
+        result.setMessage(e.getMessage());
+        return result;
+    }
+
+    @ExceptionHandler(ParamIncorrectException.class)
+    public BaseBean<Object> handleaParamIncorrectException(ParamIncorrectException e) {
+        BaseBean<Object> result = new BaseBean<>();
+        result.setCode(412);
+        result.setBody(e.getBody());
         result.setMessage(e.getMessage());
         return result;
     }

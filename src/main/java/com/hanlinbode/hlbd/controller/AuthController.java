@@ -32,84 +32,42 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/auth/student/register", method = RequestMethod.POST)
-    public BaseBean<StudentAndToken> response(@RequestBody Student input) {
+    public BaseBean<StudentAndToken> studentRegister(@RequestBody Student input) {
         BaseBean<StudentAndToken> baseBean = new BaseBean<>();
         logger.info(input.toString());
-        if (null == studentService.findStudentByPhone(input.getPhone())) {
-            baseBean.setCode(ConstData.POST_SUCCESS);
-            baseBean.setMessage("创建成功");
-            baseBean.setBody(studentService.registerStudent(input));
-            return baseBean;
-        } else {
-            baseBean.setCode(ConstData.NO_RESULT);
-            baseBean.setMessage("该手机号已经注册");
-            baseBean.setBody(null);
-            return baseBean;
-        }
+        baseBean.setMessage("用户创建成功");
+        baseBean.setBody(studentService.registerStudent(input));
+        return baseBean;
     }
 
     @RequestMapping(value = "/auth/student/login", method = RequestMethod.POST)
-    public BaseBean<StudentAndToken> logResponse(@RequestBody Student student) {
+    public BaseBean<StudentAndToken> studentLogin(@RequestBody Student student) {
         BaseBean<StudentAndToken> result = new BaseBean<>();
-        Student s = studentService.findStudentByPhone(student.getPhone());
-        if (null == s) {
-            result.setCode(ConstData.NO_RESULT);
-            result.setMessage("用户未注册");
-            result.setBody(null);
-        } else {
-            if (s.getPassword().equals(student.getPassword())) {
-                StudentAndToken studentAndToken =
-                        new StudentAndToken(s, studentService.generateToken(student.getPhone()));
-                result.setCode(ConstData.POST_SUCCESS);
-                result.setMessage("success");
-                result.setBody(studentAndToken);
-            }
-
-        }
+        result.setCode(ConstData.POST_SUCCESS);
+        result.setMessage("用户登录成功");
+        result.setBody(studentService.loginStudent(student));
         return result;
     }
 
     @RequestMapping(value = "/auth/teacher/register", method = RequestMethod.POST)
-    public BaseBean<TeacherAndToken> response(@RequestBody Teacher input) {
+    public BaseBean<TeacherAndToken> TeacherRegister(@RequestBody Teacher input) {
         BaseBean<TeacherAndToken> baseBean = new BaseBean<>();
         logger.info(input.toString());
-        if (null == teacherService.checkTeacherExist(input)) {
-            TeacherAndToken teacherAndToken = teacherService.registerTeacher(input);
-            baseBean.setCode(ConstData.POST_SUCCESS);
-            baseBean.setMessage("创建成功");
-            baseBean.setBody(teacherAndToken);
-            return baseBean;
-        } else {
-            baseBean.setCode(ConstData.NO_RESULT);
-            baseBean.setMessage("该手机号已经注册");
-            baseBean.setBody(null);
-            return baseBean;
-        }
+        TeacherAndToken teacherAndToken = teacherService.registerTeacher(input);
+        baseBean.setCode(ConstData.POST_SUCCESS);
+        baseBean.setMessage("创建成功");
+        baseBean.setBody(teacherAndToken);
+        return baseBean;
+
     }
 
     @RequestMapping(value = "/auth/teacher/login", method = RequestMethod.POST)
-    public BaseBean<TeacherAndToken> logResponse(@RequestBody Teacher teacher) {
+    public BaseBean<TeacherAndToken> teacherLogin(@RequestBody Teacher teacher) {
         BaseBean<TeacherAndToken> result = new BaseBean<>();
-        Teacher tmp = teacherService.checkTeacherExist(teacher);
-        if (null == tmp) {
-            result.setCode(ConstData.NO_RESULT);
-            result.setMessage("用户未注册");
-            result.setBody(null);
-        } else {
-            if (tmp.getPassword().equals(teacher.getPassword())) {
-                teacher.setPhone(tmp.getPhone());
-                Token token = teacherService.generateToken(teacher.getPhone());
-                TeacherAndToken teacherAndToken = new TeacherAndToken(tmp, token);
-                result.setCode(ConstData.POST_SUCCESS);
-                result.setMessage("success");
-                result.setBody(teacherAndToken);
-            } else {
-                result.setCode(ConstData.WRONG_PARAM);
-                result.setMessage("密码错误");
-                result.setBody(null);
-            }
+        result.setCode(ConstData.POST_SUCCESS);
+        result.setMessage("登录成功");
+        result.setBody(teacherService.loginTeacher(teacher));
 
-        }
         return result;
     }
 

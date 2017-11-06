@@ -9,6 +9,7 @@ import com.hanlinbode.hlbd.dao.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -80,7 +81,6 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
     @Override
     public List<StudentAnswerQuestion> findAnserQuesitonByHomeworkQuestionId(int id) {
         return answerQuestionRepository.findStudentAnswerQuestionsByTeacherHomeworkQuestionId(id);
-
     }
 
     @Override
@@ -119,5 +119,23 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
             }
         }
         return waitCorrect;
+    }
+
+    @Override
+    public void createAnswerQuestion(List<TeacherHomeworkQuestion> teacherHomeworkQuestionList, List<StudentAnswer> studentAnswerList) {
+        List<StudentAnswerQuestion> list = new ArrayList<>();
+        System.out.println(teacherHomeworkQuestionList.size());
+        for (StudentAnswer s : studentAnswerList) {
+            System.out.println(s.toString());
+            for (TeacherHomeworkQuestion ts : teacherHomeworkQuestionList) {
+                System.out.println(ts.toString());
+                StudentAnswerQuestion studentAnswerQuestion = new StudentAnswerQuestion(ts);
+                studentAnswerQuestion.setStudentId(s.getStudentId());
+                studentAnswerQuestion.setStudentName(s.getStudentName());
+                studentAnswerQuestion.setAnswerId(s.getAnswerId());
+                list.add(studentAnswerQuestion);
+            }
+        }
+        answerQuestionRepository.save(list);
     }
 }

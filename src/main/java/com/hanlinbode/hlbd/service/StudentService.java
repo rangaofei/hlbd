@@ -20,4 +20,10 @@ public interface StudentService extends TokenService {
     Team joinTeam(String studentId, String teamId);
 
     StudentAndToken registerStudent(Student student);
+
+    StudentAndToken loginStudent(Student student);
+
+    List<Student> findStudentsByTeam(Team team);
+
+    List<Student> findStudentsByTeams(List<Team> teams);
 }

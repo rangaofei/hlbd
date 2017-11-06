@@ -122,13 +122,17 @@ public class TeacherHomeworkQuestion {
     @Override
     public String toString() {
         return "TeacherHomeworkQuestion{" +
-                "stageId=" + stageId +
-                ", xksubjectId=" + subjectId +
-                ", xkversionId=" + versionId +
-                ", xkTextbookId=" + textbookId +
+                "id=" + id +
+                ", stageId=" + stageId +
+                ", subjectId=" + subjectId +
+                ", versionId=" + versionId +
+                ", textbookId=" + textbookId +
                 ", booknodeId=" + booknodeId +
                 ", questionId=" + questionId +
                 ", questiontypeId=" + questiontypeId +
+                ", correctRate=" + correctRate +
+                ", awaitCorrect=" + awaitCorrect +
+                ", teacherHomeworkId='" + teacherHomeworkId + '\'' +
                 '}';
     }
 }

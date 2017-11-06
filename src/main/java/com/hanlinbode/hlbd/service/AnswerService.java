@@ -10,7 +10,11 @@ import java.util.List;
 public interface AnswerService {
     StudentAnswer saveAnswer(TeacherHomework teacherHomework, Student student);
 
-    StudentAnswer saveAnserByTeam(TeacherHomework teacherHomework, Team team);
+    List<StudentAnswer> saveAnswerByTeam(TeacherHomework teacherHomework, Team team);
+
+    List<StudentAnswer> saveAnswerByTeams(TeacherHomework teacherHomework, List<Team> teams);
+
+    List<StudentAnswer> saveAnswerByStudents(TeacherHomework teacherHomework, List<Student> students);
 
     List<StudentAnswer> findAnswerByTeamAndStudent(String teamId, String studentId);
 

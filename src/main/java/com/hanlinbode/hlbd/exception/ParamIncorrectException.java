@@ -1,14 +1,15 @@
 package com.hanlinbode.hlbd.exception;
 
-public class ResultAlreadyExistException extends RuntimeException {
+public class ParamIncorrectException extends RuntimeException {
     private String message;
     private Object body;
 
-    public ResultAlreadyExistException(String message) {
+    public ParamIncorrectException(String message) {
         super(message);
+        this.message = message;
     }
 
-    public ResultAlreadyExistException(String message, Object body) {
+    public ParamIncorrectException(String message, Object body) {
         super(message);
         this.message = message;
         this.body = body;

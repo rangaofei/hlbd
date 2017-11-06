@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanlinbode.hlbd.HlbdApplication;
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Teacher;
+import com.hanlinbode.hlbd.composbean.BaseBean;
+import com.hanlinbode.hlbd.composbean.StudentAndToken;
 import com.hanlinbode.hlbd.composbean.Token;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +19,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -43,12 +47,17 @@ public class AuthTest {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
+    /**
+     * 测试老师注册
+     *
+     * @throws Exception
+     */
     @Test
     public void testTeacherRegister() throws Exception {
         Teacher teacher = new Teacher();
         teacher.setName("冉高飞");
         teacher.setPassword("123");
-        teacher.setPhone("131");
+        teacher.setPhone("124");
         ObjectMapper o = new ObjectMapper();
         String content = o.writeValueAsString(teacher);
         mvc.perform(MockMvcRequestBuilders.post("/auth/teacher/register")
@@ -63,7 +72,7 @@ public class AuthTest {
     public void testTeacherLogin() throws Exception {
         Teacher teacher = new Teacher();
         teacher.setPassword("123");
-        teacher.setPhone("131");
+        teacher.setPhone("124");
         ObjectMapper o = new ObjectMapper();
         String content = o.writeValueAsString(teacher);
         mvc.perform(MockMvcRequestBuilders.post("/auth/teacher/login")
@@ -74,20 +83,33 @@ public class AuthTest {
                 .andDo(MockMvcResultHandlers.print());
     }
 
+    /**
+     * 测试学生注册
+     * 已注册则输出用户已注册
+     * 未注册则输出注册成功
+     *
+     * @throws Exception
+     */
     @Test
     public void testStudentRegister() throws Exception {
         Student student = new Student("小刚", "789", "jrt");
         ObjectMapper o = new ObjectMapper();
         String content = o.writeValueAsString(student);
 
-        mvc.perform(MockMvcRequestBuilders.post("/auth/student/register")
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/auth/student/register")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print());
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
     }
 
+    /**
+     * 学生正确登录
+     *
+     * @throws Exception
+     */
     @Test
     public void testStudentLogin() throws Exception {
         Student student = new Student("789", "jrt");
@@ -100,7 +122,44 @@ public class AuthTest {
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
+    }
 
+    /**
+     * 学生密码错误
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testStudentLoginPasswordIncorrect() throws Exception {
+        Student student = new Student("78", "jrt");
+        ObjectMapper o = new ObjectMapper();
+        String content = o.writeValueAsString(student);
+
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.post("/auth/student/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(content)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print())
+                .andReturn();
+    }
+
+    /**
+     * 测试学生未注册
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testStudentLoginPhoneIncorrect() throws Exception {
+        Student student = new Student("789", "jr");
+        ObjectMapper o = new ObjectMapper();
+        String content = o.writeValueAsString(student);
+        mvc.perform(MockMvcRequestBuilders.post("/auth/student/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(content)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test

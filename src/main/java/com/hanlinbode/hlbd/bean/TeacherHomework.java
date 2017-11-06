@@ -7,6 +7,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class TeacherHomework implements Serializable {
     @JoinTable(name = "team_homework",
             joinColumns = {@JoinColumn(name = "homework_id", referencedColumnName = "homeworkId")},
             inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "teamId")})
-    private List<Team> teamList;
+    private List<Team> teamList=new ArrayList<>();
     @Transient
     private List<TeacherHomeworkQuestion> teacherHomeworkQuestions;
 

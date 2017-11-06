@@ -4,7 +4,7 @@ import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.TeamAndStudent;
-import com.hanlinbode.hlbd.facade.JoinClassFacade;
+import com.hanlinbode.hlbd.facade.ClassFacade;
 import com.hanlinbode.hlbd.service.StudentService;
 import com.hanlinbode.hlbd.service.TeamService;
 import com.hanlinbode.hlbd.util.ConstData;
@@ -20,60 +20,52 @@ public class TeamController {
     @Autowired
     private StudentService studentService;
     @Autowired
-    private JoinClassFacade joinClassFacade;
+    private ClassFacade classFacade;
 
 
     @RequestMapping(path = "teacher/{teacher_id}/createclass", method = RequestMethod.POST)
     public BaseBean<Team> createTeacherClass(@PathVariable("teacher_id") String teacherId, @RequestBody Team team) {
         BaseBean<Team> result = new BaseBean<>();
-        Team t = teamService.saveTeamByTeacher(teacherId, team);
+        Team t = classFacade.createTeam(teacherId, team);
         result.setBody(t);
         return result;
     }
 
     @RequestMapping(path = "teacher/{teacher_id}/getclasses", method = RequestMethod.GET)
     public BaseBean<List<Team>> getTeacherClasses(@PathVariable("teacher_id") String id) {
-        System.out.println(id);
         BaseBean<List<Team>> listBaseBean = new BaseBean<>();
-        List<Team> teamList = teamService.findTeamsByTeacherId(id);
-        if (teamList.size() < 1) {
-            listBaseBean.setCode(ConstData.NO_RESULT);
-            listBaseBean.setBody(null);
-            listBaseBean.setMessage("没有创建班级");
-            return listBaseBean;
-        } else {
-            listBaseBean.setCode(ConstData.GET_SUCCESS);
-            listBaseBean.setBody(teamList);
-            listBaseBean.setMessage("success");
-            return listBaseBean;
-        }
-
+        List<Team> teamList = classFacade.getTeacherTeams(id);
+        listBaseBean.setCode(ConstData.GET_SUCCESS);
+        listBaseBean.setBody(teamList);
+        listBaseBean.setMessage("获取班级成功");
+        return listBaseBean;
     }
 
-    @RequestMapping(path = "teacher/{team_id}/getstudent", method = RequestMethod.GET)
-    public BaseBean<TeamAndStudent> getStudent(@PathVariable("team_id") String teamId) {
-        BaseBean<TeamAndStudent> result = new BaseBean<>();
-        TeamAndStudent teamAndStudent = new TeamAndStudent();
-        Team team = teamService.findTeamByTeamId(teamId);
-
-        List<Student> students = team.getStudents();
-        teamAndStudent.setStudentList(students);
-        teamAndStudent.setTeam(team);
+    @RequestMapping(path = "teacher/{team_id}/getteaminfo", method = RequestMethod.GET)
+    public BaseBean<Team> getStudent(@PathVariable("team_id") String teamId) {
+        BaseBean<Team> result = new BaseBean<>();
+        Team team = teamService.getTeamInfo(teamId);
         result.setCode(200);
         result.setMessage("获取成功");
-        result.setBody(teamAndStudent);
+        result.setBody(team);
         return result;
+    }
 
+    @RequestMapping(path = "teacher/{team_id}/getteamstudents")
+    public BaseBean<List<Student>> getTeamStudent(@PathVariable("team_id") String teamId) {
+        BaseBean<List<Student>> result = new BaseBean<>();
+        Team team = teamService.getTeamInfo(teamId);
+        result.setCode(200);
+        result.setMessage("获取成功");
+        result.setBody(team.getStudents());
+        return result;
     }
 
     @RequestMapping(path = "student/{student_id}/joinclass", method = RequestMethod.POST)
     public BaseBean<Team> joinClass(@PathVariable("student_id") String studentid, @RequestParam("class_id") String classid) {
         BaseBean<Team> result = new BaseBean<>();
         result.setMessage("保存成功");
-        Team team = joinClassFacade.JoinTeam(studentid, classid);
-        if (team == null) {
-            result.setMessage("您已加入过该班级");
-        }
+        Team team = classFacade.JoinTeam(studentid, classid);
         result.setCode(201);
         result.setBody(team);
         return result;
@@ -93,6 +85,4 @@ public class TeamController {
         result.setMessage("成功");
         return result;
     }
-
-
 }

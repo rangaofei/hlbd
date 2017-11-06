@@ -4,6 +4,9 @@ import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.composbean.TeacherAndToken;
 import com.hanlinbode.hlbd.composbean.Token;
 import com.hanlinbode.hlbd.dao.TeacherRepository;
+import com.hanlinbode.hlbd.exception.ParamIncorrectException;
+import com.hanlinbode.hlbd.exception.ResultAlreadyExistException;
+import com.hanlinbode.hlbd.exception.ResultNotFoundException;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherAndToken registerTeacher(Teacher teacher) {
+        if (null != teacherRepository.findTeacherByPhone(teacher.getPhone())) {
+            throw new ResultAlreadyExistException("手机号码已注册", new TeacherAndToken(teacher,null));
+        }
         TeacherAndToken teacherAndToken = new TeacherAndToken();
         teacher.setCreatedTime(new Date());
         teacher.setTeacherId(UUIDUtil.generateId());
@@ -39,6 +45,18 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public Teacher findTeacherByTeacherId(String teacherId) {
         return teacherRepository.findTeacherByTeacherId(teacherId);
+    }
+
+    @Override
+    public TeacherAndToken loginTeacher(Teacher teacher) {
+        Teacher t = teacherRepository.findTeacherByPhone(teacher.getPhone());
+        if (t == null) {
+            throw new ResultNotFoundException("用户未注册", new TeacherAndToken(teacher,null));
+        }
+        if (!t.getPassword().equals(teacher.getPassword())) {
+            throw new ParamIncorrectException("密码错误", new TeacherAndToken(teacher,null));
+        }
+        return new TeacherAndToken(t, Token.generateToken(t.getPhone()));
     }
 
     @Override

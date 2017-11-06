@@ -1,7 +1,6 @@
 package com.hanlinbode.hlbd.service;
 
-import com.hanlinbode.hlbd.bean.StudentAnswer;
-import com.hanlinbode.hlbd.bean.StudentAnswerQuestion;
+import com.hanlinbode.hlbd.bean.*;
 
 import java.util.List;
 
@@ -17,4 +16,6 @@ public interface AnswerQuestionService {
     float calculateHomeworkQuestionCorrectRate(int homeworkQuestionId);
 
     boolean waitCorrect(int homeworkQuestionId);
+
+    void createAnswerQuestion(List<TeacherHomeworkQuestion> teacherHomeworkQuestionList, List<StudentAnswer> studentAnswerList);
 }

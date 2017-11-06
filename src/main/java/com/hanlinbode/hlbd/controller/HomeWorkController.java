@@ -10,6 +10,7 @@ import com.hanlinbode.hlbd.composbean.CreateHomeWork;
 import com.hanlinbode.hlbd.composbean.HomeWorkAndList;
 import com.hanlinbode.hlbd.composbean.StudentAnswerAndList;
 import com.hanlinbode.hlbd.dao.*;
+import com.hanlinbode.hlbd.facade.CreateHomeworkFacade;
 import com.hanlinbode.hlbd.service.*;
 import com.hanlinbode.hlbd.util.ConstData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,8 @@ public class HomeWorkController {
     private AnswerQuestionRepository answerQuestionRepository;
     @Autowired
     private AnswerQuestionService answerQuestionService;
+    @Autowired
+    private CreateHomeworkFacade createHomeworkFacade;
 
     /**
      * 创建作业
@@ -47,7 +50,8 @@ public class HomeWorkController {
     @RequestMapping(path = "/teacher/{teacher_id}/createhomework", method = RequestMethod.POST)
     public BaseBean<TeacherHomework> createHomeWork(@PathVariable("teacher_id") String id, @RequestBody CreateHomeWork createHomeWork) {
         BaseBean<TeacherHomework> result = new BaseBean<>();
-        TeacherHomework h = homeWorkService.createHomeWork(id, createHomeWork.getTeacherHomework(), createHomeWork.getTeams());
+
+        TeacherHomework h = createHomeworkFacade.createHomeWork(id, createHomeWork);
         homeworkQuestionService.setQuestionHomeworkId(createHomeWork.getTeacherHomework().getTeacherHomeworkQuestions(),
                 createHomeWork.getTeacherHomework().getHomeworkId());
         result.setCode(ConstData.POST_SUCCESS);

@@ -6,7 +6,9 @@ import com.hanlinbode.hlbd.composbean.StudentAndToken;
 import com.hanlinbode.hlbd.composbean.Token;
 import com.hanlinbode.hlbd.dao.StudentRepository;
 import com.hanlinbode.hlbd.dao.TeamRepository;
-import com.hanlinbode.hlbd.service.StudentService;
+import com.hanlinbode.hlbd.exception.ParamIncorrectException;
+import com.hanlinbode.hlbd.exception.ResultAlreadyExistException;
+import com.hanlinbode.hlbd.exception.ResultNotFoundException;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -55,11 +57,36 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentAndToken registerStudent(Student student) {
+        if (null != studentRepository.findStudentByPhone(student.getPhone())) {
+            throw new ResultAlreadyExistException("该用户已注册", new StudentAndToken(student, null));
+        }
         student.setCreatedTime(new Date());
         student.setStudentId(UUIDUtil.generateId());
         studentRepository.saveAndFlush(student);
         Token token = generateToken(student.getPhone());
         return new StudentAndToken(student, token);
+    }
+
+    @Override
+    public StudentAndToken loginStudent(Student student) {
+        Student s = studentRepository.findStudentByPhone(student.getPhone());
+        if (null == s) {
+            throw new ResultNotFoundException("用户未注册", new StudentAndToken(student,null));
+        }
+        if (!student.getPassword().equals(s.getPassword())) {
+            throw new ParamIncorrectException("用户密码错误",  new StudentAndToken(student,null));
+        }
+        return new StudentAndToken(s, Token.generateToken(s.getPhone()));
+    }
+
+    @Override
+    public List<Student> findStudentsByTeam(Team team) {
+        return null;
+    }
+
+    @Override
+    public List<Student> findStudentsByTeams(List<Team> teams) {
+        return null;
     }
 
     @Override

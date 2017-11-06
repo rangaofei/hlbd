@@ -33,24 +33,44 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public StudentAnswer saveAnserByTeam(TeacherHomework teacherHomework, Team team) {
+    public List<StudentAnswer> saveAnswerByTeam(TeacherHomework teacherHomework, Team team) {
+        List<StudentAnswer> list = new ArrayList<>();
         for (Student s : team.getStudents()) {
             StudentAnswer studentAnswer = new StudentAnswer();
             studentAnswer.initWithHomeWork(teacherHomework);
             studentAnswer.setStudentId(s.getStudentId());
             studentAnswer.setStudentName(s.getName());
             studentAnswer.setTeamId(team.getTeamId());
-            List<StudentAnswerQuestion> re = new ArrayList<>();
-            for (TeacherHomeworkQuestion ts : teacherHomework.getTeacherHomeworkQuestions()) {
-                StudentAnswerQuestion studentAnswerQuestion = new StudentAnswerQuestion(ts);
-                studentAnswerQuestion.setStudentId(s.getStudentId());
-                studentAnswerQuestion.setStudentName(s.getName());
-                studentAnswerQuestion.setAnswerId(studentAnswer.getAnswerId());
-                re.add(studentAnswerQuestion);
+            list.add(studentAnswer);
+        }
+        return answerRepository.save(list);
+    }
+
+    @Override
+    public List<StudentAnswer> saveAnswerByTeams(TeacherHomework teacherHomework, List<Team> teams) {
+        List<StudentAnswer> list = new ArrayList<>();
+        for (Team team : teams) {
+            for (Student s : team.getStudents()) {
+                StudentAnswer studentAnswer = new StudentAnswer();
+                studentAnswer.initWithHomeWork(teacherHomework);
+                studentAnswer.setStudentId(s.getStudentId());
+                studentAnswer.setStudentName(s.getName());
+                studentAnswer.setTeamId(team.getTeamId());
+                list.add(studentAnswer);
             }
-            answerQuestionRepository.save(re);
-            studentAnswer.setStudentAnswerLists(re);
-            answerRepository.save(studentAnswer);
+        }
+        return answerRepository.save(list);
+    }
+
+    @Override
+    public List<StudentAnswer> saveAnswerByStudents(TeacherHomework teacherHomework, List<Student> students) {
+        List<StudentAnswer> list = new ArrayList<>();
+        for (Student s : students) {
+            StudentAnswer studentAnswer = new StudentAnswer();
+            studentAnswer.initWithHomeWork(teacherHomework);
+            studentAnswer.setStudentId(s.getStudentId());
+            studentAnswer.setStudentName(s.getName());
+            list.add(studentAnswer);
         }
         return null;
     }

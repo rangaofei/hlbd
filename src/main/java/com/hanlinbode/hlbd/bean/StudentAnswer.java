@@ -232,11 +232,26 @@ public class StudentAnswer implements Serializable {
 
     @Override
     public String toString() {
-        return "Answers{" +
+        return "StudentAnswer{" +
                 "id=" + id +
-                ", AnswerId='" + answerId + '\'' +
+                ", answerId='" + answerId + '\'' +
                 ", answerName='" + answerName + '\'' +
-                ", createdTime='" + createdTime + '\'' +
+                ", homeworkId='" + homeworkId + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", createdTime=" + createdTime +
+                ", type=" + type +
+                ", questionCount=" + questionCount +
+                ", state=" + state +
+                ", correctRate=" + correctRate +
+                ", subjectName='" + subjectName + '\'' +
+                ", studentCount=" + studentCount +
+                ", commitedStudentCount=" + commitedStudentCount +
+                ", difficult=" + difficult +
+                ", teamId='" + teamId + '\'' +
+                ", finishTime='" + finishTime + '\'' +
+                ", costTime='" + costTime + '\'' +
+                ", seconds=" + seconds +
                 '}';
     }
 }

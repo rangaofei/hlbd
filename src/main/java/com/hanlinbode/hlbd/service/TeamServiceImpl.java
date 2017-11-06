@@ -1,15 +1,17 @@
-package com.hanlinbode.hlbd.dao;
+package com.hanlinbode.hlbd.service;
 
-import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.bean.Team;
+import com.hanlinbode.hlbd.dao.TeamRepository;
+import com.hanlinbode.hlbd.service.TeamService;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.List;
 
 @Component
-public class TeamDaoImpl implements TeamDao {
+public class TeamServiceImpl implements TeamService {
     @Autowired
     private TeamRepository teamRepository;
 
@@ -33,12 +35,14 @@ public class TeamDaoImpl implements TeamDao {
     public Team saveTeamByTeacher(String teacherId, Team team) {
         team.setTeacherId(teacherId);
         team.setTeamId(UUIDUtil.generatedTeamId());
+        team.setTeamVolume(0);
+        team.setCreatedTime(new Date());
         return teamRepository.save(team);
 
     }
 
     @Override
-    public List<Team> findTeamsByteacherId(String teacherId) {
+    public List<Team> findTeamsByTeacherId(String teacherId) {
         return teamRepository.findTeamsByTeacherId(teacherId);
     }
 

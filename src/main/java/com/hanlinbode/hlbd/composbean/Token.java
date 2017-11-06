@@ -10,11 +10,17 @@ public class Token {
     public Token() {
     }
 
-    public Token(String object) {
-        setAccessToken(JWTUtil.createJWT(object, ConstData.JWT_TTL));
-        setRefreshToken(JWTUtil.createJWT(object,ConstData.JWT_REFRESH_TTL));
-
+    public Token(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
+
+    public static Token generateToken(String name) {
+        Token token = new Token();
+        token.setAccessToken(JWTUtil.createJWT(name, ConstData.JWT_TTL));
+        token.setRefreshToken(JWTUtil.createJWT(name, ConstData.JWT_REFRESH_TTL));
+        return token;
+    }
+
 
     public String getAccessToken() {
         return accessToken;

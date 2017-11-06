@@ -1,19 +1,19 @@
-package com.hanlinbode.hlbd.dao;
+package com.hanlinbode.hlbd.service;
 
-import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.bean.TeacherSubject;
+import com.hanlinbode.hlbd.dao.TeacherRepository;
+import com.hanlinbode.hlbd.dao.TeacherSubjectRepository;
+import com.hanlinbode.hlbd.service.TeacherSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class TeacherSubjectDaoImpl implements TeacherSubjectDao {
+public class TeacherSubjectServiceImpl implements TeacherSubjectService {
     @Autowired
     private TeacherSubjectRepository teacherSubjectRepository;
 
-    @Autowired
-    private TeacherRepository teacherRepository;
 
     @Override
     public List<TeacherSubject> findSubjectsByTeacherId(String teacherId) {

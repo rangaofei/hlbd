@@ -1,14 +1,15 @@
-package com.hanlinbode.hlbd.dao;
+package com.hanlinbode.hlbd.service;
 
-import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
+import com.hanlinbode.hlbd.dao.HomeworkQuestionRepository;
+import com.hanlinbode.hlbd.service.HomeworkQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class HomeworkQuestionDaoImpl implements HomeworkQuestionDao {
+public class HomeworkQuestionServiceImpl implements HomeworkQuestionService {
     @Autowired
     private HomeworkQuestionRepository homeworkQuestionRepository;
 
@@ -20,6 +21,14 @@ public class HomeworkQuestionDaoImpl implements HomeworkQuestionDao {
     @Override
     public List<TeacherHomeworkQuestion> updateCommitState(String homeworkQuestionId) {
         return null;
+    }
+
+    @Override
+    public List<TeacherHomeworkQuestion> setQuestionHomeworkId(List<TeacherHomeworkQuestion> list,String homeworkId) {
+        for(TeacherHomeworkQuestion question:list){
+            question.setTeacherHomeworkId(homeworkId);
+        }
+        return homeworkQuestionRepository.save(list);
     }
 
     @Override

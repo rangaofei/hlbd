@@ -1,6 +1,9 @@
-package com.hanlinbode.hlbd.dao;
+package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.*;
+import com.hanlinbode.hlbd.dao.AnswerQuestionRepository;
+import com.hanlinbode.hlbd.dao.AnswerRepository;
+import com.hanlinbode.hlbd.dao.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -8,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class AnswerDaoImpl implements AnswerDao {
+public class AnswerServiceImpl implements AnswerService {
     @Autowired
     private AnswerRepository answerRepository;
     @Autowired
@@ -16,9 +19,9 @@ public class AnswerDaoImpl implements AnswerDao {
     @Autowired
     private AnswerQuestionRepository answerQuestionRepository;
     @Autowired
-    private AnswerQuestionDao answerQuestionDao;
+    private AnswerQuestionService answerQuestionService;
     @Autowired
-    private HomeworkQuestionDao homeworkQuestionDao;
+    private HomeworkQuestionService homeworkQuestionService;
 
     @Override
     public StudentAnswer saveAnswer(TeacherHomework teacherHomework, Student student) {
@@ -73,7 +76,7 @@ public class AnswerDaoImpl implements AnswerDao {
     @Override
     public StudentAnswer calucateCorrectRate(String answerId) {
         StudentAnswer studentAnswer = findAnswerById(answerId);
-        studentAnswer.setCorrectRate(answerQuestionDao.calculateStudentAnswerCorrectRate(answerId));
+        studentAnswer.setCorrectRate(answerQuestionService.calculateStudentAnswerCorrectRate(answerId));
         //更新老师表中的正确率
 
         return answerRepository.save(studentAnswer);

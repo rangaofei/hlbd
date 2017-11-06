@@ -1,6 +1,8 @@
 package com.hanlinbode.hlbd.bean;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hanlinbode.hlbd.enums.Role;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@JsonIgnoreProperties({"id", "role", "studentAnswers", "teamList"})
+@JsonIgnoreProperties(value = {"id", "role", "teamList"})
 public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,6 +47,16 @@ public class Student implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "teamId")})
     private List<Team> teamList;
 
+    public Student(String name, String password, String phone) {
+        this.name = name;
+        this.password = password;
+        this.phone = phone;
+    }
+
+    public Student(String password, String phone) {
+        this.password = password;
+        this.phone = phone;
+    }
 
     public Student() {
         this.role = Role.STUDENT;

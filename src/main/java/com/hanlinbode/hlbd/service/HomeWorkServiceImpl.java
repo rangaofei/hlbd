@@ -1,24 +1,24 @@
-package com.hanlinbode.hlbd.dao;
+package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.*;
+import com.hanlinbode.hlbd.dao.*;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
-@Component
-public class HomeWorkDaoImpl implements HomeWorkDao {
+@Service
+public class HomeWorkServiceImpl implements HomeWorkService {
     @Autowired
     private HomeWorkRepository homeWorkRepository;
-    @Autowired
-    private TeacherRepository teacherRepository;
 
     @Autowired
     private TeamRepository teamRepository;
     @Autowired
-    private AnswerDaoImpl answerDao;
+    private AnswerServiceImpl answerDao;
     @Autowired
     private QuestionRepository questionRepository;
     @Autowired
@@ -28,14 +28,9 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
     public TeacherHomework createHomeWork(String teacherId, TeacherHomework teacherHomework, List<Team> teams) {
         teacherHomework.setCreatedTime(new Date());
         teacherHomework.setHomeworkId(UUIDUtil.generateId());
-        Teacher teacher = teacherRepository.findTeacherByTeacherId(teacherId);
         teacherHomework.setTeacherId(teacherId);
         teacherHomework.setQuestionCount(teacherHomework.getTeacherHomeworkQuestions().size());
-        for (TeacherHomeworkQuestion tlist : teacherHomework.getTeacherHomeworkQuestions()) {
-            tlist.setTeacherHomeworkId(teacherHomework.getHomeworkId());
-        }//保存题目列表的题目外键
-        homeworkQuestionRepository.save(teacherHomework.getTeacherHomeworkQuestions());
-        teacherHomework.setDifficult(calucateDifficult(teacherHomework.getTeacherHomeworkQuestions()));
+        teacherHomework.setDifficult(calculateDifficult(teacherHomework.getTeacherHomeworkQuestions()));
         int totalStudent = 0;
         for (Team m : teams) {
             Team team = teamRepository.findTeamByTeamId(m.getTeamId());
@@ -48,7 +43,7 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
             team.getTeacherHomeworkList().add(teacherHomework);
             answerDao.saveAnserByTeam(teacherHomework, team);
         }
-        return homeWorkRepository.save(teacherHomework);
+        return homeWorkRepository.saveAndFlush(teacherHomework);
 
     }
 
@@ -75,7 +70,14 @@ public class HomeWorkDaoImpl implements HomeWorkDao {
         return homeWorkRepository.saveAndFlush(teacherHomework);
     }
 
-    public float calucateDifficult(List<TeacherHomeworkQuestion> questionList) {
+    /**
+     * 计算家庭作业的难度系数
+     *
+     * @param questionList
+     * @return
+     */
+    @Override
+    public float calculateDifficult(List<TeacherHomeworkQuestion> questionList) {
         float sum = 0F;
         for (TeacherHomeworkQuestion question : questionList) {
             Question q = questionRepository.findQuestionById(question.getQuestionId());

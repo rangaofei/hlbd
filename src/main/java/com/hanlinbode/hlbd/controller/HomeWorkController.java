@@ -10,6 +10,7 @@ import com.hanlinbode.hlbd.composbean.CreateHomeWork;
 import com.hanlinbode.hlbd.composbean.HomeWorkAndList;
 import com.hanlinbode.hlbd.composbean.StudentAnswerAndList;
 import com.hanlinbode.hlbd.dao.*;
+import com.hanlinbode.hlbd.service.*;
 import com.hanlinbode.hlbd.util.ConstData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,25 +22,21 @@ import java.util.logging.Logger;
 public class HomeWorkController {
     private Logger logger = Logger.getLogger(this.getClass().getName());
     @Autowired
-    private HomeWorkDao homeWorkDao;
-    @Autowired
-    private TeacherDao teacherDao;
+    private HomeWorkService homeWorkService;
 
     @Autowired
-    private StudentDao studentDao;
+    private StudentService studentService;
 
     @Autowired
-    private TeamDao teamDao;
+    private TeamService teamService;
     @Autowired
-    private AnswerDao answerDao;
+    private AnswerService answerService;
     @Autowired
-    private HomeworkQuestionDao homeworkQuestionDao;
+    private HomeworkQuestionService homeworkQuestionService;
     @Autowired
     private AnswerQuestionRepository answerQuestionRepository;
     @Autowired
-    private QuestionRepository questionRepository;
-    @Autowired
-    private AnswerQuestionDao answerQuestionDao;
+    private AnswerQuestionService answerQuestionService;
 
     /**
      * 创建作业
@@ -50,7 +47,9 @@ public class HomeWorkController {
     @RequestMapping(path = "/teacher/{teacher_id}/createhomework", method = RequestMethod.POST)
     public BaseBean<TeacherHomework> createHomeWork(@PathVariable("teacher_id") String id, @RequestBody CreateHomeWork createHomeWork) {
         BaseBean<TeacherHomework> result = new BaseBean<>();
-        TeacherHomework h = homeWorkDao.createHomeWork(id, createHomeWork.getTeacherHomework(), createHomeWork.getTeams());
+        TeacherHomework h = homeWorkService.createHomeWork(id, createHomeWork.getTeacherHomework(), createHomeWork.getTeams());
+        homeworkQuestionService.setQuestionHomeworkId(createHomeWork.getTeacherHomework().getTeacherHomeworkQuestions(),
+                createHomeWork.getTeacherHomework().getHomeworkId());
         result.setCode(ConstData.POST_SUCCESS);
         result.setBody(h);
         result.setMessage("创建成功");
@@ -61,7 +60,7 @@ public class HomeWorkController {
     @RequestMapping(path = "/teacher/{teacher_id}/getallhomeworks", method = RequestMethod.GET)
     public BaseBean<List<TeacherHomework>> getAllHomeWorks(@PathVariable("teacher_id") String id) {
         BaseBean<List<TeacherHomework>> result = new BaseBean<>();
-        List<TeacherHomework> teacherHomeworks = homeWorkDao.findHomeWorkByTeacherId(id);
+        List<TeacherHomework> teacherHomeworks = homeWorkService.findHomeWorkByTeacherId(id);
         if (teacherHomeworks.size() < 1) {
             result.setMessage("没有作业");
             result.setCode(ConstData.NO_RESULT);
@@ -83,9 +82,9 @@ public class HomeWorkController {
     public BaseBean<HomeWorkAndList> getHomeworkReport(@PathVariable("homework_id") String homeworkId) {
         BaseBean<HomeWorkAndList> result = new BaseBean<>();
         HomeWorkAndList homeWorkAndList = new HomeWorkAndList();
-        TeacherHomework teacherHomework = homeWorkDao.findHomeWorkByHomeWorkId(homeworkId);
+        TeacherHomework teacherHomework = homeWorkService.findHomeWorkByHomeWorkId(homeworkId);
         homeWorkAndList.setTeacherHomework(teacherHomework);
-        List<TeacherHomeworkQuestion> lists = homeworkQuestionDao.findQuestionsByHomeworkId(homeworkId);
+        List<TeacherHomeworkQuestion> lists = homeworkQuestionService.findQuestionsByHomeworkId(homeworkId);
         homeWorkAndList.setTeacherHomeworkQuestion(lists);
         result.setBody(homeWorkAndList);
         logger.info("chenggong");
@@ -98,7 +97,7 @@ public class HomeWorkController {
     @RequestMapping(path = "/teacher/{homework_id}/getquestionlist", method = RequestMethod.GET)
     public BaseBean<List<TeacherHomeworkQuestion>> getHomeworkQuestions(@PathVariable("homework_id") String homeworkId) {
         BaseBean<List<TeacherHomeworkQuestion>> result = new BaseBean<>();
-        result.setBody(homeworkQuestionDao.findQuestionsByHomeworkId(homeworkId));
+        result.setBody(homeworkQuestionService.findQuestionsByHomeworkId(homeworkId));
         return result;
     }
 
@@ -110,7 +109,7 @@ public class HomeWorkController {
     @RequestMapping(path = "/teacher/{homework_id}/{question_id}/getsquestiondetails", method = RequestMethod.GET)
     public BaseBean<List<StudentAnswerQuestion>> getQuestionDetails(@PathVariable("question_id") int id) {
         BaseBean<List<StudentAnswerQuestion>> result = new BaseBean<>();
-        List<StudentAnswerQuestion> list = answerQuestionDao.findAnserQuesitonByHomeworkQuestionId(id);
+        List<StudentAnswerQuestion> list = answerQuestionService.findAnserQuesitonByHomeworkQuestionId(id);
         logger.info(list.get(0).toString());
         result.setBody(list);
         return result;
@@ -140,7 +139,7 @@ public class HomeWorkController {
     public BaseBean<List<StudentAnswer>> getStudentAllHomeworks(@PathVariable("student_id") String studentid,
                                                                 @PathVariable("class_id") String classid) {
         BaseBean<List<StudentAnswer>> result = new BaseBean<>();
-        List<StudentAnswer> studentAnswers = answerDao
+        List<StudentAnswer> studentAnswers = answerService
                 .findAnswerByTeamAndStudent(classid, studentid);
 
         result.setBody(studentAnswers);
@@ -157,7 +156,7 @@ public class HomeWorkController {
     @RequestMapping(path = "/student/{answer_id}/getanswer")
     public BaseBean<StudentAnswerAndList> getStudentAnswer(@PathVariable("answer_id") String answerId) {
         BaseBean<StudentAnswerAndList> result = new BaseBean<>();
-        StudentAnswer studentAnswer = answerDao.findAnswerById(answerId);
+        StudentAnswer studentAnswer = answerService.findAnswerById(answerId);
         List<StudentAnswerQuestion> list = answerQuestionRepository.findStudentAnswerQuestionsByAnswerId(answerId);
         StudentAnswerAndList l = new StudentAnswerAndList(studentAnswer, list);
         result.setBody(l);
@@ -176,14 +175,14 @@ public class HomeWorkController {
     public BaseBean<StudentAnswerAndList> commitStudentAnswer(@PathVariable("answer_id") String answerId,
                                                               @RequestBody StudentAnswerAndList list) {
         BaseBean<StudentAnswerAndList> result = new BaseBean<>();
-        StudentAnswer studentAnswer = answerDao.findAnswerById(answerId);
-        homeWorkDao.updateCommitCount(studentAnswer.getHomeworkId());
+        StudentAnswer studentAnswer = answerService.findAnswerById(answerId);
+        homeWorkService.updateCommitCount(studentAnswer.getHomeworkId());
         studentAnswer.setCommitedStudentCount(studentAnswer.getCommitedStudentCount() + 1);
         studentAnswer.setFinishTime(list.getAnswer().getFinishTime());
         studentAnswer.setCostTime(list.getAnswer().getCostTime());
-        answerDao.updateAnswer(studentAnswer);
-        answerQuestionDao.commitAnswer(list.getAnswerList(), studentAnswer);
-        StudentAnswerAndList re = new StudentAnswerAndList(studentAnswer, answerQuestionDao.findAnswerQuestionByAnswerId(answerId));
+        answerService.updateAnswer(studentAnswer);
+        answerQuestionService.commitAnswer(list.getAnswerList(), studentAnswer);
+        StudentAnswerAndList re = new StudentAnswerAndList(studentAnswer, answerQuestionService.findAnswerQuestionByAnswerId(answerId));
         result.setBody(re);
         result.setMessage("获取成功");
         result.setCode(ConstData.GET_SUCCESS);

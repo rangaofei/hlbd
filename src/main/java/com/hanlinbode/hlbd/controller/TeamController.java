@@ -4,9 +4,8 @@ import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.TeamAndStudent;
-import com.hanlinbode.hlbd.dao.StudentDao;
-import com.hanlinbode.hlbd.dao.TeacherDao;
-import com.hanlinbode.hlbd.dao.TeamDao;
+import com.hanlinbode.hlbd.service.StudentService;
+import com.hanlinbode.hlbd.service.TeamService;
 import com.hanlinbode.hlbd.util.ConstData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,17 +15,15 @@ import java.util.List;
 @RestController
 public class TeamController {
     @Autowired
-    private TeamDao teamDao;
+    private TeamService teamService;
     @Autowired
-    private TeacherDao teacherDao;
-    @Autowired
-    private StudentDao studentDao;
+    private StudentService studentService;
 
 
     @RequestMapping(path = "teacher/{teacher_id}/createclass", method = RequestMethod.POST)
     public BaseBean<Team> createTeacherClass(@PathVariable("teacher_id") String teacherId, @RequestBody Team team) {
         BaseBean<Team> result = new BaseBean<>();
-        Team t = teamDao.saveTeamByTeacher(teacherId, team);
+        Team t = teamService.saveTeamByTeacher(teacherId, team);
         result.setBody(t);
         return result;
     }
@@ -35,7 +32,7 @@ public class TeamController {
     public BaseBean<List<Team>> getTeacherClasses(@PathVariable("teacher_id") String id) {
         System.out.println(id);
         BaseBean<List<Team>> listBaseBean = new BaseBean<>();
-        List<Team> teamList = teamDao.findTeamsByteacherId(id);
+        List<Team> teamList = teamService.findTeamsByTeacherId(id);
         if (teamList.size() < 1) {
             listBaseBean.setCode(ConstData.NO_RESULT);
             listBaseBean.setBody(null);
@@ -54,7 +51,7 @@ public class TeamController {
     public BaseBean<TeamAndStudent> getStudent(@PathVariable("team_id") String teamId) {
         BaseBean<TeamAndStudent> result = new BaseBean<>();
         TeamAndStudent teamAndStudent = new TeamAndStudent();
-        Team team = teamDao.findTeamByTeamId(teamId);
+        Team team = teamService.findTeamByTeamId(teamId);
 
         List<Student> students = team.getStudents();
         teamAndStudent.setStudentList(students);
@@ -70,7 +67,7 @@ public class TeamController {
     public BaseBean<Team> joinClass(@PathVariable("student_id") String studentid, @RequestParam("class_id") String classid) {
         BaseBean<Team> result = new BaseBean<>();
         result.setMessage("保存成功");
-        Team team = studentDao.joinTeam(studentid, classid);
+        Team team = studentService.joinTeam(studentid, classid);
         if (team == null) {
             result.setMessage("您已加入过该班级");
         }
@@ -82,7 +79,7 @@ public class TeamController {
     @RequestMapping(path = "student/{student_id}/getclasses", method = RequestMethod.GET)
     public BaseBean<List<Team>> getStudentClass(@PathVariable("student_id") String studentId) {
         BaseBean<List<Team>> result = new BaseBean<>();
-        Student student = studentDao.findStudentByStudentId(studentId);
+        Student student = studentService.findStudentByStudentId(studentId);
         if (student.getTeamList() == null || student.getTeamList().size() < 1) {
             result.setMessage("没有加入班级");
             result.setCode(ConstData.NO_RESULT);

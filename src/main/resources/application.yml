@@ -18,11 +18,6 @@ spring:
       repositories:
         enabled: true
 
-#  logging:
-#    level:
-#      org.springframework:
-#        data: DEBUG
-#        security: DEBUG
 
 jwt:
   header: Authorization
@@ -35,3 +30,8 @@ jwt:
       path: auth
       refresh: refresh
       register: "auth/register"
+logging:
+  level: debug
+#logging:
+#  pattern:
+#    console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n"

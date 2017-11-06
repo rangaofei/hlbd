@@ -11,8 +11,9 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@JsonIgnoreProperties({"id", "role", "teacherHomeWorks", "teams", "teacherSubjects", "teacherHomeWorks", "token"})
+@JsonIgnoreProperties(value = {"id", "role", "teacherHomeWorks", "teams", "teacherSubjects", "teacherHomeWorks", "token"})
 @Entity
+@Table()
 public class Teacher implements Serializable {
 
     @Id

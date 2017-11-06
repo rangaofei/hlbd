@@ -1,11 +1,11 @@
-package com.hanlinbode.hlbd.dao;
+package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.TeacherSubject;
 
 import javax.print.DocFlavor;
 import java.util.List;
 
-public interface TeacherSubjectDao {
+public interface TeacherSubjectService {
 
     List<TeacherSubject> findSubjectsByTeacherId(String teacherId);
 

@@ -1,28 +1,30 @@
-package com.hanlinbode.hlbd.dao;
+package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.StudentAnswer;
 import com.hanlinbode.hlbd.bean.StudentAnswerQuestion;
 import com.hanlinbode.hlbd.bean.TeacherHomework;
 import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
+import com.hanlinbode.hlbd.dao.AnswerQuestionRepository;
+import com.hanlinbode.hlbd.dao.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class AnswerQuestionDaoImpl implements AnswerQuestionDao {
+public class AnswerQuestionServiceImpl implements AnswerQuestionService {
     @Autowired
     private QuestionRepository questionRepository;
 
     @Autowired
     private AnswerQuestionRepository answerQuestionRepository;
     @Autowired
-    private HomeworkQuestionDao homeworkQuestionDao;
+    private HomeworkQuestionService homeworkQuestionService;
     @Autowired
-    private AnswerDao answerDao;
+    private AnswerService answerService;
 
     @Autowired
-    private HomeWorkDao homeWorkDao;
+    private HomeWorkService homeWorkService;
 
     @Override
     public void commitAnswer(List<StudentAnswerQuestion> questionList, StudentAnswer studentAnswer) {
@@ -51,23 +53,23 @@ public class AnswerQuestionDaoImpl implements AnswerQuestionDao {
 
             } else {
                 list.setAwaitCorrect(true);
-                TeacherHomeworkQuestion question = homeworkQuestionDao
+                TeacherHomeworkQuestion question = homeworkQuestionService
                         .findTeacherHomeworkQuestionById(list.getTeacherHomeworkQuestionId());
                 question.setAwaitCorrect(true);
-                homeworkQuestionDao.saveTeacherHomeworkQuestion(question);
+                homeworkQuestionService.saveTeacherHomeworkQuestion(question);
             }
         }
         answerQuestionRepository.save(questionList);
-        answerDao.calucateCorrectRate(studentAnswer.getAnswerId());
+        answerService.calucateCorrectRate(studentAnswer.getAnswerId());
         for (StudentAnswerQuestion s : questionList) {
-            TeacherHomeworkQuestion teacherHomeworkQuestion = homeworkQuestionDao
+            TeacherHomeworkQuestion teacherHomeworkQuestion = homeworkQuestionService
                     .findTeacherHomeworkQuestionById(s.getTeacherHomeworkQuestionId());
             teacherHomeworkQuestion.setAwaitCorrect(waitCorrect(s.getTeacherHomeworkQuestionId()));
         }
-        TeacherHomework teacherHomework = homeWorkDao.findHomeWorkByHomeWorkId(studentAnswer.getHomeworkId());
-        teacherHomework.setAwaitCorrect(homeworkQuestionDao.waitCorrect(studentAnswer.getHomeworkId()));
-        teacherHomework.setCorrectRate(homeworkQuestionDao.calculateCorrectRate(studentAnswer.getHomeworkId()));
-        homeWorkDao.updateTeacherHomeWork(teacherHomework);
+        TeacherHomework teacherHomework = homeWorkService.findHomeWorkByHomeWorkId(studentAnswer.getHomeworkId());
+        teacherHomework.setAwaitCorrect(homeworkQuestionService.waitCorrect(studentAnswer.getHomeworkId()));
+        teacherHomework.setCorrectRate(homeworkQuestionService.calculateCorrectRate(studentAnswer.getHomeworkId()));
+        homeWorkService.updateTeacherHomeWork(teacherHomework);
     }
 
     @Override
@@ -87,9 +89,9 @@ public class AnswerQuestionDaoImpl implements AnswerQuestionDao {
         float sum = 0F;
         for (StudentAnswerQuestion question : list) {
             sum += question.getScore();
-            TeacherHomeworkQuestion q = homeworkQuestionDao.findTeacherHomeworkQuestionById(question.getTeacherHomeworkQuestionId());
+            TeacherHomeworkQuestion q = homeworkQuestionService.findTeacherHomeworkQuestionById(question.getTeacherHomeworkQuestionId());
             q.setCorrectRate((int) calculateHomeworkQuestionCorrectRate(question.getTeacherHomeworkQuestionId()));
-            homeworkQuestionDao.saveTeacherHomeworkQuestion(q);
+            homeworkQuestionService.saveTeacherHomeworkQuestion(q);
         }
         return sum / list.size();
     }

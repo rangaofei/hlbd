@@ -1,5 +1,6 @@
 package com.hanlinbode.hlbd.bean;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
@@ -45,19 +46,22 @@ public class Team implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "homework_id", referencedColumnName = "homeworkId")})
     private List<TeacherHomework> teacherHomeworkList;
 
+    public Team() {
+    }
 
+    @JsonBackReference(value = "2")
     public List<TeacherHomework> getTeacherHomeworkList() {
         return teacherHomeworkList;
     }
-
+    @JsonBackReference(value = "2")
     public void setTeacherHomeworkList(List<TeacherHomework> teacherHomeworkList) {
         this.teacherHomeworkList = teacherHomeworkList;
     }
-
+    @JsonBackReference(value = "3")
     public List<Student> getStudents() {
         return students;
     }
-
+    @JsonBackReference(value = "3")
     public void setStudents(List<Student> students) {
         this.students = students;
     }

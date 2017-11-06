@@ -1,4 +1,4 @@
-package com.hanlinbode.hlbd.dao;
+package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
@@ -7,17 +7,12 @@ import com.hanlinbode.hlbd.composbean.Token;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
-public interface StudentDao {
-    Student saveStudent(Student student);
+public interface StudentService extends TokenService {
 
     Student findStudentByPhone(String phone);
 
-    List<Student> findStudentsByName(String name);
-
-    Token generateStudentToken(Student student);
-
-    Student findStudentById(int id);
 
     Student findStudentByStudentId(String studentId);
 

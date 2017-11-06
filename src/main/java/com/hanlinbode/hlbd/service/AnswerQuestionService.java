@@ -1,11 +1,11 @@
-package com.hanlinbode.hlbd.dao;
+package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.StudentAnswer;
 import com.hanlinbode.hlbd.bean.StudentAnswerQuestion;
 
 import java.util.List;
 
-public interface AnswerQuestionDao {
+public interface AnswerQuestionService {
     void commitAnswer(List<StudentAnswerQuestion> questionList, StudentAnswer studentAnswer);
 
     List<StudentAnswerQuestion> findAnswerQuestionByAnswerId(String answerId);

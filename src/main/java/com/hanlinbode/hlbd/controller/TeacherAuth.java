@@ -1,11 +1,11 @@
 package com.hanlinbode.hlbd.controller;
 
-import com.hanlinbode.hlbd.util.ConstData;
+import com.hanlinbode.hlbd.bean.TeacherSubject;
 import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.TeacherAndSubject;
-import com.hanlinbode.hlbd.bean.TeacherSubject;
-import com.hanlinbode.hlbd.dao.TeacherDao;
-import com.hanlinbode.hlbd.dao.TeacherSubjectDao;
+import com.hanlinbode.hlbd.service.TeacherSubjectService;
+import com.hanlinbode.hlbd.service.TeacherService;
+import com.hanlinbode.hlbd.util.ConstData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +17,9 @@ import java.util.logging.Logger;
 public class TeacherAuth {
     private Logger logger = Logger.getLogger(this.getClass().getName());
     @Autowired
-    private TeacherDao teacherDao;
+    private TeacherService teacherService;
     @Autowired
-    private TeacherSubjectDao teacherSubjectDao;
+    private TeacherSubjectService teacherSubjectService;
 
     @RequestMapping(value = "/hello")
     public String Test() {
@@ -29,7 +29,7 @@ public class TeacherAuth {
 
     @RequestMapping(value = "teacher/{teacher_id}/setsubject", method = RequestMethod.POST)
     public BaseBean<List<TeacherSubject>> setSubject(@PathVariable("teacher_id") String id, @RequestBody List<TeacherSubject> teacherSubjects) {
-        List<TeacherSubject> teacherSubject = teacherSubjectDao.saveTeacherSubject(id, teacherSubjects);
+        List<TeacherSubject> teacherSubject = teacherSubjectService.saveTeacherSubject(id, teacherSubjects);
         BaseBean<List<TeacherSubject>> result = new BaseBean<>();
         result.setMessage("保存成功");
         result.setCode(ConstData.POST_SUCCESS);
@@ -41,8 +41,8 @@ public class TeacherAuth {
     public BaseBean<TeacherAndSubject> getSubject(@PathVariable("teacher_id") String id) {
         BaseBean<TeacherAndSubject> result = new BaseBean<>();
         TeacherAndSubject teacherAndSubject = new TeacherAndSubject();
-        List<TeacherSubject> teacherSubjectList = teacherSubjectDao.findSubjectsByTeacherId(id);
-        teacherAndSubject.setTeacher(teacherDao.findTeacherByTeacherId(id));
+        List<TeacherSubject> teacherSubjectList = teacherSubjectService.findSubjectsByTeacherId(id);
+        teacherAndSubject.setTeacher(teacherService.findTeacherByTeacherId(id));
         teacherAndSubject.setTeacherSubjects(teacherSubjectList);
         result.setBody(teacherAndSubject);
         if (teacherSubjectList == null || teacherSubjectList.size() < 1) {

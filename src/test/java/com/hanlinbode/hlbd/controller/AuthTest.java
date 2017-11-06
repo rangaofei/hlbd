@@ -1,6 +1,7 @@
-package com.hanlinbode.hlbd;
+package com.hanlinbode.hlbd.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hanlinbode.hlbd.HlbdApplication;
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Teacher;
 import com.hanlinbode.hlbd.composbean.Token;
@@ -23,8 +24,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = HlbdApplication.class)

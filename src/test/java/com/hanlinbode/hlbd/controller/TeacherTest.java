@@ -1,5 +1,6 @@
-package com.hanlinbode.hlbd;
+package com.hanlinbode.hlbd.controller;
 
+import com.hanlinbode.hlbd.HlbdApplication;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

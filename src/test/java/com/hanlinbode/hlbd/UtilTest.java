@@ -1,12 +1,18 @@
 package com.hanlinbode.hlbd;
 
+import com.hanlinbode.hlbd.composbean.Token;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class UtilTest {
-    @Test
-    public void test3(){
+    private Logger logger = LoggerFactory.getLogger(UtilTest.class);
 
-        System.out.println(UUIDUtil.generateId());
+    @Test
+    public void testGenerateToken() {
+        Token t = Token.generateToken("123456");
+        logger.info(t.toString());
     }
 }

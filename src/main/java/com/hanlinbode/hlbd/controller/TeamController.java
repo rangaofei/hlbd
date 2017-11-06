@@ -4,6 +4,7 @@ import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.TeamAndStudent;
+import com.hanlinbode.hlbd.facade.JoinClassFacade;
 import com.hanlinbode.hlbd.service.StudentService;
 import com.hanlinbode.hlbd.service.TeamService;
 import com.hanlinbode.hlbd.util.ConstData;
@@ -18,6 +19,8 @@ public class TeamController {
     private TeamService teamService;
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private JoinClassFacade joinClassFacade;
 
 
     @RequestMapping(path = "teacher/{teacher_id}/createclass", method = RequestMethod.POST)
@@ -67,7 +70,7 @@ public class TeamController {
     public BaseBean<Team> joinClass(@PathVariable("student_id") String studentid, @RequestParam("class_id") String classid) {
         BaseBean<Team> result = new BaseBean<>();
         result.setMessage("保存成功");
-        Team team = studentService.joinTeam(studentid, classid);
+        Team team = joinClassFacade.JoinTeam(studentid, classid);
         if (team == null) {
             result.setMessage("您已加入过该班级");
         }

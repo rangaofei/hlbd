@@ -28,6 +28,11 @@ public class StudentServiceImpl implements StudentService {
         return studentRepository.findStudentByPhone(phone);
     }
 
+    @Override
+    public Student saveStudent(Student student) {
+        return studentRepository.save(student);
+    }
+
 
     @Override
     public Student findStudentByStudentId(String studentId) {

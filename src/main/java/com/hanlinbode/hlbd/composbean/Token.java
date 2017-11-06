@@ -21,6 +21,13 @@ public class Token {
         return token;
     }
 
+    @Override
+    public String toString() {
+        return "Token{" +
+                "accessToken='" + accessToken + '\'' +
+                ", refreshToken='" + refreshToken + '\'' +
+                '}';
+    }
 
     public String getAccessToken() {
         return accessToken;

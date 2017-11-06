@@ -1,6 +1,7 @@
-package com.hanlinbode.hlbd;
+package com.hanlinbode.hlbd.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hanlinbode.hlbd.HlbdApplication;
 import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.config.JwtAuthenticationTokenFilter;
 import com.hanlinbode.hlbd.config.WebSecurityConfig;
@@ -28,10 +29,11 @@ import javax.annotation.Resource;
 @SpringBootTest(classes = HlbdApplication.class)
 @ContextConfiguration(classes = WebSecurityConfig.class)
 @WebAppConfiguration
-@Rollback(value = true)
+@Rollback(value = false)
 public class TeamTest {
     private static final Logger logger = LoggerFactory.getLogger(TeamTest.class);
     private String token = "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDk4MDY4MzgsInN1YiI6IlRUVDEzMSIsImV4cCI6MTUwOTgwNjg0OH0.GcWW2DIYExgOcWinz560NhEXwv91c7vr4krhcNT185Y";
+    private String studentToken = "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDk5NDIxNTgsInN1YiI6IjEyMzQ1NiIsImV4cCI6MTUxMDU0Njk1OH0.8zDH4W2hfXdVK4d8pZMfzVz1Qs6DiDTWpa5PmwXHhJQ";
     private MockMvc mvc;
     @Resource
     private WebApplicationContext context;
@@ -40,7 +42,7 @@ public class TeamTest {
     @Before
     public void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(context)
-                .addFilters(new JwtAuthenticationTokenFilter())
+//                .addFilters(new JwtAuthenticationTokenFilter())
                 .build();
     }
 
@@ -54,8 +56,19 @@ public class TeamTest {
         mvc.perform(MockMvcRequestBuilders.post("/teacher/15098054982613/createclass")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
-                .header("Authorization","Bearer "+token)
+                .header("Authorization", "Bearer " + token)
                 .content(content))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void joinTeam() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.post("/student/15087254904257/joinclass")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .header("Authorization", "Bearer " + studentToken)
+                .param("class_id", "7251190189"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }

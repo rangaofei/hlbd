@@ -26,11 +26,11 @@ public class HomeWorkServiceImpl implements HomeWorkService {
 
     @Override
     public TeacherHomework createHomeWork(String teacherId, TeacherHomework teacherHomework, List<Team> teams) {
-        teacherHomework.setCreatedTime(new Date());
-        teacherHomework.setHomeworkId(UUIDUtil.generateId());
-        teacherHomework.setTeacherId(teacherId);
-        teacherHomework.setQuestionCount(teacherHomework.getTeacherHomeworkQuestions().size());
-        teacherHomework.setDifficult(calculateDifficult(teacherHomework.getTeacherHomeworkQuestions()));
+        teacherHomework.setCreatedTime(new Date());//设置创建时间
+        teacherHomework.setHomeworkId(UUIDUtil.generateId());//自动生成作业的id
+        teacherHomework.setTeacherId(teacherId);//设置发布作业的老师字段
+        teacherHomework.setQuestionCount(teacherHomework.getTeacherHomeworkQuestions().size());//设置生成的题目数量字段
+        teacherHomework.setDifficult(calculateDifficult(teacherHomework.getTeacherHomeworkQuestions()));//计算题目的平均难度
         int totalStudent = 0;
         for (Team m : teams) {
             Team team = teamRepository.findTeamByTeamId(m.getTeamId());

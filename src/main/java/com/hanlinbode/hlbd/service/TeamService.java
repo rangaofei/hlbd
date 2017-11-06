@@ -16,4 +16,5 @@ public interface TeamService {
 
     List<Team> findTeamsByTeacherId(String teacherId);
 
+    Team saveTeam(Team team);
 }

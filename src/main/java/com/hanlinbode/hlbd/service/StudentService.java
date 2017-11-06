@@ -13,6 +13,7 @@ public interface StudentService extends TokenService {
 
     Student findStudentByPhone(String phone);
 
+    Student saveStudent(Student student);
 
     Student findStudentByStudentId(String studentId);
 

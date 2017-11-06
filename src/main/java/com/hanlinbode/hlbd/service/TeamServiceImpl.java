@@ -46,4 +46,9 @@ public class TeamServiceImpl implements TeamService {
         return teamRepository.findTeamsByTeacherId(teacherId);
     }
 
+    @Override
+    public Team saveTeam(Team team) {
+        return teamRepository.save(team);
+    }
+
 }

@@ -96,11 +96,11 @@ public class TeamTest {
 
     @Test
     public void joinTeam() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/student/15098521959830/joinclass")
+        mvc.perform(MockMvcRequestBuilders.post("/student/{student_id}/joinclass","15099449006271")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .header("Authorization", "Bearer " + studentToken)
-                .param("class_id", "9730570060"))
+                .param("class_id", "0222362465"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }

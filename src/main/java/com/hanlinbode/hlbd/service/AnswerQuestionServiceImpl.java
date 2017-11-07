@@ -6,9 +6,12 @@ import com.hanlinbode.hlbd.bean.TeacherHomework;
 import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
 import com.hanlinbode.hlbd.dao.AnswerQuestionRepository;
 import com.hanlinbode.hlbd.dao.QuestionRepository;
+import com.hanlinbode.hlbd.enums.AnswerState;
+import com.hanlinbode.hlbd.util.QuestionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,48 +32,61 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
 
     @Override
     public void commitAnswer(List<StudentAnswerQuestion> questionList, StudentAnswer studentAnswer) {
-        for (StudentAnswerQuestion list : questionList) {
-            list.setStudentId(studentAnswer.getStudentId());
-            list.setStudentName(studentAnswer.getStudentName());
-            list.setAnswerId(studentAnswer.getAnswerId());
-            list.setTeacherHomeworkQuestionId(answerQuestionRepository
-                    .findStudentAnswerQuestionById(list.getId()).getTeacherHomeworkQuestionId());
-            if (list.getQuestiontypeId() == 2
-                    || list.getQuestiontypeId() == 3
-                    || list.getQuestiontypeId() == 4
-                    || list.getQuestiontypeId() == 5
-                    || list.getQuestiontypeId() == 6
-                    || list.getQuestiontypeId() == 7
-                    || list.getQuestiontypeId() == 39
-                    || list.getQuestiontypeId() == 66
-                    || list.getQuestiontypeId() == 78) {
+//        for (StudentAnswerQuestion list : questionList) {
+//            list.setStudentId(studentAnswer.getStudentId());
+//            list.setStudentName(studentAnswer.getStudentName());
+//            list.setAnswerId(studentAnswer.getAnswerId());
+//            list.setTeacherHomeworkQuestionId(answerQuestionRepository
+//                    .findStudentAnswerQuestionById(list.getId()).getTeacherHomeworkQuestionId());
+//            if (QuestionUtil.isForCorrect(list.getQuestiontypeId())) {
+//                if (list.getAnswer().equals(questionRepository.findQuestionById(list.getQuestionId()).getAnswer())) {
+//                    list.setScore(100);
+//                } else {
+//                    list.setScore(0);
+//                }
+//                list.setState(AnswerState.COMMIT);
+//
+//            } else {
+//                list.setState(AnswerState.WAIT_CORRECT);
+//                TeacherHomeworkQuestion question = homeworkQuestionService
+//                        .findTeacherHomeworkQuestionById(list.getTeacherHomeworkQuestionId());
+//                question.setState(AnswerState.WAIT_CORRECT);
+//                homeworkQuestionService.saveTeacherHomeworkQuestion(question);
+//            }
+//        }
+//        answerQuestionRepository.save(questionList);
+//        answerService.calucateCorrectRate(studentAnswer.getAnswerId());
+//        for (StudentAnswerQuestion s : questionList) {
+//            TeacherHomeworkQuestion teacherHomeworkQuestion = homeworkQuestionService
+//                    .findTeacherHomeworkQuestionById(s.getTeacherHomeworkQuestionId());
+//            teacherHomeworkQuestion.setAwaitCorrect(waitCorrect(s.getTeacherHomeworkQuestionId()));
+//        }
+//        TeacherHomework teacherHomework = homeWorkService.findHomeWorkByHomeWorkId(studentAnswer.getHomeworkId());
+//        teacherHomework.setAwaitCorrect(homeworkQuestionService.waitCorrect(studentAnswer.getHomeworkId()));
+//        teacherHomework.setCorrectRate(homeworkQuestionService.calculateCorrectRate(studentAnswer.getHomeworkId()));
+//        homeWorkService.updateTeacherHomeWork(teacherHomework);
+    }
 
-                if (list.getAnswer().equals(questionRepository.findQuestionById(list.getQuestionId()).getAnswer())) {
-                    list.setScore(100);
+    @Override
+    public void commitAnswerQuestion(List<StudentAnswerQuestion> questionList, StudentAnswer studentAnswer) {
+        for (StudentAnswerQuestion answerQuestion : questionList) {
+            int id = answerQuestionRepository.findStudentAnswerQuestionById(answerQuestion.getId()).getTeacherHomeworkQuestionId();
+            answerQuestion.setStudentId(studentAnswer.getStudentId());
+            answerQuestion.setStudentName(studentAnswer.getStudentName());
+            answerQuestion.setAnswerId(studentAnswer.getAnswerId());
+            answerQuestion.setTeacherHomeworkQuestionId(id);
+            if (QuestionUtil.isForCorrect(answerQuestion.getQuestiontypeId())) {
+                if (answerQuestion.getAnswer().equals(questionRepository.findQuestionById(answerQuestion.getQuestionId()).getAnswer())) {
+                    answerQuestion.setScore(100);
                 } else {
-                    list.setScore(0);
+                    answerQuestion.setScore(0);
                 }
-                list.setAwaitCorrect(false);
-
+                answerQuestion.setState(AnswerState.COMMIT);
             } else {
-                list.setAwaitCorrect(true);
-                TeacherHomeworkQuestion question = homeworkQuestionService
-                        .findTeacherHomeworkQuestionById(list.getTeacherHomeworkQuestionId());
-                question.setAwaitCorrect(true);
-                homeworkQuestionService.saveTeacherHomeworkQuestion(question);
+                answerQuestion.setState(AnswerState.WAIT_CORRECT);
             }
         }
         answerQuestionRepository.save(questionList);
-        answerService.calucateCorrectRate(studentAnswer.getAnswerId());
-        for (StudentAnswerQuestion s : questionList) {
-            TeacherHomeworkQuestion teacherHomeworkQuestion = homeworkQuestionService
-                    .findTeacherHomeworkQuestionById(s.getTeacherHomeworkQuestionId());
-            teacherHomeworkQuestion.setAwaitCorrect(waitCorrect(s.getTeacherHomeworkQuestionId()));
-        }
-        TeacherHomework teacherHomework = homeWorkService.findHomeWorkByHomeWorkId(studentAnswer.getHomeworkId());
-        teacherHomework.setAwaitCorrect(homeworkQuestionService.waitCorrect(studentAnswer.getHomeworkId()));
-        teacherHomework.setCorrectRate(homeworkQuestionService.calculateCorrectRate(studentAnswer.getHomeworkId()));
-        homeWorkService.updateTeacherHomeWork(teacherHomework);
     }
 
     @Override
@@ -84,14 +100,21 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
     }
 
     @Override
+    public StudentAnswerQuestion findAnswerQuestionById(int id) {
+        return answerQuestionRepository.findStudentAnswerQuestionById(id);
+    }
+
+    @Override
     public float calculateStudentAnswerCorrectRate(String answerId) {
         List<StudentAnswerQuestion> list = answerQuestionRepository.findStudentAnswerQuestionsByAnswerId(answerId);
         float sum = 0F;
         for (StudentAnswerQuestion question : list) {
-            sum += question.getScore();
-            TeacherHomeworkQuestion q = homeworkQuestionService.findTeacherHomeworkQuestionById(question.getTeacherHomeworkQuestionId());
-            q.setCorrectRate((int) calculateHomeworkQuestionCorrectRate(question.getTeacherHomeworkQuestionId()));
-            homeworkQuestionService.saveTeacherHomeworkQuestion(q);
+            if (question.getState() == AnswerState.COMMIT || question.getState() == AnswerState.CORRECT) {
+                sum += question.getScore();
+            }
+//            TeacherHomeworkQuestion q = homeworkQuestionService.findTeacherHomeworkQuestionById(question.getTeacherHomeworkQuestionId());
+//            q.setCorrectRate((int) calculateHomeworkQuestionCorrectRate(question.getTeacherHomeworkQuestionId()));
+//            homeworkQuestionService.saveTeacherHomeworkQuestion(q);
         }
         return sum / list.size();
     }
@@ -108,23 +131,35 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
     }
 
     @Override
-    public boolean waitCorrect(int homeworkQuestionId) {
-        boolean waitCorrect = false;
-        List<StudentAnswerQuestion> list = answerQuestionRepository
-                .findStudentAnswerQuestionsByTeacherHomeworkQuestionId(homeworkQuestionId);
+    public AnswerState studentAnswerState(String answerId) {
+        List<StudentAnswerQuestion> list = answerQuestionRepository.findStudentAnswerQuestionsByAnswerId(answerId);
         for (StudentAnswerQuestion s : list) {
-            if (s.isAwaitCorrect()) {
-                waitCorrect = true;
-                break;
+            if (s.getState() == AnswerState.NOT_COMMIT) {
+                return AnswerState.NOT_COMMIT;
+            }
+            if (s.getState() == AnswerState.WAIT_CORRECT) {
+                return AnswerState.WAIT_CORRECT;
             }
         }
-        return waitCorrect;
+        return AnswerState.CORRECT;
     }
+
+    @Override
+    public AnswerState teacherHomeworkState(int homeworkquestionId) {
+        List<StudentAnswerQuestion> list = answerQuestionRepository
+                .findStudentAnswerQuestionsByTeacherHomeworkQuestionId(homeworkquestionId);
+        for (StudentAnswerQuestion s : list) {
+            if (s.getState() == AnswerState.WAIT_CORRECT) {
+                return AnswerState.WAIT_CORRECT;
+            }
+        }
+        return AnswerState.COMMIT;
+    }
+
 
     @Override
     public void createAnswerQuestion(List<TeacherHomeworkQuestion> teacherHomeworkQuestionList, List<StudentAnswer> studentAnswerList) {
         List<StudentAnswerQuestion> list = new ArrayList<>();
-        System.out.println(teacherHomeworkQuestionList.size());
         for (StudentAnswer s : studentAnswerList) {
             System.out.println(s.toString());
             for (TeacherHomeworkQuestion ts : teacherHomeworkQuestionList) {
@@ -133,6 +168,7 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
                 studentAnswerQuestion.setStudentId(s.getStudentId());
                 studentAnswerQuestion.setStudentName(s.getStudentName());
                 studentAnswerQuestion.setAnswerId(s.getAnswerId());
+                studentAnswerQuestion.setState(AnswerState.NOT_COMMIT);
                 list.add(studentAnswerQuestion);
             }
         }

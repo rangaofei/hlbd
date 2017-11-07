@@ -1,6 +1,7 @@
 package com.hanlinbode.hlbd.exception;
 
 import com.hanlinbode.hlbd.composbean.BaseBean;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -41,10 +42,18 @@ public class ExceptionHandlerAdvice {
     }
 
     @ExceptionHandler(ParamIncorrectException.class)
-    public BaseBean<Object> handleaParamIncorrectException(ParamIncorrectException e) {
+    public BaseBean<Object> handleParamIncorrectException(ParamIncorrectException e) {
         BaseBean<Object> result = new BaseBean<>();
         result.setCode(412);
         result.setBody(e.getBody());
+        result.setMessage(e.getMessage());
+        return result;
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public BaseBean<Object> handleUserNotFoundException(UsernameNotFoundException e) {
+        BaseBean<Object> result = new BaseBean<>();
+        result.setCode(415);
         result.setMessage(e.getMessage());
         return result;
     }

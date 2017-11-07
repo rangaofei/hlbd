@@ -3,6 +3,7 @@ package com.hanlinbode.hlbd.bean;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hanlinbode.hlbd.enums.AnswerState;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.data.annotation.CreatedDate;
 
@@ -36,7 +37,8 @@ public class StudentAnswer implements Serializable {
 
     private int type;
     private int questionCount;
-    private int state;
+    @Enumerated(EnumType.STRING)
+    private AnswerState state = AnswerState.NOT_COMMIT;
     private float correctRate;
     private String subjectName;
     private int studentCount;
@@ -182,11 +184,11 @@ public class StudentAnswer implements Serializable {
         this.correctRate = correctRate;
     }
 
-    public int getState() {
+    public AnswerState getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(AnswerState state) {
         this.state = state;
     }
 

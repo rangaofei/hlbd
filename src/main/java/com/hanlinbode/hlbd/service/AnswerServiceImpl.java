@@ -4,6 +4,7 @@ import com.hanlinbode.hlbd.bean.*;
 import com.hanlinbode.hlbd.dao.AnswerQuestionRepository;
 import com.hanlinbode.hlbd.dao.AnswerRepository;
 import com.hanlinbode.hlbd.dao.QuestionRepository;
+import com.hanlinbode.hlbd.enums.AnswerState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -56,6 +57,7 @@ public class AnswerServiceImpl implements AnswerService {
                 studentAnswer.setStudentId(s.getStudentId());
                 studentAnswer.setStudentName(s.getName());
                 studentAnswer.setTeamId(team.getTeamId());
+                studentAnswer.setState(AnswerState.NOT_COMMIT);
                 list.add(studentAnswer);
             }
         }
@@ -88,8 +90,6 @@ public class AnswerServiceImpl implements AnswerService {
 
     @Override
     public StudentAnswer updateAnswer(StudentAnswer answer) {
-        answer.setState(1);
-
         return answerRepository.saveAndFlush(answer);
     }
 

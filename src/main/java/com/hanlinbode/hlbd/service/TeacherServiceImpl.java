@@ -31,7 +31,7 @@ public class TeacherServiceImpl implements TeacherService {
     @Override
     public TeacherAndToken registerTeacher(Teacher teacher) {
         if (null != teacherRepository.findTeacherByPhone(teacher.getPhone())) {
-            throw new ResultAlreadyExistException("手机号码已注册", new TeacherAndToken(teacher,null));
+            throw new ResultAlreadyExistException("手机号码已注册", new TeacherAndToken(teacher, null));
         }
         TeacherAndToken teacherAndToken = new TeacherAndToken();
         teacher.setCreatedTime(new Date());
@@ -51,12 +51,12 @@ public class TeacherServiceImpl implements TeacherService {
     public TeacherAndToken loginTeacher(Teacher teacher) {
         Teacher t = teacherRepository.findTeacherByPhone(teacher.getPhone());
         if (t == null) {
-            throw new ResultNotFoundException("用户未注册", new TeacherAndToken(teacher,null));
+            throw new ResultNotFoundException("用户未注册", new TeacherAndToken(teacher, null));
         }
         if (!t.getPassword().equals(teacher.getPassword())) {
-            throw new ParamIncorrectException("密码错误", new TeacherAndToken(teacher,null));
+            throw new ParamIncorrectException("密码错误", new TeacherAndToken(teacher, null));
         }
-        return new TeacherAndToken(t, Token.generateToken(t.getPhone()));
+        return new TeacherAndToken(t, generateToken(teacher.getPhone()));
     }
 
     @Override

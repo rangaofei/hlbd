@@ -3,6 +3,7 @@ package com.hanlinbode.hlbd.bean;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hanlinbode.hlbd.enums.AnswerState;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -32,8 +33,8 @@ public class TeacherHomework implements Serializable {
 
     private float correctRate;
     private float difficult;
-
-    private boolean awaitCorrect;
+    @Enumerated(EnumType.STRING)
+    private AnswerState state=AnswerState.NOT_COMMIT;
     private String teacherId;
 
     @Column
@@ -151,12 +152,12 @@ public class TeacherHomework implements Serializable {
         this.difficult = difficult;
     }
 
-    public boolean isAwaitCorrect() {
-        return awaitCorrect;
+    public AnswerState getState() {
+        return state;
     }
 
-    public void setAwaitCorrect(boolean awaitCorrect) {
-        this.awaitCorrect = awaitCorrect;
+    public void setState(AnswerState state) {
+        this.state = state;
     }
 
     @Override

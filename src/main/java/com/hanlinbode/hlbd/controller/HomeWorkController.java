@@ -10,6 +10,7 @@ import com.hanlinbode.hlbd.composbean.CreateHomeWork;
 import com.hanlinbode.hlbd.composbean.HomeWorkAndList;
 import com.hanlinbode.hlbd.composbean.StudentAnswerAndList;
 import com.hanlinbode.hlbd.dao.*;
+import com.hanlinbode.hlbd.facade.CommitAnswerFacade;
 import com.hanlinbode.hlbd.facade.CreateHomeworkFacade;
 import com.hanlinbode.hlbd.service.*;
 import com.hanlinbode.hlbd.util.ConstData;
@@ -40,6 +41,8 @@ public class HomeWorkController {
     private AnswerQuestionService answerQuestionService;
     @Autowired
     private CreateHomeworkFacade createHomeworkFacade;
+    @Autowired
+    private CommitAnswerFacade commitAnswerFacade;
 
     /**
      * 创建作业
@@ -50,7 +53,6 @@ public class HomeWorkController {
     @RequestMapping(path = "/teacher/{teacher_id}/createhomework", method = RequestMethod.POST)
     public BaseBean<TeacherHomework> createHomeWork(@PathVariable("teacher_id") String id, @RequestBody CreateHomeWork createHomeWork) {
         BaseBean<TeacherHomework> result = new BaseBean<>();
-
         TeacherHomework h = createHomeworkFacade.createHomeWork(id, createHomeWork);
         result.setCode(ConstData.POST_SUCCESS);
         result.setBody(h);
@@ -178,12 +180,13 @@ public class HomeWorkController {
                                                               @RequestBody StudentAnswerAndList list) {
         BaseBean<StudentAnswerAndList> result = new BaseBean<>();
         StudentAnswer studentAnswer = answerService.findAnswerById(answerId);
-        homeWorkService.updateCommitCount(studentAnswer.getHomeworkId());
-        studentAnswer.setCommitedStudentCount(studentAnswer.getCommitedStudentCount() + 1);
-        studentAnswer.setFinishTime(list.getAnswer().getFinishTime());
-        studentAnswer.setCostTime(list.getAnswer().getCostTime());
-        answerService.updateAnswer(studentAnswer);
-        answerQuestionService.commitAnswer(list.getAnswerList(), studentAnswer);
+//        homeWorkService.updateCommitCount(studentAnswer.getHomeworkId());
+//        studentAnswer.setCommitedStudentCount(studentAnswer.getCommitedStudentCount() + 1);
+//        studentAnswer.setFinishTime(list.getAnswer().getFinishTime());
+//        studentAnswer.setCostTime(list.getAnswer().getCostTime());
+//        answerService.updateAnswer(studentAnswer);
+//        answerQuestionService.commitAnswer(list.getAnswerList(), studentAnswer);
+        commitAnswerFacade.commitAnswer(answerId, list);
         StudentAnswerAndList re = new StudentAnswerAndList(studentAnswer, answerQuestionService.findAnswerQuestionByAnswerId(answerId));
         result.setBody(re);
         result.setMessage("获取成功");

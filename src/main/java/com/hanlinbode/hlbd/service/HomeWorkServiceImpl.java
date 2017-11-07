@@ -2,6 +2,7 @@ package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.*;
 import com.hanlinbode.hlbd.dao.*;
+import com.hanlinbode.hlbd.enums.AnswerState;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,6 +33,7 @@ public class HomeWorkServiceImpl implements HomeWorkService {
         teacherHomework.setQuestionCount(teacherHomework.getTeacherHomeworkQuestions().size());//设置生成的题目数量字段
         teacherHomework.setDifficult(calculateDifficult(teacherHomework.getTeacherHomeworkQuestions()));//计算题目的平均难度
         teacherHomework.setTotalStudent(totalStudent);
+        teacherHomework.setState(AnswerState.NOT_COMMIT);
         return homeWorkRepository.save(teacherHomework);
     }
 

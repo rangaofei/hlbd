@@ -1,6 +1,7 @@
 package com.hanlinbode.hlbd.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.hanlinbode.hlbd.enums.AnswerState;
 
 import javax.persistence.*;
 
@@ -25,9 +26,9 @@ public class TeacherHomeworkQuestion {
     @Column(nullable = false)
     private int questiontypeId;
 
-    private int correctRate;
-
-    private boolean awaitCorrect;
+    private float correctRate;
+    @Enumerated(EnumType.STRING)
+    private AnswerState state = AnswerState.NOT_COMMIT;
 
     public int getId() {
         return id;
@@ -99,21 +100,22 @@ public class TeacherHomeworkQuestion {
         return questiontypeId;
     }
 
-    public boolean isAwaitCorrect() {
-        return awaitCorrect;
+    public AnswerState getState() {
+        return state;
     }
 
-    public int getCorrectRate() {
+    public void setState(AnswerState state) {
+        this.state = state;
+    }
+
+    public float getCorrectRate() {
         return correctRate;
     }
 
-    public void setCorrectRate(int correctRate) {
+    public void setCorrectRate(float correctRate) {
         this.correctRate = correctRate;
     }
 
-    public void setAwaitCorrect(boolean awaitCorrect) {
-        this.awaitCorrect = awaitCorrect;
-    }
 
     public void setQuestiontypeId(int questiontypeId) {
         this.questiontypeId = questiontypeId;
@@ -131,7 +133,6 @@ public class TeacherHomeworkQuestion {
                 ", questionId=" + questionId +
                 ", questiontypeId=" + questiontypeId +
                 ", correctRate=" + correctRate +
-                ", awaitCorrect=" + awaitCorrect +
                 ", teacherHomeworkId='" + teacherHomeworkId + '\'' +
                 '}';
     }

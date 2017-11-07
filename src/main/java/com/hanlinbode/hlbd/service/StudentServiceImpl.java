@@ -71,12 +71,12 @@ public class StudentServiceImpl implements StudentService {
     public StudentAndToken loginStudent(Student student) {
         Student s = studentRepository.findStudentByPhone(student.getPhone());
         if (null == s) {
-            throw new ResultNotFoundException("用户未注册", new StudentAndToken(student,null));
+            throw new ResultNotFoundException("用户未注册", new StudentAndToken(student, null));
         }
         if (!student.getPassword().equals(s.getPassword())) {
-            throw new ParamIncorrectException("用户密码错误",  new StudentAndToken(student,null));
+            throw new ParamIncorrectException("用户密码错误", new StudentAndToken(student, null));
         }
-        return new StudentAndToken(s, Token.generateToken(s.getPhone()));
+        return new StudentAndToken(s, generateToken(student.getPhone()));
     }
 
     @Override

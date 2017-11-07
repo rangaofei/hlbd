@@ -71,8 +71,8 @@ public class AuthController {
         return result;
     }
 
-    @RequestMapping(value = "/auth/refreshtoken", method = RequestMethod.POST)
-    public BaseBean<Token> refreshToken(@RequestBody Token token) {
+    @RequestMapping(value = "/auth/student/refreshtoken", method = RequestMethod.POST)
+    public BaseBean<Token> refreshStudentToken(@RequestBody Token token) {
         BaseBean<Token> result = new BaseBean<>();
         try {
             Token newToken = Token.generateToken(JWTUtil.parseJWT(token.getRefreshToken()).getSubject());
@@ -86,5 +86,10 @@ public class AuthController {
             result.setMessage("token失效");
         }
         return result;
+    }
+
+    @RequestMapping(value = "/auth/teacher/refreashtoken", method = RequestMethod.POST)
+    public BaseBean<Token> refreshTeacherToken(@RequestBody Token token) {
+        return null;
     }
 }

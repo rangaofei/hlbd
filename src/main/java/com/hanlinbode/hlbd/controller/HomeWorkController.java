@@ -52,8 +52,6 @@ public class HomeWorkController {
         BaseBean<TeacherHomework> result = new BaseBean<>();
 
         TeacherHomework h = createHomeworkFacade.createHomeWork(id, createHomeWork);
-        homeworkQuestionService.setQuestionHomeworkId(createHomeWork.getTeacherHomework().getTeacherHomeworkQuestions(),
-                createHomeWork.getTeacherHomework().getHomeworkId());
         result.setCode(ConstData.POST_SUCCESS);
         result.setBody(h);
         result.setMessage("创建成功");

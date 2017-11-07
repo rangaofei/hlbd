@@ -75,7 +75,7 @@ public class TeamTest {
 
     @Test
     public void getTeamInfo() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/teacher/{team_id}/getteaminfo", "8959330466")
+        mvc.perform(MockMvcRequestBuilders.get("/teacher/{team_id}/getteaminfo", "9730570060")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .header("Authorization", "Bearer " + token))
@@ -86,21 +86,33 @@ public class TeamTest {
 
     @Test
     public void getTeamStudents() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/teacher/{team_id}/getteamstudents", "8959330466")
+        mvc.perform(MockMvcRequestBuilders.get("/teacher/{team_id}/getteamstudents", "9730570060")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .header("Authorization", "Bearer " + token))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
+
     @Test
     public void joinTeam() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post("/student/15087254904257/joinclass")
+        mvc.perform(MockMvcRequestBuilders.post("/student/15098521959830/joinclass")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .header("Authorization", "Bearer " + studentToken)
-                .param("class_id", "7251190189"))
+                .param("class_id", "9730570060"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    public void getClasses() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/student/{student_id}/getclasses", "15098521959830")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .header("Authorization", "Bearer " + studentToken))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
     }
 }

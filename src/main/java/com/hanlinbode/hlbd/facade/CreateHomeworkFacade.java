@@ -40,7 +40,9 @@ public class CreateHomeworkFacade {
         List<Team> teamList = teamService.findTeamsByTeams(createHomeWork.getTeams());
         List<StudentAnswer> list = answerService.saveAnswerByTeams(createHomeWork.getTeacherHomework(), teamList);
         System.out.println(teacherHomework.getHomeworkId());
-        List<TeacherHomeworkQuestion> l = homeworkQuestionService.findQuestionsByHomeworkId(teacherHomework.getHomeworkId());
+        List<TeacherHomeworkQuestion> l = homeworkQuestionService.setQuestionHomeworkId(
+                createHomeWork.getTeacherHomework().getTeacherHomeworkQuestions(), teacherHomework.getHomeworkId());
+
         answerQuestionService.createAnswerQuestion(l, list);
         return teacherHomework;
     }

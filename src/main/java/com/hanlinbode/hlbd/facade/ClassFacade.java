@@ -57,7 +57,7 @@ public class ClassFacade {
         }
         student.getTeamList().add(team);
         studentService.saveStudent(student);
-        team.setTeamVolume(team.getStudents().size());
+        team.setTeamVolume(team.getStudents().size()+1);
         return teamService.saveTeam(team);
     }
 }

@@ -5,7 +5,6 @@ import com.hanlinbode.hlbd.enums.AnswerState;
 
 import javax.persistence.*;
 
-@JsonIgnoreProperties({"teacherHomeWork"})
 @Entity
 public class TeacherHomeworkQuestion {
     @Id

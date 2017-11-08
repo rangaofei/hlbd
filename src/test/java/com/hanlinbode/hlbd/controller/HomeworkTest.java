@@ -1,12 +1,16 @@
 package com.hanlinbode.hlbd.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hanlinbode.hlbd.HlbdApplication;
+import com.hanlinbode.hlbd.bean.StudentAnswerQuestion;
 import com.hanlinbode.hlbd.config.WebSecurityConfig;
+import com.hanlinbode.hlbd.service.AnswerQuestionService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.Rollback;
@@ -21,11 +25,13 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = HlbdApplication.class)
 @WebAppConfiguration
-@Rollback(value = true)
+@Rollback(value = false)
 @Transactional(transactionManager = "transactionManager")
 public class HomeworkTest {
     private static final Logger logger = LoggerFactory.getLogger(TeamTest.class);
@@ -50,6 +56,38 @@ public class HomeworkTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .header("Authorization", "Bearer " + studentToken))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
+    }
+
+    @Test
+    public void getAnswerQuestions() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/teacher/{homework_id}/{question_id}/correctanswer",
+                "15100485788253", "15")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .header("Authorization", "Bearer " + studentToken))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+
+    }
+
+    @Test
+    public void correctAnswerQuestions() throws Exception {
+        ObjectMapper o = new ObjectMapper();
+        List<StudentAnswerQuestion> result = new ArrayList<>();
+        StudentAnswerQuestion question = new StudentAnswerQuestion(196, 100, "123", "123", "15088135711311",
+                3, "15101273059704");
+        result.add(question);
+        String content = o.writeValueAsString(result);
+        logger.info(content);
+        mvc.perform(MockMvcRequestBuilders.post("/teacher/{homework_id}/{question_id}/correctanswer",
+                "15101273058850", "3")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .header("Authorization", "Bearer " + studentToken)
+                .content(content))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
 

@@ -24,5 +24,9 @@ public interface AnswerQuestionService {
 
     AnswerState teacherHomeworkState(int homeworkquestionId);
 
+    void correctAnswerList(List<StudentAnswerQuestion> list);
+
+    void correctAnswer(StudentAnswerQuestion question);
+
     void createAnswerQuestion(List<TeacherHomeworkQuestion> teacherHomeworkQuestionList, List<StudentAnswer> studentAnswerList);
 }

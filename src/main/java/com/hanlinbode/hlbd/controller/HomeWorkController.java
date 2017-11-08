@@ -1,16 +1,14 @@
 package com.hanlinbode.hlbd.controller;
 
 
-import com.hanlinbode.hlbd.bean.StudentAnswer;
-import com.hanlinbode.hlbd.bean.StudentAnswerQuestion;
-import com.hanlinbode.hlbd.bean.TeacherHomework;
-import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
+import com.hanlinbode.hlbd.bean.*;
 import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.CreateHomeWork;
 import com.hanlinbode.hlbd.composbean.HomeWorkAndList;
 import com.hanlinbode.hlbd.composbean.StudentAnswerAndList;
-import com.hanlinbode.hlbd.dao.*;
+import com.hanlinbode.hlbd.dao.AnswerQuestionRepository;
 import com.hanlinbode.hlbd.facade.CommitAnswerFacade;
+import com.hanlinbode.hlbd.facade.CorrectAnswerFacade;
 import com.hanlinbode.hlbd.facade.CreateHomeworkFacade;
 import com.hanlinbode.hlbd.service.*;
 import com.hanlinbode.hlbd.util.ConstData;
@@ -43,6 +41,8 @@ public class HomeWorkController {
     private CreateHomeworkFacade createHomeworkFacade;
     @Autowired
     private CommitAnswerFacade commitAnswerFacade;
+    @Autowired
+    private CorrectAnswerFacade correctAnswerFacade;
 
     /**
      * 创建作业
@@ -125,9 +125,24 @@ public class HomeWorkController {
      * @return
      */
     @RequestMapping(path = "/teacher/{homework_id}/{question_id}/correctanswer", method = RequestMethod.GET)
-    public BaseBean<String> getHomeworkReport() {
+    public BaseBean<List<StudentAnswerQuestion>> getHomeworkQuestionList(@PathVariable("homework_id") String homeworkId,
+                                                                         @PathVariable("question_id") int questionId) {
+        BaseBean<List<StudentAnswerQuestion>> result = new BaseBean<>();
+        result.setMessage("成功");
+        result.setCode(200);
+        result.setBody(answerQuestionService.findAnserQuesitonByHomeworkQuestionId(questionId));
+        return result;
+    }
 
-        return null;
+    @RequestMapping(path = "/teacher/{homework_id}/{question_id}/correctanswer", method = RequestMethod.POST)
+    public BaseBean<String> correctHomeworkList(@PathVariable("homework_id") String homeworkId,
+                                                @PathVariable("question_id") int questionId,
+                                                @RequestBody List<StudentAnswerQuestion> list) {
+        correctAnswerFacade.correctAnswer(questionId, list);
+        BaseBean<String> result = new BaseBean<>();
+        result.setCode(201);
+        result.setMessage("批改成功");
+        return result;
     }
 
     /**
@@ -180,12 +195,6 @@ public class HomeWorkController {
                                                               @RequestBody StudentAnswerAndList list) {
         BaseBean<StudentAnswerAndList> result = new BaseBean<>();
         StudentAnswer studentAnswer = answerService.findAnswerById(answerId);
-//        homeWorkService.updateCommitCount(studentAnswer.getHomeworkId());
-//        studentAnswer.setCommitedStudentCount(studentAnswer.getCommitedStudentCount() + 1);
-//        studentAnswer.setFinishTime(list.getAnswer().getFinishTime());
-//        studentAnswer.setCostTime(list.getAnswer().getCostTime());
-//        answerService.updateAnswer(studentAnswer);
-//        answerQuestionService.commitAnswer(list.getAnswerList(), studentAnswer);
         commitAnswerFacade.commitAnswer(answerId, list);
         StudentAnswerAndList re = new StudentAnswerAndList(studentAnswer, answerQuestionService.findAnswerQuestionByAnswerId(answerId));
         result.setBody(re);

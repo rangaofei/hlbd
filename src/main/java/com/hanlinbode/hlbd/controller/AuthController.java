@@ -1,11 +1,15 @@
 package com.hanlinbode.hlbd.controller;
 
 import com.hanlinbode.hlbd.bean.Student;
+import com.hanlinbode.hlbd.bean.StudentAnswerQuestion;
 import com.hanlinbode.hlbd.bean.Teacher;
+import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
 import com.hanlinbode.hlbd.composbean.BaseBean;
 import com.hanlinbode.hlbd.composbean.StudentAndToken;
 import com.hanlinbode.hlbd.composbean.TeacherAndToken;
 import com.hanlinbode.hlbd.composbean.Token;
+import com.hanlinbode.hlbd.enums.AnswerState;
+import com.hanlinbode.hlbd.service.HomeworkQuestionService;
 import com.hanlinbode.hlbd.service.StudentService;
 import com.hanlinbode.hlbd.service.TeacherService;
 import com.hanlinbode.hlbd.util.ConstData;
@@ -13,10 +17,9 @@ import com.hanlinbode.hlbd.util.JWTUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class AuthController {
@@ -26,9 +29,16 @@ public class AuthController {
     private StudentService studentService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private HomeworkQuestionService homeworkQuestionService;
 
 
-    public AuthController() {
+    @RequestMapping(value = "/auth/test/{homework_id}", method = RequestMethod.GET)
+    public AnswerState get(@PathVariable("homework_id") String id) {
+        logger.info(id);
+        AnswerState re = homeworkQuestionService.homeworkState(id);
+        logger.info(re.name() + "--");
+        return re;
     }
 
     @RequestMapping(value = "/auth/student/register", method = RequestMethod.POST)

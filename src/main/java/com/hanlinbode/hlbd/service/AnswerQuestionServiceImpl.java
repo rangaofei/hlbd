@@ -76,7 +76,8 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
             answerQuestion.setAnswerId(studentAnswer.getAnswerId());
             answerQuestion.setTeacherHomeworkQuestionId(id);
             if (QuestionUtil.isForCorrect(answerQuestion.getQuestiontypeId())) {
-                if (answerQuestion.getAnswer().equals(questionRepository.findQuestionById(answerQuestion.getQuestionId()).getAnswer())) {
+                if (answerQuestion.getAnswer() != null &&
+                        answerQuestion.getAnswer().equals(questionRepository.findQuestionById(answerQuestion.getQuestionId()).getAnswer().replace(" ", ""))) {
                     answerQuestion.setScore(100);
                 } else {
                     answerQuestion.setScore(0);
@@ -154,6 +155,16 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
             }
         }
         return AnswerState.COMMIT;
+    }
+
+    @Override
+    public void correctAnswerList(List<StudentAnswerQuestion> list) {
+        answerQuestionRepository.save(list);
+    }
+
+    @Override
+    public void correctAnswer(StudentAnswerQuestion question) {
+        answerQuestionRepository.save(question);
     }
 
 

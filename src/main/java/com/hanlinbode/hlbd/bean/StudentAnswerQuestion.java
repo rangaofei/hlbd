@@ -82,6 +82,15 @@ public class StudentAnswerQuestion {
     public StudentAnswerQuestion() {
     }
 
+    public StudentAnswerQuestion(int id, int score, String correct, String correctComment, String studentId, int teacherHomeworkQuestionId, String answerId) {
+        this.id = id;
+        this.score = score;
+        this.correct = correct;
+        this.correctComment = correctComment;
+        this.studentId = studentId;
+        this.teacherHomeworkQuestionId = teacherHomeworkQuestionId;
+        this.answerId = answerId;
+    }
 
     public StudentAnswerQuestion(TeacherHomeworkQuestion teacherHomeworkQuestion) {
         this.stageId = teacherHomeworkQuestion.getStageId();

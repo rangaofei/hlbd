@@ -44,8 +44,8 @@ public class HomeworkQuestionServiceImpl implements HomeworkQuestionService {
 
     @Override
     public AnswerState homeworkState(String homeworkId) {
-        List<TeacherHomeworkQuestion> list = homeworkQuestionRepository
-                .findTeacherHomeworkQuestionsByTeacherHomeworkId(homeworkId);
+        System.out.println(homeworkId);
+        List<TeacherHomeworkQuestion> list = findQuestionsByHomeworkId(homeworkId);
         for (TeacherHomeworkQuestion t : list) {
             if (t.getState() == AnswerState.WAIT_CORRECT) {
                 return AnswerState.WAIT_CORRECT;

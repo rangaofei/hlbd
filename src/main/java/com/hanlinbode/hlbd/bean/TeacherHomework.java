@@ -163,10 +163,19 @@ public class TeacherHomework implements Serializable {
     @Override
     public String toString() {
         return "TeacherHomework{" +
-                "UID=" + id +
+                "id=" + id +
+                ", homeworkId='" + homeworkId + '\'' +
                 ", type=" + type +
                 ", name='" + name + '\'' +
-                ", createdTime='" + createdTime + '\'' +
+                ", subjectName='" + subjectName + '\'' +
+                ", commitedCount=" + commitedCount +
+                ", totalStudent=" + totalStudent +
+                ", questionCount=" + questionCount +
+                ", correctRate=" + correctRate +
+                ", difficult=" + difficult +
+                ", state=" + state +
+                ", teacherId='" + teacherId + '\'' +
+                ", createdTime=" + createdTime +
                 '}';
     }
 

@@ -55,4 +55,15 @@ public class TeacherAuth {
         }
         return result;
     }
+
+    @RequestMapping(value = "teacher/{teacher_id}/deletesubjects", method = RequestMethod.DELETE)
+    public BaseBean<List<TeacherSubject>> deleteSubject(@PathVariable("teacher_id") String teacherId,
+                                                        @RequestBody List<TeacherSubject> teacherSubjects) {
+        List<TeacherSubject> teacherSubject = teacherSubjectService.deleteTeacherSubject(teacherId, teacherSubjects);
+        BaseBean<List<TeacherSubject>> result = new BaseBean<>();
+        result.setMessage("保存成功");
+        result.setCode(ConstData.POST_SUCCESS);
+        result.setBody(teacherSubject);
+        return result;
+    }
 }

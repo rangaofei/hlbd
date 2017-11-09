@@ -10,4 +10,6 @@ public interface TeacherSubjectService {
     List<TeacherSubject> findSubjectsByTeacherId(String teacherId);
 
     List<TeacherSubject> saveTeacherSubject(String teacherId, List<TeacherSubject> teacherSubject);
+
+    List<TeacherSubject> deleteTeacherSubject(String teacherId, List<TeacherSubject> teacherSubject);
 }

@@ -66,17 +66,6 @@ public class JWTUtil {
         return parseJWT(authToken).getSubject();
     }
 
-//    /**
-//     * 生成subject信息
-//     * @param user
-//     * @return
-//     */
-//    public static String generalSubject(t_user user){
-//        JSONObject jo = new JSONObject();
-//        jo.put("userId", user.getId());
-//        jo.put("mobile", user.getMobile());
-//        return jo.toJSONString();
-//    }
 
 
 }

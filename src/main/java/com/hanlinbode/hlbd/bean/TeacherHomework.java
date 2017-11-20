@@ -8,13 +8,15 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @JsonIgnoreProperties({"id", "teacher"})
 @Entity
-public class TeacherHomework implements Serializable {
+public class TeacherHomework implements Serializable, Comparable<TeacherHomework> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -34,7 +36,7 @@ public class TeacherHomework implements Serializable {
     private float correctRate;
     private float difficult;
     @Enumerated(EnumType.STRING)
-    private AnswerState state=AnswerState.NOT_COMMIT;
+    private AnswerState state = AnswerState.NOT_COMMIT;
     private String teacherId;
 
     @Column
@@ -56,7 +58,7 @@ public class TeacherHomework implements Serializable {
     @JoinTable(name = "team_homework",
             joinColumns = {@JoinColumn(name = "homework_id", referencedColumnName = "homeworkId")},
             inverseJoinColumns = {@JoinColumn(name = "team_id", referencedColumnName = "teamId")})
-    private List<Team> teamList=new ArrayList<>();
+    private List<Team> teamList = new ArrayList<>();
     @Transient
     private List<TeacherHomeworkQuestion> teacherHomeworkQuestions;
 
@@ -197,4 +199,14 @@ public class TeacherHomework implements Serializable {
     }
 
 
+    @Override
+    public int compareTo(TeacherHomework o) {
+        if (this.createdTime.after(o.getCreatedTime())) {
+            return -1;
+        }
+        if (this.createdTime.before(o.getCreatedTime())) {
+            return 1;
+        }
+        return 0;
+    }
 }

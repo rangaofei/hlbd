@@ -15,6 +15,7 @@ import com.hanlinbode.hlbd.util.ConstData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -69,6 +70,7 @@ public class HomeWorkController {
             result.setMessage("没有作业");
             result.setCode(ConstData.NO_RESULT);
         } else {
+            Collections.sort(teacherHomeworks);
             result.setMessage("success");
             result.setCode(ConstData.GET_SUCCESS);
         }

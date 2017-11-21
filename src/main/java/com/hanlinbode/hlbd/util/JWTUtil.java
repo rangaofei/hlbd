@@ -55,14 +55,14 @@ public class JWTUtil {
      * @return
      * @throws Exception
      */
-    public static Claims parseJWT(String jwt) throws Exception {
+    public static Claims parseJWT(String jwt) {
         SecretKey key = generalKey();
         return Jwts.parser()
                 .setSigningKey(key)
                 .parseClaimsJws(jwt).getBody();
     }
 
-    public String getUsernameFromToken(String authToken) throws Exception {
+    public String getUsernameFromToken(String authToken) {
         return parseJWT(authToken).getSubject();
     }
 

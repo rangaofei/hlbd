@@ -84,7 +84,12 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
                 }
                 answerQuestion.setState(AnswerState.COMMIT);
             } else {
-                answerQuestion.setState(AnswerState.WAIT_CORRECT);
+                if (answerQuestion.getAnswer() == null || answerQuestion.getAnswer().equals("")) {
+                    answerQuestion.setState(AnswerState.CORRECT);
+                    answerQuestion.setScore(0);
+                } else {
+                    answerQuestion.setState(AnswerState.WAIT_CORRECT);
+                }
             }
         }
         answerQuestionRepository.save(questionList);

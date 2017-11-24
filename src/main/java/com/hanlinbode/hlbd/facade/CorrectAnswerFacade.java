@@ -37,6 +37,8 @@ public class CorrectAnswerFacade {
      */
     public void correctAnswer(int homeworkquestionId, List<StudentAnswerQuestion> list) {
         logger.info(list.size() + "个信息");
+
+        //修改student_answer_question表数据
         List<StudentAnswerQuestion> result = new ArrayList<>();
         for (StudentAnswerQuestion question : list) {
             StudentAnswerQuestion s = answerQuestionService.findAnswerQuestionById(question.getId());
@@ -49,20 +51,24 @@ public class CorrectAnswerFacade {
         logger.info(result.get(0).toString());
         answerQuestionService.correctAnswerList(result);
 
+        //修改teacher_homework_question表数据
         TeacherHomeworkQuestion teacherHomeworkQuestion = homeworkQuestionService.findTeacherHomeworkQuestionById(homeworkquestionId);
         teacherHomeworkQuestion.setState(AnswerState.CORRECT);
-        teacherHomeworkQuestion.setCorrectRate(answerQuestionService.calculateHomeworkQuestionCorrectRate(teacherHomeworkQuestion.getQuestionId()));
+        teacherHomeworkQuestion.setCorrectRate(answerQuestionService.calculateHomeworkQuestionCorrectRate(teacherHomeworkQuestion.getId()));
+        logger.info(teacherHomeworkQuestion.toString());
         homeworkQuestionService.saveTeacherHomeworkQuestion(teacherHomeworkQuestion);
 
+        //修改teacher_homework表数据
         TeacherHomework teacherHomework = homeWorkService.findHomeWorkByHomeWorkId(teacherHomeworkQuestion.getTeacherHomeworkId());
         logger.info(teacherHomework.toString());
         teacherHomework.setState(homeworkQuestionService.homeworkState(teacherHomework.getHomeworkId()));
         teacherHomework.setCorrectRate(homeworkQuestionService.calculateCorrectRate(teacherHomework.getHomeworkId()));
-
         homeWorkService.saveTeacherHomework(teacherHomework);
 
+        //修改student_answer表数据
         StudentAnswer studentAnswer = answerService.findAnswerById(list.get(0).getAnswerId());
         studentAnswer.setCorrectRate(answerQuestionService.calculateStudentAnswerCorrectRate(studentAnswer.getAnswerId()));
         studentAnswer.setState(AnswerState.CORRECT);
+        answerService.updateAnswer(studentAnswer);
     }
 }

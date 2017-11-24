@@ -132,6 +132,7 @@ public class TeacherHomeworkQuestion {
                 ", questionId=" + questionId +
                 ", questiontypeId=" + questiontypeId +
                 ", correctRate=" + correctRate +
+                ", state=" + state +
                 ", teacherHomeworkId='" + teacherHomeworkId + '\'' +
                 '}';
     }

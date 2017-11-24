@@ -46,7 +46,7 @@ public class StudentAnswer implements Serializable {
     private float difficult;
     private String teamId;
     private String finishTime;
-    private String costTime;
+    private long costTime;
 
     public String getFinishTime() {
         return finishTime;
@@ -56,11 +56,11 @@ public class StudentAnswer implements Serializable {
         this.finishTime = finishTime;
     }
 
-    public String getCostTime() {
+    public long getCostTime() {
         return costTime;
     }
 
-    public void setCostTime(String costTime) {
+    public void setCostTime(long costTime) {
         this.costTime = costTime;
     }
 

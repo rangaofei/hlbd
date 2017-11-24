@@ -52,7 +52,7 @@ public class HomeworkTest {
     @Test
     public void getHomeworks() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/student/{student_id}/{class_id}/gethomeworks",
-                "15098521959830", "9730570060")
+                "15088135711311", "4886501581")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .header("Authorization", "Bearer " + studentToken))

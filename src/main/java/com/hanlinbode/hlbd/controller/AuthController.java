@@ -73,6 +73,7 @@ public class AuthController {
 
     @RequestMapping(value = "/auth/teacher/login", method = RequestMethod.POST)
     public BaseBean<TeacherAndToken> teacherLogin(@RequestBody Teacher teacher) {
+        logger.info(teacher.toString());
         BaseBean<TeacherAndToken> result = new BaseBean<>();
         result.setCode(ConstData.POST_SUCCESS);
         result.setMessage("登录成功");

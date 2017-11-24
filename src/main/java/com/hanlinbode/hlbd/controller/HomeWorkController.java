@@ -168,6 +168,9 @@ public class HomeWorkController {
             result.setMessage("无作业");
             result.setCode(ConstData.NO_RESULT);
         } else {
+            for (StudentAnswer studentAnswer : studentAnswers) {
+                logger.info(studentAnswer.toString());
+            }
             result.setMessage("success");
             result.setCode(ConstData.GET_SUCCESS);
         }

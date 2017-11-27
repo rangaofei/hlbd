@@ -1,6 +1,7 @@
 package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.*;
+import com.hanlinbode.hlbd.composbean.StudentCostTime;
 import com.hanlinbode.hlbd.dao.AnswerQuestionRepository;
 import com.hanlinbode.hlbd.dao.AnswerRepository;
 import com.hanlinbode.hlbd.dao.QuestionRepository;
@@ -100,6 +101,12 @@ public class AnswerServiceImpl implements AnswerService {
         //更新老师表中的正确率
 
         return answerRepository.save(studentAnswer);
+    }
+
+    @Override
+    public StudentCostTime getStudentCostTime(String studentId) {
+        System.out.println(answerRepository.getTotalTime(studentId));
+        return null;
     }
 
 }

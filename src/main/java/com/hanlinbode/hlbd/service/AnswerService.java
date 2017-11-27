@@ -4,6 +4,7 @@ import com.hanlinbode.hlbd.bean.StudentAnswer;
 import com.hanlinbode.hlbd.bean.TeacherHomework;
 import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
+import com.hanlinbode.hlbd.composbean.StudentCostTime;
 
 import java.util.List;
 
@@ -24,5 +25,5 @@ public interface AnswerService {
 
     StudentAnswer calucateCorrectRate(String answerId);
 
-
+    StudentCostTime getStudentCostTime(String studentId);
 }

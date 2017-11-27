@@ -7,6 +7,7 @@ import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.composbean.StudentCostTime;
 
 import java.util.List;
+import java.util.Map;
 
 public interface AnswerService {
     StudentAnswer saveAnswer(TeacherHomework teacherHomework, Student student);
@@ -25,5 +26,7 @@ public interface AnswerService {
 
     StudentAnswer calucateCorrectRate(String answerId);
 
-    StudentCostTime getStudentCostTime(String studentId);
+    Map<String, Integer> getStudentCostTime(String studentId);
+
+    Map<String, Float> getStudentHistoryRate(String studentId,int num,int index);
 }

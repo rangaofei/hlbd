@@ -21,6 +21,13 @@ public interface AnswerRepository extends JpaRepository<StudentAnswer, Long> {
     List<StudentAnswer> findStudentAnswersByTeamIdAndStudentId(String teamId, String studentId);
 
     @Query(value = "SELECT sum(cost_time) FROM student_answer WHERE student_id=?1", nativeQuery = true)
-    int getTotalTime(String studentId);
+    Integer getTotalTime(String studentId);
 
+    @Query(value = "SELECT distinct subject_name from student_answer where student_id=?1",
+            nativeQuery = true)
+    List<String> getAllSubject(String studentId);
+
+    @Query(value = "select sum(cost_time) from student_answer where student_id=?1 and subject_name=?2",
+            nativeQuery = true)
+    Integer getCostTimeBySubjectName(String studentId, String subjectName);
 }

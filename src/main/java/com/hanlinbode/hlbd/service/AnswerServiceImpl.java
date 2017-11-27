@@ -6,14 +6,16 @@ import com.hanlinbode.hlbd.dao.AnswerQuestionRepository;
 import com.hanlinbode.hlbd.dao.AnswerRepository;
 import com.hanlinbode.hlbd.dao.QuestionRepository;
 import com.hanlinbode.hlbd.enums.AnswerState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class AnswerServiceImpl implements AnswerService {
+    private static final Logger logger = LoggerFactory.getLogger(AnswerServiceImpl.class);
     @Autowired
     private AnswerRepository answerRepository;
     @Autowired
@@ -104,8 +106,22 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public StudentCostTime getStudentCostTime(String studentId) {
-        System.out.println(answerRepository.getTotalTime(studentId));
+    public Map<String, Integer> getStudentCostTime(String studentId) {
+        Map<String, Integer> costTime = new HashMap<>();
+        List<String> subject = answerRepository.getAllSubject(studentId);
+        costTime.put("totalTime",
+                answerRepository.getTotalTime(studentId) == null ? 0 : answerRepository.getTotalTime(studentId));
+        if (subject.size() > 0) {
+            for (String name : subject) {
+                costTime.put(name, answerRepository.getCostTimeBySubjectName(studentId, name));
+            }
+        }
+        return costTime;
+    }
+
+    @Override
+    public Map<String, Float> getStudentHistoryRate(String studentId, int num, int index) {
+        Map<String, Float> historyRate = new LinkedHashMap<>();
         return null;
     }
 

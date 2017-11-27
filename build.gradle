@@ -34,7 +34,5 @@ dependencies {
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: '1.5.8.RELEASE'
     compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.4.0'
-
-
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

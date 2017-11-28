@@ -48,6 +48,15 @@ public class StudentAnswer implements Serializable {
     private String finishTime;
     private long costTime;
 
+    public StudentAnswer() {
+    }
+
+    public StudentAnswer(Date createdTime, float correctRate, String finishTime) {
+        this.createdTime = createdTime;
+        this.correctRate = correctRate;
+        this.finishTime = finishTime;
+    }
+
     public String getFinishTime() {
         return finishTime;
     }

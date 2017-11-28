@@ -1,10 +1,10 @@
 package com.hanlinbode.hlbd.service;
 
+import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.StudentAnswer;
 import com.hanlinbode.hlbd.bean.TeacherHomework;
-import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.Team;
-import com.hanlinbode.hlbd.composbean.StudentCostTime;
+import com.hanlinbode.hlbd.composbean.StudentRate;
 
 import java.util.List;
 import java.util.Map;
@@ -28,5 +28,5 @@ public interface AnswerService {
 
     Map<String, Integer> getStudentCostTime(String studentId);
 
-    Map<String, Float> getStudentHistoryRate(String studentId,int num,int index);
+    List<Map<String, StudentRate>> getStudentHistoryRate(String studentId, int num, int index);
 }

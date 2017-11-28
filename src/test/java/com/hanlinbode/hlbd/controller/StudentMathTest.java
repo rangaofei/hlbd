@@ -54,4 +54,15 @@ public class StudentMathTest {
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
+
+    ///student/{student_id}/getrecentlimit
+    @Test
+    public void getHistoryRateTest() throws Exception {
+        mvc.perform(MockMvcRequestBuilders.get("/student/{student_id}/getrecentrate",
+                "15088135711311")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
 }

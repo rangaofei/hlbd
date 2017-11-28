@@ -1,11 +1,14 @@
 package com.hanlinbode.hlbd.service;
 
 import com.hanlinbode.hlbd.bean.*;
+import com.hanlinbode.hlbd.composbean.StudentAndToken;
 import com.hanlinbode.hlbd.composbean.StudentCostTime;
+import com.hanlinbode.hlbd.composbean.StudentRate;
 import com.hanlinbode.hlbd.dao.AnswerQuestionRepository;
 import com.hanlinbode.hlbd.dao.AnswerRepository;
 import com.hanlinbode.hlbd.dao.QuestionRepository;
 import com.hanlinbode.hlbd.enums.AnswerState;
+import com.hanlinbode.hlbd.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +29,9 @@ public class AnswerServiceImpl implements AnswerService {
     private AnswerQuestionService answerQuestionService;
     @Autowired
     private HomeworkQuestionService homeworkQuestionService;
+    @Autowired
+    private HomeWorkService homeWorkService;
+
 
     @Override
     public StudentAnswer saveAnswer(TeacherHomework teacherHomework, Student student) {
@@ -120,9 +126,27 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public Map<String, Float> getStudentHistoryRate(String studentId, int num, int index) {
-        Map<String, Float> historyRate = new LinkedHashMap<>();
-        return null;
+    public List<Map<String, StudentRate>> getStudentHistoryRate(String studentId, int num, int index) {
+        List<Map<String, StudentRate>> result = new ArrayList<>();
+        List<String> subject = answerRepository.getAllSubject(studentId);
+        for (String name : subject) {
+            Map<String, StudentRate> map = new HashMap<>();
+            StudentRate studentRate = new StudentRate();
+            List<StudentAnswer> tmp = answerRepository.getAnswerBySubjectAndStudentId(studentId, name);
+            Map<String, Float> selfRate = new LinkedHashMap<>();
+            Map<String, Float> averageRate = new LinkedHashMap<>();
+            for (StudentAnswer s : tmp) {
+                System.out.println(s.getCreatedTime());
+                String date = DateUtil.dateToString(s.getCreatedTime());
+                selfRate.put(date, s.getCorrectRate());
+                averageRate.put(date, homeWorkService.findHomeWorkByHomeWorkId(s.getHomeworkId()).getCorrectRate());
+            }
+            studentRate.setAverage(averageRate);
+            studentRate.setSelf(selfRate);
+            map.put(name, studentRate);
+            result.add(map);
+        }
+        return result;
     }
 
 }

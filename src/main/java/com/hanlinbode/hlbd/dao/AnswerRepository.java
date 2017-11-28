@@ -8,7 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public interface AnswerRepository extends JpaRepository<StudentAnswer, Long> {
@@ -23,11 +25,15 @@ public interface AnswerRepository extends JpaRepository<StudentAnswer, Long> {
     @Query(value = "SELECT sum(cost_time) FROM student_answer WHERE student_id=?1", nativeQuery = true)
     Integer getTotalTime(String studentId);
 
-    @Query(value = "SELECT distinct subject_name from student_answer where student_id=?1",
+    @Query(value = "SELECT DISTINCT subject_name FROM student_answer WHERE student_id=?1",
             nativeQuery = true)
     List<String> getAllSubject(String studentId);
 
-    @Query(value = "select sum(cost_time) from student_answer where student_id=?1 and subject_name=?2",
+    @Query(value = "SELECT sum(cost_time) FROM student_answer WHERE student_id=?1 AND subject_name=?2",
             nativeQuery = true)
     Integer getCostTimeBySubjectName(String studentId, String subjectName);
+
+    @Query(value = "select s from StudentAnswer s where student_id=:studentId and subject_name=:subject" +
+            " and type=2 and (state='CORRECT' or state='COMMIT')")
+    List<StudentAnswer> getAnswerBySubjectAndStudentId(@Param("studentId") String studentId, @Param("subject") String subject);
 }

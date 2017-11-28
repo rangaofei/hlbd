@@ -126,11 +126,10 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public List<Map<String, StudentRate>> getStudentHistoryRate(String studentId, int num, int index) {
-        List<Map<String, StudentRate>> result = new ArrayList<>();
+    public Map<String, StudentRate> getStudentHistoryRate(String studentId, int num, int index) {
+        Map<String, StudentRate> result = new LinkedHashMap<>();
         List<String> subject = answerRepository.getAllSubject(studentId);
         for (String name : subject) {
-            Map<String, StudentRate> map = new HashMap<>();
             StudentRate studentRate = new StudentRate();
             List<StudentAnswer> tmp = answerRepository.getAnswerBySubjectAndStudentId(studentId, name);
             Map<String, Float> selfRate = new LinkedHashMap<>();
@@ -143,8 +142,7 @@ public class AnswerServiceImpl implements AnswerService {
             }
             studentRate.setAverage(averageRate);
             studentRate.setSelf(selfRate);
-            map.put(name, studentRate);
-            result.add(map);
+            result.put(name, studentRate);
         }
         return result;
     }

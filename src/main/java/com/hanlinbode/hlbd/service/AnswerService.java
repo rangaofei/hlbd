@@ -28,5 +28,5 @@ public interface AnswerService {
 
     Map<String, Integer> getStudentCostTime(String studentId);
 
-    List<Map<String, StudentRate>> getStudentHistoryRate(String studentId, int num, int index);
+    Map<String, StudentRate> getStudentHistoryRate(String studentId, int num, int index);
 }

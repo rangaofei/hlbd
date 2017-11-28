@@ -28,8 +28,8 @@ public class StudentMath {
     }
 
     @RequestMapping(value = "/student/{student_id}/getrecentrate", method = RequestMethod.GET)
-    public BaseBean<List<Map<String, StudentRate>>> getRecentRate(@PathVariable("student_id") String studentId) {
-        BaseBean<List<Map<String, StudentRate>>> result = new BaseBean<>();
+    public BaseBean<Map<String, StudentRate>> getRecentRate(@PathVariable("student_id") String studentId) {
+        BaseBean<Map<String, StudentRate>> result = new BaseBean<>();
         result.setCode(200);
         result.setMessage("获取成功");
         result.setBody(answerService.getStudentHistoryRate(studentId, 10, 1));

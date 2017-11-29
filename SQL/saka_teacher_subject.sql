@@ -1,0 +1,2 @@
+INSERT INTO saka.teacher_subject (stage, stage_id, subject, subject_id, teacher_id, textbook, textbook_id, version, version_id) VALUES ('小学', 1, '数学', 29, '15088322443177', '一年级上册', 109, '北师大版', 10);
+INSERT INTO saka.teacher_subject (stage, stage_id, subject, subject_id, teacher_id, textbook, textbook_id, version, version_id) VALUES ('初中', 2, '数学', 32, '15088322443177', '七年级上册', 359, '人教版', 38);

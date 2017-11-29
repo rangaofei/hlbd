@@ -1,0 +1,1 @@
+INSERT INTO saka.team (team_id, team_introduction, team_name, teacher_id, created_time, team_volume) VALUES ('4886501581', '冉老师的数学课', '三年级二班', '15088322443177', '2017-11-24 09:57:30', 1);

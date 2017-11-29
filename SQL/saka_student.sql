@@ -1,0 +1,13 @@
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('mary', 'qwer', '123456', 'STUDENT', '15087254904257', '2017-10-23 10:24:50');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('小明', '1111', '15111111111', 'STUDENT', '15087390394384', '2017-10-23 14:10:39');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('小强', '1111', '15111111112', 'STUDENT', '15087407725646', '2017-10-23 14:39:33');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('小红', '1111', '15111111113', 'STUDENT', '15087411480564', '2017-10-23 14:45:48');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('小丽', '1111', '15111111144', 'STUDENT', '15087448904619', '2017-10-23 15:48:10');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('小菜', '1111', '15111111119', 'STUDENT', '15087454207024', '2017-10-23 15:57:01');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('小东', '1111', '1511111117', 'STUDENT', '15088089689466', '2017-10-24 09:36:09');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('小军', '1111', '15111111155', 'STUDENT', '15088135711311', '2017-10-24 10:52:51');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('小亮', '1111', '15122222222', 'STUDENT', '15088226716985', '2017-10-24 13:24:32');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('jjj', '123', '741', 'STUDENT', '15088368906082', '2017-10-24 17:21:31');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('小刚', '789', '15111111178', 'STUDENT', '15099449006271', '2017-11-06 13:08:21');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('大力', '1111', '15111111133', 'STUDENT', '15102154093670', '2017-11-09 16:16:49');
+INSERT INTO saka.student (name, password, phone, role, student_id, created_time) VALUES ('大壮', '1111', '15111111199', 'STUDENT', '15107997779070', '2017-11-16 10:36:18');

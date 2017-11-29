@@ -1,0 +1,2 @@
+INSERT INTO saka.teacher (created_time, name, password, phone, role, teacher_id) VALUES ('2017-10-24 16:04:04', 'sss', '123', '18761564425', 'TEACHER', '15088322443177');
+INSERT INTO saka.teacher (created_time, name, password, phone, role, teacher_id) VALUES ('2017-11-08 17:08:28', 'yhg', '123', '18767564425', 'TEACHER', '15101321079690');

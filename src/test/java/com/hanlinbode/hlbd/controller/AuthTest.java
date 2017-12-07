@@ -21,6 +21,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.JsonPathResultMatchers;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -49,11 +50,11 @@ public class AuthTest {
 
     /**
      * 测试老师注册
-     *
-     * @throws Exception
+     * 此处使用的手机号码是错误的
+     * 期待结果是412，参数错误
      */
     @Test
-    public void testTeacherRegister() throws Exception {
+    public void testTeacherRegisterWithWrongPhoneNum() throws Exception {
         Teacher teacher = new Teacher();
         teacher.setName("冉高飞");
         teacher.setPassword("123");
@@ -64,6 +65,7 @@ public class AuthTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(content.getBytes())
                 .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(412))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
@@ -131,7 +133,7 @@ public class AuthTest {
      */
     @Test
     public void testStudentLoginPasswordIncorrect() throws Exception {
-        Student student = new Student("78", "jrt");
+        Student student = new Student("18761564425", "15111111155");
         ObjectMapper o = new ObjectMapper();
         String content = o.writeValueAsString(student);
 

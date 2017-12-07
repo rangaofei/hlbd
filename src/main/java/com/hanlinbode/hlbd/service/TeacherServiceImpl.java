@@ -7,6 +7,7 @@ import com.hanlinbode.hlbd.dao.TeacherRepository;
 import com.hanlinbode.hlbd.exception.ParamIncorrectException;
 import com.hanlinbode.hlbd.exception.ResultAlreadyExistException;
 import com.hanlinbode.hlbd.exception.ResultNotFoundException;
+import com.hanlinbode.hlbd.util.RegexUtil;
 import com.hanlinbode.hlbd.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,9 @@ public class TeacherServiceImpl implements TeacherService {
 
     @Override
     public TeacherAndToken registerTeacher(Teacher teacher) {
+        if (!RegexUtil.isMobile(teacher.getPhone())) {
+            throw new ParamIncorrectException("不是正确的手机号码");
+        }
         if (null != teacherRepository.findTeacherByPhone(teacher.getPhone())) {
             throw new ResultAlreadyExistException("手机号码已注册", new TeacherAndToken(teacher, null));
         }

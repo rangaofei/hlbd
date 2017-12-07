@@ -55,6 +55,13 @@ public class StudentServiceImpl implements StudentService {
         return team;
     }
 
+    /**
+     * 学生注册
+     * 假如学生手机号码已存在，则会抛出用户手机号已被注册的异常
+     *
+     * @param student 学生信息
+     * @return 学生注册信息（包含token）
+     */
     @Override
     public StudentAndToken registerStudent(Student student) {
         if (null != studentRepository.findStudentByPhone(student.getPhone())) {
@@ -67,6 +74,10 @@ public class StudentServiceImpl implements StudentService {
         return new StudentAndToken(student, token);
     }
 
+    /**
+     * @param student
+     * @return
+     */
     @Override
     public StudentAndToken loginStudent(Student student) {
         Student s = studentRepository.findStudentByPhone(student.getPhone());

@@ -13,14 +13,7 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Student findStudentByPhone(String phone);
 
-
     List<Student> findStudentsByName(String name);
-
-
-    List<Student> findStudentsByPhone(String phone);
-
-    @Query("select s from Student s where s.id=:id")
-    Student findStudentById(@Param("id") int id);
 
     Student findStudentByStudentId(String id);
 }

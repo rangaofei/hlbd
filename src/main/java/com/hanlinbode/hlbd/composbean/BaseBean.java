@@ -28,4 +28,13 @@ public class BaseBean<T> {
     public void setBody(T body) {
         this.body = body;
     }
+
+    @Override
+    public String toString() {
+        return "BaseBean{" +
+                "code=" + code +
+                ", message='" + message + '\'' +
+                ", body=" + body +
+                '}';
+    }
 }

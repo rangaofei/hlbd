@@ -33,74 +33,77 @@ public class AuthController {
     private HomeworkQuestionService homeworkQuestionService;
 
 
-    @RequestMapping(value = "/auth/test/{homework_id}", method = RequestMethod.GET)
-    public AnswerState get(@PathVariable("homework_id") String id) {
-        logger.info(id);
-        AnswerState re = homeworkQuestionService.homeworkState(id);
-        logger.info(re.name() + "--");
-        return re;
-    }
-
     @RequestMapping(value = "/auth/student/register", method = RequestMethod.POST)
     public BaseBean<StudentAndToken> studentRegister(@RequestBody Student input) {
-        BaseBean<StudentAndToken> baseBean = new BaseBean<>();
-        logger.info(input.toString());
-        baseBean.setMessage("用户创建成功");
-        baseBean.setBody(studentService.registerStudent(input));
-        return baseBean;
+        BaseBean<StudentAndToken> result = new BaseBean<>();
+        logger.info("接收到学生注册信息：" + input.toString());
+        result.setMessage("用户创建成功");
+        result.setBody(studentService.registerStudent(input));
+        logger.info("返回学生注册信息：" + result.toString());
+        return result;
     }
 
     @RequestMapping(value = "/auth/student/login", method = RequestMethod.POST)
     public BaseBean<StudentAndToken> studentLogin(@RequestBody Student student) {
+        logger.info("接收到学生登录信息：" + student.toString());
         BaseBean<StudentAndToken> result = new BaseBean<>();
         result.setCode(ConstData.POST_SUCCESS);
         result.setMessage("用户登录成功");
         result.setBody(studentService.loginStudent(student));
+        logger.info("返回学生登录信息：" + result.toString());
         return result;
     }
 
+    /**
+     * 老师注册
+     * @param input
+     * @return
+     */
     @RequestMapping(value = "/auth/teacher/register", method = RequestMethod.POST)
     public BaseBean<TeacherAndToken> TeacherRegister(@RequestBody Teacher input) {
-        BaseBean<TeacherAndToken> baseBean = new BaseBean<>();
-        logger.info(input.toString());
+        BaseBean<TeacherAndToken> result = new BaseBean<>();
+        logger.info("接收到老师注册信息：" + input.toString());
         TeacherAndToken teacherAndToken = teacherService.registerTeacher(input);
-        baseBean.setCode(ConstData.POST_SUCCESS);
-        baseBean.setMessage("创建成功");
-        baseBean.setBody(teacherAndToken);
-        return baseBean;
+        result.setCode(ConstData.POST_SUCCESS);
+        result.setMessage("创建成功");
+        result.setBody(teacherAndToken);
+        logger.info("返回老师注册信息：" + result.toString());
+        return result;
 
     }
 
     @RequestMapping(value = "/auth/teacher/login", method = RequestMethod.POST)
     public BaseBean<TeacherAndToken> teacherLogin(@RequestBody Teacher teacher) {
-        logger.info(teacher.toString());
+        logger.info("接收到老师登录信息：" + teacher.toString());
         BaseBean<TeacherAndToken> result = new BaseBean<>();
         result.setCode(ConstData.POST_SUCCESS);
         result.setMessage("登录成功");
         result.setBody(teacherService.loginTeacher(teacher));
-
+        logger.info("返回老师登录信息：" + result.toString());
         return result;
     }
 
     @RequestMapping(value = "/auth/student/refreshtoken", method = RequestMethod.POST)
-    public BaseBean<Token> refreshStudentToken(@RequestBody Token token) {
+    public BaseBean<Token> refreshStudentToken(@RequestBody Token refresh_token) {
+        logger.info("刷新学生的token：" + refresh_token.toString());
         BaseBean<Token> result = new BaseBean<>();
-        try {
-            Token newToken = Token.generateToken(JWTUtil.parseJWT(token.getRefreshToken()).getSubject());
-            result.setMessage("刷新成功");
-            result.setCode(ConstData.POST_SUCCESS);
-            result.setBody(newToken);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result.setBody(null);
-            result.setCode(ConstData.NO_RESULT);
-            result.setMessage("token失效");
-        }
+        Token newToken = Token.generateToken(JWTUtil.parseJWT(refresh_token.getRefreshToken()).getSubject());
+        result.setMessage("刷新成功");
+        result.setCode(ConstData.POST_SUCCESS);
+        result.setBody(newToken);
+        logger.info("刷新学生的token成功："+result.toString());
         return result;
     }
 
-    @RequestMapping(value = "/auth/teacher/refreashtoken", method = RequestMethod.POST)
-    public BaseBean<Token> refreshTeacherToken(@RequestBody Token token) {
-        return null;
+    @RequestMapping(value = "/auth/teacher/refreshtoken", method = RequestMethod.POST)
+    public BaseBean<Token> refreshTeacherToken(@RequestBody Token refresh_token) {
+        BaseBean<Token> result = new BaseBean<>();
+        logger.info("刷新老师的token：" + refresh_token.toString());
+        Token newToken = Token.generateToken(JWTUtil.parseJWT(refresh_token.getRefreshToken()).getSubject());
+        result.setMessage("刷新成功");
+        result.setCode(ConstData.POST_SUCCESS);
+        result.setBody(newToken);
+        logger.info("刷新老师的token成功："+result.toString());
+        return result;
     }
 }

@@ -1,6 +1,10 @@
 package com.hanlinbode.hlbd.exception;
 
 import com.hanlinbode.hlbd.composbean.BaseBean;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.MalformedJwtException;
+import io.jsonwebtoken.SignatureException;
+import io.jsonwebtoken.UnsupportedJwtException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -55,6 +59,18 @@ public class ExceptionHandlerAdvice {
         BaseBean<Object> result = new BaseBean<>();
         result.setCode(415);
         result.setMessage(e.getMessage());
+        return result;
+    }
+
+    @ExceptionHandler({ExpiredJwtException.class,
+            UnsupportedJwtException.class,
+            MalformedJwtException.class,
+            SignatureException.class,
+            IllegalArgumentException.class})
+    public BaseBean<Object> handleTokenWrongException(Exception e) {
+        BaseBean<Object> result = new BaseBean<>();
+        result.setCode(466);
+        result.setMessage("refresh_token失效");
         return result;
     }
 }

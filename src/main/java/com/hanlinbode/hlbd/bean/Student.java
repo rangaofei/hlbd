@@ -17,7 +17,7 @@ import java.util.List;
 public class Student implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     @Column(nullable = false)
     private String studentId;
@@ -28,7 +28,7 @@ public class Student implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String phone;
 
     @Column
@@ -62,11 +62,11 @@ public class Student implements Serializable {
         this.role = Role.STUDENT;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -143,9 +143,7 @@ public class Student implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Student student = (Student) o;
-
         if (studentId != null ? !studentId.equals(student.studentId) : student.studentId != null) return false;
         if (name != null ? !name.equals(student.name) : student.name != null) return false;
         if (password != null ? !password.equals(student.password) : student.password != null) return false;

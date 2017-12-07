@@ -6,6 +6,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 /**
  * Created by saka on 17-4-20.
+ * 跨域访问
  */
 @Configuration
 public class CorsConfig extends WebMvcConfigurerAdapter {

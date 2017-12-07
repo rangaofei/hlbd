@@ -1,6 +1,5 @@
-package com.hanlinbode.hlbd.config;
+package com.hanlinbode.hlbd.security;
 
-import com.hanlinbode.hlbd.security.JwtUserDetailsServiceImpl;
 import com.hanlinbode.hlbd.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,27 +36,15 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
         String authHeader = request.getHeader(this.tokenHeader);
         if (authHeader != null && authHeader.startsWith(tokenHead)) {
-            final String authToken = authHeader.substring(tokenHead.length()); // The part after "Bearer "
+            final String authToken = authHeader.substring(tokenHead.length());
             String username = null;
-            try {
-                username = jwtTokenUtil.getUsernameFromToken(authToken);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
+            username = jwtTokenUtil.getUsernameFromToken(authToken);
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
-
-//                if (jwtTokenUtil.validateToken(authToken, userDetails)) {
-
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
-
-//                }
             }
         }
 

@@ -11,6 +11,8 @@ spring:
   jpa:
    hibernate:
      ddl-auto: update
+  profiles:
+    active: dev
 
 
   data:
@@ -31,7 +33,6 @@ jwt:
       refresh: refresh
       register: "auth/register"
 logging:
-  level: debug
-#logging:
-#  pattern:
-#    console: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level %logger- %msg%n"
+  level:
+    org.springframework.web=debug
+

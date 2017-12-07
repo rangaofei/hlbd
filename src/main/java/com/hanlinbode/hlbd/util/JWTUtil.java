@@ -1,9 +1,6 @@
 package com.hanlinbode.hlbd.util;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 
@@ -26,11 +23,6 @@ public class JWTUtil {
 
     /**
      * 创建jwt
-     *
-     * @param subject
-     * @param ttlMillis
-     * @return
-     * @throws Exception
      */
     public static String createJWT(String subject, long ttlMillis) {
 
@@ -50,22 +42,25 @@ public class JWTUtil {
 
     /**
      * 解密jwt
-     *
-     * @param jwt
-     * @return
-     * @throws Exception
      */
-    public static Claims parseJWT(String jwt) {
+    public static Claims parseJWT(String jwt) throws
+            ExpiredJwtException, UnsupportedJwtException, MalformedJwtException, SignatureException, IllegalArgumentException {
         SecretKey key = generalKey();
-        return Jwts.parser()
-                .setSigningKey(key)
-                .parseClaimsJws(jwt).getBody();
+        try {
+            return Jwts.parser()
+                    .setSigningKey(key)
+                    .parseClaimsJws(jwt).getBody();
+        } catch (ExpiredJwtException | UnsupportedJwtException | MalformedJwtException | SignatureException | IllegalArgumentException e) {
+            throw e;
+        }
     }
 
     public String getUsernameFromToken(String authToken) {
-        return parseJWT(authToken).getSubject();
+        try {
+            return parseJWT(authToken).getSubject();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
-
-
-
 }

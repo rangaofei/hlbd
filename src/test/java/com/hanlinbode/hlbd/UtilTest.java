@@ -19,10 +19,4 @@ public class UtilTest {
         logger.info(t.toString());
     }
 
-    @Test
-    public void testParseToken() {
-        Claims claims = JWTUtil.parseJWT(refreshToken);
-        logger.info(claims.getSubject());
-        logger.info(claims.toString());
-    }
 }

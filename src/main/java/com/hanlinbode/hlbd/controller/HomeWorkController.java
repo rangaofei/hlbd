@@ -10,6 +10,7 @@ import com.hanlinbode.hlbd.dao.AnswerQuestionRepository;
 import com.hanlinbode.hlbd.facade.CommitAnswerFacade;
 import com.hanlinbode.hlbd.facade.CorrectAnswerFacade;
 import com.hanlinbode.hlbd.facade.CreateHomeworkFacade;
+import com.hanlinbode.hlbd.facade.StudentGetHomework;
 import com.hanlinbode.hlbd.service.*;
 import com.hanlinbode.hlbd.util.ConstData;
 import org.slf4j.Logger;
@@ -45,6 +46,8 @@ public class HomeWorkController {
     private CommitAnswerFacade commitAnswerFacade;
     @Autowired
     private CorrectAnswerFacade correctAnswerFacade;
+    @Autowired
+    private StudentGetHomework studentGetHomework;
 
     /**
      * 创建作业
@@ -166,17 +169,14 @@ public class HomeWorkController {
                                                                 @PathVariable("class_id") String classid) {
         logger.info("学生（id= %s ）获取班级（id= {} ）所有的作业", studentid, classid);
         BaseBean<List<StudentAnswer>> result = new BaseBean<>();
-        List<StudentAnswer> studentAnswers = answerService
-                .findAnswerByTeamAndStudent(classid, studentid);
-
+//        List<StudentAnswer> studentAnswers = answerService
+//                .findAnswerByTeamAndStudent(classid, studentid);
+        List<StudentAnswer> studentAnswers = studentGetHomework.getStudentAnswerByStudent(classid, studentid);
         result.setBody(studentAnswers);
         if (studentAnswers.size() < 1) {
             result.setMessage("无作业");
             result.setCode(ConstData.NO_RESULT);
         } else {
-            for (StudentAnswer studentAnswer : studentAnswers) {
-                logger.info(studentAnswer.toString());
-            }
             result.setMessage("success");
             result.setCode(ConstData.GET_SUCCESS);
         }

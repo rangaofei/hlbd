@@ -31,7 +31,7 @@ import java.util.List;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = HlbdApplication.class)
 @WebAppConfiguration
-@Rollback(value = false)
+@Rollback(value = true)
 @Transactional(transactionManager = "transactionManager")
 public class HomeworkTest {
     private static final Logger logger = LoggerFactory.getLogger(TeamTest.class);
@@ -73,23 +73,23 @@ public class HomeworkTest {
 
     }
 
-    @Test
-    public void correctAnswerQuestions() throws Exception {
-        ObjectMapper o = new ObjectMapper();
-        List<StudentAnswerQuestion> result = new ArrayList<>();
-        StudentAnswerQuestion question = new StudentAnswerQuestion(196, 100, "123", "123", "15088135711311",
-                3, "15101273059704");
-        result.add(question);
-        String content = o.writeValueAsString(result);
-        logger.info(content);
-        mvc.perform(MockMvcRequestBuilders.post("/teacher/{homework_id}/{question_id}/correctanswer",
-                "15101273058850", "3")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .accept(MediaType.APPLICATION_JSON_UTF8)
-                .header("Authorization", "Bearer " + studentToken)
-                .content(content))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print());
-
-    }
+//    @Test
+//    public void correctAnswerQuestions() throws Exception {
+//        ObjectMapper o = new ObjectMapper();
+//        List<StudentAnswerQuestion> result = new ArrayList<>();
+//        StudentAnswerQuestion question = new StudentAnswerQuestion(196, 100, "123", "123", "15088135711311",
+//                3, "15101273059704");
+//        result.add(question);
+//        String content = o.writeValueAsString(result);
+//        logger.info(content);
+//        mvc.perform(MockMvcRequestBuilders.post("/teacher/{homework_id}/{question_id}/correctanswer",
+//                "15126143004500", "3")
+//                .contentType(MediaType.APPLICATION_JSON_UTF8)
+//                .accept(MediaType.APPLICATION_JSON_UTF8)
+//                .header("Authorization", "Bearer " + studentToken)
+//                .content(content))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andDo(MockMvcResultHandlers.print());
+//
+//    }
 }

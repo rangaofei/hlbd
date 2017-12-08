@@ -1,7 +1,8 @@
 package com.hanlinbode.hlbd.util;
 
 import io.jsonwebtoken.*;
-import org.apache.tomcat.util.codec.binary.Base64;
+
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -17,7 +18,7 @@ public class JWTUtil {
      */
     private static SecretKey generalKey() {
         String stringKey = "saka";
-        byte[] encodedKey = Base64.decodeBase64(stringKey);
+        byte[] encodedKey = Base64.decode(stringKey.getBytes());
         return new SecretKeySpec(encodedKey, 0, encodedKey.length, "AES");
     }
 

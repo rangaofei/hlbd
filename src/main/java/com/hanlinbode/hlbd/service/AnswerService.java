@@ -5,6 +5,7 @@ import com.hanlinbode.hlbd.bean.StudentAnswer;
 import com.hanlinbode.hlbd.bean.TeacherHomework;
 import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.composbean.StudentRate;
+import com.hanlinbode.hlbd.enums.AnswerState;
 
 import java.util.List;
 import java.util.Map;
@@ -19,6 +20,8 @@ public interface AnswerService {
     List<StudentAnswer> saveAnswerByStudents(TeacherHomework teacherHomework, List<Student> students);
 
     List<StudentAnswer> findAnswerByTeamAndStudent(String teamId, String studentId);
+
+    List<StudentAnswer> findAnswerByTeamAndHomework(String teamId, String homeworkId,AnswerState answerState);
 
     StudentAnswer findAnswerById(String answerId);
 

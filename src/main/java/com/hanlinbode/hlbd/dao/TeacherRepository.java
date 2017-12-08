@@ -14,12 +14,13 @@ public interface TeacherRepository extends JpaRepository<Teacher, Long> {
 //    List<Teacher> findTeacherByPhone(@Param("phone") String phone);
 
 
-    @Query("select t from Teacher t where t.name=:name")
-    List<Teacher> findTeacherByName(@Param("name") String name);
+//    @Query("select t from Teacher t where t.teacherId=:teacher_id")
+//    Teacher findTeacherByTeacherId(@Param("teacher_id") String teacherId);
 
-    @Query("select t from Teacher t where t.teacherId=:teacher_id")
-    Teacher findTeacherByTeacherId(@Param("teacher_id") String teacherId);
+//    @Query("select t from Teacher t where t.phone=:phone")
+//    Teacher findTeacherByPhone(@Param("phone") String phone);
 
-    @Query("select t from Teacher t where t.phone=:phone")
-    Teacher findTeacherByPhone(@Param("phone") String phone);
+    Teacher findTeacherByTeacherId(String teacherId);
+
+    Teacher findTeacherByPhone(String phone);
 }

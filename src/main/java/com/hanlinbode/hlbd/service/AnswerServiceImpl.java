@@ -91,6 +91,11 @@ public class AnswerServiceImpl implements AnswerService {
         return answerRepository.findStudentAnswersByTeamIdAndStudentId(teamId, studentId);
     }
 
+    @Override
+    public List<StudentAnswer> findAnswerByTeamAndHomework(String teamId, String homeworkId,AnswerState state) {
+        return answerRepository.findStudentAnswersByTeamIdAndHomeworkIdAndStateNotLike(teamId,homeworkId,state);
+    }
+
 
     @Override
     public StudentAnswer findAnswerById(String answerId) {

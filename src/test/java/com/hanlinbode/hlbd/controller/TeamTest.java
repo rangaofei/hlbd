@@ -28,7 +28,7 @@ import javax.annotation.Resource;
 @SpringBootTest(classes = HlbdApplication.class)
 @ContextConfiguration(classes = WebSecurityConfig.class)
 @WebAppConfiguration
-@Rollback(value = false)
+@Rollback(value = true)
 public class TeamTest {
     private static final Logger logger = LoggerFactory.getLogger(TeamTest.class);
     private String token = "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1MDk4MDY4MzgsInN1YiI6IlRUVDEzMSIsImV4cCI6MTUwOTgwNjg0OH0.GcWW2DIYExgOcWinz560NhEXwv91c7vr4krhcNT185Y";
@@ -105,7 +105,7 @@ public class TeamTest {
 
     @Test
     public void getClasses() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/student/{student_id}/getclasses", "15098521959830")
+        mvc.perform(MockMvcRequestBuilders.get("/student/{student_id}/getclasses", "15088135711311")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .header("Authorization", "Bearer " + studentToken))

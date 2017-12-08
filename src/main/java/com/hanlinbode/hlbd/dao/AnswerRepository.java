@@ -1,16 +1,13 @@
 package com.hanlinbode.hlbd.dao;
 
-import com.hanlinbode.hlbd.bean.Student;
 import com.hanlinbode.hlbd.bean.StudentAnswer;
-import com.hanlinbode.hlbd.bean.TeacherHomework;
+import com.hanlinbode.hlbd.enums.AnswerState;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface AnswerRepository extends JpaRepository<StudentAnswer, Long> {
@@ -21,6 +18,8 @@ public interface AnswerRepository extends JpaRepository<StudentAnswer, Long> {
     StudentAnswer findStudentAnswerByAnswerId(String answerId);
 
     List<StudentAnswer> findStudentAnswersByTeamIdAndStudentId(String teamId, String studentId);
+
+    List<StudentAnswer> findStudentAnswersByTeamIdAndHomeworkIdAndStateNotLike(String teamId, String homeworkId,AnswerState state);
 
     @Query(value = "SELECT sum(cost_time) FROM student_answer WHERE student_id=?1", nativeQuery = true)
     Integer getTotalTime(String studentId);

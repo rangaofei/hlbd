@@ -29,4 +29,6 @@ public interface AnswerQuestionService {
     void correctAnswer(StudentAnswerQuestion question);
 
     void createAnswerQuestion(List<TeacherHomeworkQuestion> teacherHomeworkQuestionList, List<StudentAnswer> studentAnswerList);
+
+    int deleteAnswerQuestionByHomeworkId(int homeworkId);
 }

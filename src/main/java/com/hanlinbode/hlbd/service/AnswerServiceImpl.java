@@ -12,7 +12,9 @@ import com.hanlinbode.hlbd.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -92,8 +94,8 @@ public class AnswerServiceImpl implements AnswerService {
     }
 
     @Override
-    public List<StudentAnswer> findAnswerByTeamAndHomework(String teamId, String homeworkId,AnswerState state) {
-        return answerRepository.findStudentAnswersByTeamIdAndHomeworkIdAndStateNotLike(teamId,homeworkId,state);
+    public List<StudentAnswer> findAnswerByTeamAndHomework(String teamId, String homeworkId, AnswerState state) {
+        return answerRepository.findStudentAnswersByTeamIdAndHomeworkIdAndStateNotLike(teamId, homeworkId, state);
     }
 
 
@@ -150,6 +152,13 @@ public class AnswerServiceImpl implements AnswerService {
             result.put(name, studentRate);
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    @Modifying
+    public int deleteAnswerByHomeworkId(String homeworkId) {
+        return answerRepository.deleteAnswerByHomeworkId(homeworkId);
     }
 
 }

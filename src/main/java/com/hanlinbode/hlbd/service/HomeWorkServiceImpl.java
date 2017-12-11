@@ -1,25 +1,33 @@
 package com.hanlinbode.hlbd.service;
 
-import com.hanlinbode.hlbd.bean.*;
-import com.hanlinbode.hlbd.dao.*;
+import com.hanlinbode.hlbd.bean.Question;
+import com.hanlinbode.hlbd.bean.TeacherHomework;
+import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
+import com.hanlinbode.hlbd.bean.Team;
+import com.hanlinbode.hlbd.dao.HomeWorkRepository;
+import com.hanlinbode.hlbd.dao.HomeworkQuestionRepository;
+import com.hanlinbode.hlbd.dao.QuestionRepository;
+import com.hanlinbode.hlbd.dao.TeamRepository;
 import com.hanlinbode.hlbd.enums.AnswerState;
 import com.hanlinbode.hlbd.util.UUIDUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
 public class HomeWorkServiceImpl implements HomeWorkService {
+    private static final Logger logger = LoggerFactory.getLogger(HomeworkQuestionServiceImpl.class);
     @Autowired
     private HomeWorkRepository homeWorkRepository;
 
     @Autowired
     private TeamRepository teamRepository;
-    @Autowired
-    private AnswerServiceImpl answerDao;
     @Autowired
     private QuestionRepository questionRepository;
     @Autowired
@@ -39,7 +47,9 @@ public class HomeWorkServiceImpl implements HomeWorkService {
 
     @Override
     public List<TeacherHomework> findHomeWorkByTeacherId(String teacherId) {
-        return homeWorkRepository.findHomeWorkByTeacherId(teacherId);
+        logger.info(teacherId);
+        List<TeacherHomework> result = homeWorkRepository.findTeacherHomeworksByTeacherId(teacherId);
+        return result;
     }
 
     @Override
@@ -82,8 +92,16 @@ public class HomeWorkServiceImpl implements HomeWorkService {
         return teacherHomework;
     }
 
+
     @Override
     public TeacherHomework saveTeacherHomework(TeacherHomework teacherHomework) {
         return homeWorkRepository.saveAndFlush(teacherHomework);
+    }
+    @Modifying
+    @Transactional
+    @Override
+    public int deleteTeacherHomework(String homeworkId) {
+        logger.info("删除的item:" + homeworkId);
+        return homeWorkRepository.deleteByHomeworkId(homeworkId);
     }
 }

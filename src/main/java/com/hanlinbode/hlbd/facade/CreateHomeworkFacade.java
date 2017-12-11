@@ -7,6 +7,8 @@ import com.hanlinbode.hlbd.bean.Team;
 import com.hanlinbode.hlbd.composbean.CreateHomeWork;
 import com.hanlinbode.hlbd.exception.ResultNotFoundException;
 import com.hanlinbode.hlbd.service.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Component
 public class CreateHomeworkFacade {
+    private static final Logger logger = LoggerFactory.getLogger(CreateHomeworkFacade.class);
     @Autowired
     private HomeWorkService homeWorkService;
     @Autowired
@@ -44,5 +47,20 @@ public class CreateHomeworkFacade {
 
         answerQuestionService.createAnswerQuestion(l, list);
         return teacherHomework;
+    }
+
+    public List<TeacherHomework> deleteHomework(String teacherId, List<String> homeworkIdList) {
+        for (String homeworkId : homeworkIdList) {
+            homeWorkService.deleteTeacherHomework(homeworkId);//删除老师作业表中的数据
+            homeworkQuestionService.deleteHomeworkByHomeworkId(homeworkId);//删除老师作业题目表中的数据
+            answerService.deleteAnswerByHomeworkId(homeworkId);//删除学生作业
+            for (TeacherHomeworkQuestion s : homeworkQuestionService.findQuestionsByHomeworkId(homeworkId)) {
+                answerQuestionService.deleteAnswerQuestionByHomeworkId(s.getQuestionId());//删除学生作业题目表中的数据
+            }
+
+
+        }
+        logger.info("老师的id" + teacherId);
+        return homeWorkService.findHomeWorkByTeacherId(teacherId);
     }
 }

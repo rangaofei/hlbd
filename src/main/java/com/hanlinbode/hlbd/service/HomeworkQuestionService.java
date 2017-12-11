@@ -20,4 +20,6 @@ public interface HomeworkQuestionService {
     AnswerState homeworkState(String homeworkId);
 
     float calculateCorrectRate(String homeworkId);
+
+    int deleteHomeworkByHomeworkId(String homeworkId);
 }

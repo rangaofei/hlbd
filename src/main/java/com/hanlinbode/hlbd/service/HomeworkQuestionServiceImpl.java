@@ -4,7 +4,9 @@ import com.hanlinbode.hlbd.bean.TeacherHomeworkQuestion;
 import com.hanlinbode.hlbd.dao.HomeworkQuestionRepository;
 import com.hanlinbode.hlbd.enums.AnswerState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -63,6 +65,13 @@ public class HomeworkQuestionServiceImpl implements HomeworkQuestionService {
             result += t.getCorrectRate();
         }
         return result / list.size();
+    }
+
+    @Override
+    @Transactional
+    @Modifying
+    public int deleteHomeworkByHomeworkId(String homeworkId) {
+        return homeworkQuestionRepository.deleteTeacherHomeworkQuestionsByTeacherHomeworkId(homeworkId);
     }
 
 

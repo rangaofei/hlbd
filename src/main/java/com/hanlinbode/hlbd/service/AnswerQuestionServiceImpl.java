@@ -9,7 +9,9 @@ import com.hanlinbode.hlbd.dao.QuestionRepository;
 import com.hanlinbode.hlbd.enums.AnswerState;
 import com.hanlinbode.hlbd.util.QuestionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -189,5 +191,12 @@ public class AnswerQuestionServiceImpl implements AnswerQuestionService {
             }
         }
         answerQuestionRepository.save(list);
+    }
+
+    @Override
+    @Transactional
+    @Modifying
+    public int deleteAnswerQuestionByHomeworkId(int homeworkId) {
+        return answerQuestionRepository.deleteAnswerQuestionByHomeworkId(homeworkId);
     }
 }

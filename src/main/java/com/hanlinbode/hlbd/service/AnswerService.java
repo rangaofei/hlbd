@@ -21,7 +21,7 @@ public interface AnswerService {
 
     List<StudentAnswer> findAnswerByTeamAndStudent(String teamId, String studentId);
 
-    List<StudentAnswer> findAnswerByTeamAndHomework(String teamId, String homeworkId,AnswerState answerState);
+    List<StudentAnswer> findAnswerByTeamAndHomework(String teamId, String homeworkId, AnswerState answerState);
 
     StudentAnswer findAnswerById(String answerId);
 
@@ -32,4 +32,6 @@ public interface AnswerService {
     Map<String, Integer> getStudentCostTime(String studentId);
 
     Map<String, StudentRate> getStudentHistoryRate(String studentId, int num, int index);
+
+    int deleteAnswerByHomeworkId(String homeworkId);
 }

@@ -92,4 +92,21 @@ public class HomeworkTest {
 //                .andDo(MockMvcResultHandlers.print());
 //
 //    }
+
+    @Test
+    @Transactional
+    public void deleteHomework() throws Exception {
+        List<String> content = new ArrayList<>();
+        content.add("15114894749816");
+        ObjectMapper objectMapper = new ObjectMapper();
+        String s = objectMapper.writeValueAsString(content);
+        mvc.perform(MockMvcRequestBuilders.delete("/teacher/{teacher_id}/deletehomework",
+                "15088322443177")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .content(s))
+//                .header("Authorization", "Bearer " + studentToken))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+    }
 }

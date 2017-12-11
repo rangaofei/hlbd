@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.tags.Param;
 
 import java.util.Collections;
 import java.util.List;
@@ -83,6 +84,16 @@ public class HomeWorkController {
         }
         result.setBody(teacherHomeworks);
         logger.info("老师获取所有作业结果：" + result.toString());
+        return result;
+    }
+
+    @RequestMapping(path = "/teacher/{teacher_id}/deletehomework", method = RequestMethod.DELETE)
+    public BaseBean<List<TeacherHomework>> deleteHomework(@PathVariable("teacher_id") String teacherId,
+                                                          @RequestBody List<String> homeworkIdList) {
+        BaseBean<List<TeacherHomework>> result = new BaseBean<>();
+        List<TeacherHomework> list = createHomeworkFacade.deleteHomework(teacherId, homeworkIdList);
+        Collections.sort(list);
+        result.setBody(list);
         return result;
     }
 

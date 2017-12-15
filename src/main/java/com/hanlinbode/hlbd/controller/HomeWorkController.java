@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.tags.Param;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -78,7 +79,7 @@ public class HomeWorkController {
             result.setMessage("没有作业");
             result.setCode(ConstData.NO_RESULT);
         } else {
-            Collections.sort(teacherHomeworks);
+            teacherHomeworks.sort(TeacherHomework::compareTo);
             result.setMessage("success");
             result.setCode(ConstData.GET_SUCCESS);
         }
@@ -92,7 +93,7 @@ public class HomeWorkController {
                                                           @RequestBody List<String> homeworkIdList) {
         BaseBean<List<TeacherHomework>> result = new BaseBean<>();
         List<TeacherHomework> list = createHomeworkFacade.deleteHomework(teacherId, homeworkIdList);
-        Collections.sort(list);
+        list.sort(TeacherHomework::compareTo);
         result.setBody(list);
         return result;
     }

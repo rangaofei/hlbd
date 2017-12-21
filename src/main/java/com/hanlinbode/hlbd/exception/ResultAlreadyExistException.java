@@ -6,6 +6,7 @@ public class ResultAlreadyExistException extends RuntimeException {
 
     public ResultAlreadyExistException(String message) {
         super(message);
+        this.message = message;
     }
 
     public ResultAlreadyExistException(String message, Object body) {

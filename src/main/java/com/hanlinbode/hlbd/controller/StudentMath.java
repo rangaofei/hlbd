@@ -38,7 +38,7 @@ public class StudentMath {
         BaseBean<Map<String, StudentRate>> result = new BaseBean<>();
         result.setCode(200);
         result.setMessage("获取成功");
-        result.setBody(answerService.getStudentHistoryRate(studentId, 10, 1));
+        result.setBody(answerService.getStudentHistoryRate(studentId, 50, 1));
         logger.info("学生获取统计信息(id=%s)成功：%s", studentId, result.toString());
         return result;
     }

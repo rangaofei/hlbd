@@ -142,10 +142,11 @@ public class AnswerServiceImpl implements AnswerService {
             Map<String, Float> selfRate = new LinkedHashMap<>();
             Map<String, Float> averageRate = new LinkedHashMap<>();
             for (StudentAnswer s : tmp) {
-                System.out.println(s.getCreatedTime());
                 String date = DateUtil.dateToString(s.getCreatedTime());
                 selfRate.put(date, s.getCorrectRate());
-                averageRate.put(date, homeWorkService.findHomeWorkByHomeWorkId(s.getHomeworkId()).getCorrectRate());
+                System.out.println(s.getHomeworkId());
+                float f = homeWorkService.findHomeWorkByHomeWorkId(s.getHomeworkId()).getCorrectRate();
+                averageRate.put(date, f);
             }
             studentRate.setAverage(averageRate);
             studentRate.setSelf(selfRate);

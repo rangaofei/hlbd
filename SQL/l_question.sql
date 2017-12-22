@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `l_question`;
 CREATE TABLE `l_question` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `studentAnswer` text,
+  `answer` text,
   `book_node_id` bigint(20) DEFAULT NULL,
   `difficult` int(11) NOT NULL,
   `knowledge_point_id` bigint(20) DEFAULT NULL,
